@@ -97,6 +97,60 @@
         </section>
 
         <section
+          class="beat beat--evolution"
+          data-beat-id="intro-evolution"
+          aria-label="From individual AI requests to broader goals"
+          aria-hidden="true"
+        >
+          <div class="evolution-scene">
+            <div class="evolution-side evolution-side--simple">
+              <div class="request-bubble request-bubble--simple request-bubble--simple-one">
+                Rewrite this email.
+              </div>
+              <div class="request-bubble request-bubble--simple request-bubble--simple-two">
+                Summarise this document.
+              </div>
+              <div class="request-bubble request-bubble--simple request-bubble--simple-three">
+                Give me 5 ideas.
+              </div>
+
+              <p class="interaction-model interaction-model--simple">
+                <span>One request</span><i aria-hidden="true">→</i><span>One answer</span>
+              </p>
+            </div>
+
+            <div class="evolution-divider" aria-hidden="true">
+              <span></span>
+            </div>
+
+            <div class="evolution-side evolution-side--goal">
+              <div
+                class="capability-cluster-slot"
+                data-component-template="capabilityClusterTemplate"
+                aria-hidden="true"
+              ></div>
+
+              <div class="request-bubble request-bubble--goal request-bubble--goal-one">
+                Analyse this file and tell me what matters.
+              </div>
+              <div class="request-bubble request-bubble--goal request-bubble--goal-two">
+                Keep an eye on this and tell me when something changes.
+              </div>
+              <div class="request-bubble request-bubble--goal request-bubble--goal-three">
+                Build me a tool to do this.
+              </div>
+              <div class="request-bubble request-bubble--goal request-bubble--goal-four">
+                Help me plan this project.
+              </div>
+
+              <p class="interaction-model interaction-model--goal">
+                <span>A goal</span><i aria-hidden="true">→</i><span>Multiple steps</span><i aria-hidden="true">→</i><span>Result</span>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section
           class="beat beat--test"
           data-beat-id="test"
           aria-labelledby="test-title"
@@ -113,6 +167,45 @@
           </div>
         </section>
       </main>
+
+      <template id="capabilityClusterTemplate">
+        <div class="capability-cluster">
+          <span class="capability-cluster__aura"></span>
+
+          <div class="capability-origin">
+            <img src="assets/visuals/liquid-glass-orb.png" alt="" draggable="false" />
+            <span></span>
+          </div>
+
+          <svg class="energy-links" viewBox="0 0 420 310" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="energyLineGradient" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#45d8e9" stop-opacity="0.14" />
+                <stop offset="0.48" stop-color="#ffffff" stop-opacity="0.76" />
+                <stop offset="1" stop-color="#9a78ed" stop-opacity="0.16" />
+              </linearGradient>
+            </defs>
+            <path d="M92 90 C150 129 151 188 115 236" />
+            <path d="M92 90 C173 58 258 76 332 112" />
+            <path d="M332 112 C282 159 313 211 290 243" />
+            <path d="M115 236 C171 201 232 217 290 243" />
+            <path d="M115 236 C183 177 255 143 332 112" />
+          </svg>
+
+          <span class="energy-node energy-node--one"><i></i></span>
+          <span class="energy-node energy-node--two"><i></i></span>
+          <span class="energy-node energy-node--three"><i></i></span>
+          <span class="energy-node energy-node--four"><i></i></span>
+          <span class="energy-node energy-node--five"><i></i></span>
+
+          <span class="capability-word capability-word--search">Search</span>
+          <span class="capability-word capability-word--analyse">Analyse</span>
+          <span class="capability-word capability-word--plan">Plan</span>
+          <span class="capability-word capability-word--create">Create</span>
+          <span class="capability-word capability-word--check">Check</span>
+          <span class="capability-word capability-word--adjust">Adjust</span>
+        </div>
+      </template>
 
       <aside class="webinar-info glass-panel" id="webinarInfo" aria-label="Webinar information">
         <button
@@ -257,7 +350,7 @@
             <path d="m12 5-5 5 5 5" />
           </svg>
         </button>
-        <span class="presenter-controls__count" aria-live="polite"><span id="currentBeatNumber">1</span>/2</span>
+        <span class="presenter-controls__count" aria-live="polite"><span id="currentBeatNumber">1</span>/<span id="totalBeatNumber">3</span></span>
         <button type="button" data-action="next" aria-label="Next beat" title="Next (Right arrow or Space)">
           <svg viewBox="0 0 20 20" aria-hidden="true">
             <path d="m8 5 5 5-5 5" />

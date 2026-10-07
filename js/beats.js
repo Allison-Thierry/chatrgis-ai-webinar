@@ -4,14 +4,27 @@
  * Add future beats here in the same order as their matching
  * <section data-beat-id="..."> element in index.html.
  *
- * caseProgress is intentionally null for Phase 1. Future values use:
+ * caseProgress is intentionally null during the introduction. Future values use:
  * { active: 1, complete: 0 }
+ *
+ * A timeline locks forward navigation while its internal animation runs. The
+ * final composition remains visible after the lock ends until the next input.
  */
 window.WEBINAR_BEATS = [
   {
     id: "opening",
     label: "Opening screen",
     caseProgress: null,
+  },
+  {
+    id: "intro-evolution",
+    label: "From individual requests to broader goals",
+    caseProgress: null,
+    timeline: {
+      className: "is-sequencing",
+      duration: 14000,
+      reducedDuration: 250,
+    },
   },
   {
     id: "test",
@@ -22,7 +35,7 @@ window.WEBINAR_BEATS = [
 
 /**
  * Small DOM factories for content patterns planned for later phases.
- * They are dormant in Phase 1, but establish a reusable vocabulary for
+ * They establish a reusable vocabulary for
  * conversations, cases and intermissions without coupling them to navigation.
  */
 window.WebinarComponents = {
@@ -60,4 +73,3 @@ window.WebinarComponents = {
     return surface;
   },
 };
-

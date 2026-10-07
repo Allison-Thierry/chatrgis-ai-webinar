@@ -1,6 +1,6 @@
 # ChatRGIS AI Webinar — Phase 1
 
-A self-contained interactive webinar support designed for GitHub Pages. Phase 1 includes the continuous visual shell, opening experience, one temporary transition beat, Webinar Info, the WeLearn AI course drawer, future case-progress foundations and presenter controls.
+A self-contained interactive webinar support designed for GitHub Pages. It currently includes the continuous visual shell, opening experience, the automatic “simple requests to broader goals” introduction, one temporary transition beat, Webinar Info, the WeLearn AI course drawer, future case-progress foundations and presenter controls.
 
 ## Preview
 
@@ -51,6 +51,21 @@ Each manifest entry can carry a future case-progress state:
   caseProgress: { active: 1, complete: 0 },
 }
 ```
+
+A beat can also run one complete internal timeline while forward navigation is temporarily locked:
+
+```js
+{
+  id: "intro-evolution",
+  timeline: {
+    className: "is-sequencing",
+    duration: 14000,
+    reducedDuration: 250,
+  },
+}
+```
+
+The reusable connected-energy motif lives in `capabilityClusterTemplate`. Add `data-component-template="capabilityClusterTemplate"` to an empty host element to clone it into another future scene.
 
 The shell exposes a small API for future scripted cues:
 

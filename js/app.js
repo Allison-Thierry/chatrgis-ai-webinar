@@ -5,6 +5,7 @@
   const stage = document.getElementById("stage");
   const announcement = document.getElementById("beatAnnouncement");
   const beatNumber = document.getElementById("currentBeatNumber");
+  const totalBeatNumber = document.getElementById("totalBeatNumber");
   const infoToggle = document.getElementById("webinarInfoToggle");
   const drawer = document.getElementById("courseDrawer");
   const drawerTrigger = document.getElementById("courseDrawerTrigger");
@@ -13,6 +14,18 @@
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   if (!root || !stage) return;
+
+  function mountComponentTemplates() {
+    document.querySelectorAll("[data-component-template]").forEach((host) => {
+      if (host.dataset.componentMounted === "true") return;
+      const template = document.getElementById(host.dataset.componentTemplate);
+      if (!(template instanceof HTMLTemplateElement)) return;
+      host.append(template.content.cloneNode(true));
+      host.dataset.componentMounted = "true";
+    });
+  }
+
+  mountComponentTemplates();
 
   class PresentationController {
     constructor(manifest) {
@@ -25,7 +38,10 @@
       );
       this.currentIndex = 0;
       this.isTransitioning = false;
+      this.isBeatLocked = false;
       this.hasStarted = false;
+      this.timelineTimer = null;
+      this.transitionTimers = [];
       this.drawerPreviouslyFocused = null;
       this.highlightTimer = null;
       this.coursePulseTimers = new WeakMap();
@@ -136,15 +152,27 @@
     }
 
     next() {
+      if (this.isBeatLocked || this.isTransitioning) return;
       this.goTo(this.currentIndex + 1);
     }
 
     previous() {
+      if (this.isTransitioning) {
+        this.interruptTransition();
+        if (this.currentIndex === 0) return;
+      }
+      if (this.isBeatLocked) this.cancelTimeline();
       this.goTo(this.currentIndex - 1);
     }
 
     home() {
       this.closeDrawer({ restoreFocus: false });
+      if (this.isTransitioning) this.interruptTransition();
+      if (this.isBeatLocked) this.cancelTimeline();
+      if (this.currentIndex === 0) {
+        this.setInfoOpen(true);
+        return;
+      }
       this.goTo(0, { immediate: reducedMotion.matches });
     }
 
@@ -152,29 +180,33 @@
       const targetIndex = Math.max(0, Math.min(index, this.manifest.length - 1));
       if (targetIndex === this.currentIndex || this.isTransitioning) return;
 
-      const isFirstLaunch = this.currentIndex === 0 && targetIndex > 0 && !this.hasStarted;
+      const leavingOpening = this.currentIndex === 0 && targetIndex > 0;
+      const isFirstLaunch = leavingOpening && !this.hasStarted;
       const transitionDelay = immediate || reducedMotion.matches ? 0 : isFirstLaunch ? 290 : 60;
       const unlockDelay = immediate || reducedMotion.matches ? 20 : 1120;
 
       this.isTransitioning = true;
       root.classList.add("is-reacting");
 
-      window.setTimeout(() => {
+      const activationTimer = window.setTimeout(() => {
         this.currentIndex = targetIndex;
         this.hasStarted ||= targetIndex > 0;
         this.render({ immediate });
 
         if (targetIndex === 0) {
           this.setInfoOpen(true);
-        } else if (isFirstLaunch) {
+        } else if (leavingOpening) {
           this.setInfoOpen(false);
         }
       }, transitionDelay);
 
-      window.setTimeout(() => {
+      const unlockTimer = window.setTimeout(() => {
         root.classList.remove("is-reacting");
         this.isTransitioning = false;
+        this.updateControls();
       }, unlockDelay);
+
+      this.transitionTimers = [activationTimer, unlockTimer];
     }
 
     render({ immediate = false } = {}) {
@@ -190,12 +222,11 @@
       root.dataset.beat = current.id;
       root.classList.toggle("has-started", this.currentIndex > 0);
       beatNumber.textContent = String(this.currentIndex + 1);
+      if (totalBeatNumber) totalBeatNumber.textContent = String(this.manifest.length);
       announcement.textContent = current.label;
 
-      const previousControl = document.querySelector('[data-action="previous"]');
-      const nextControl = document.querySelector('[data-action="next"]');
-      if (previousControl) previousControl.disabled = this.currentIndex === 0;
-      if (nextControl) nextControl.disabled = this.currentIndex === this.manifest.length - 1;
+      this.beginTimeline(current);
+      this.updateControls();
 
       if (current.caseProgress) {
         this.setCaseProgress(current.caseProgress);
@@ -212,6 +243,66 @@
           },
         }),
       );
+    }
+
+    updateControls() {
+      const previousControl = document.querySelector('[data-action="previous"]');
+      const nextControl = document.querySelector('[data-action="next"]');
+      if (previousControl) previousControl.disabled = this.currentIndex === 0;
+      if (nextControl) {
+        nextControl.disabled =
+          this.currentIndex === this.manifest.length - 1 ||
+          this.isBeatLocked ||
+          this.isTransitioning;
+      }
+    }
+
+    beginTimeline(beat) {
+      this.cancelTimeline();
+      const section = this.sections.get(beat.id);
+      if (!beat.timeline || !section) {
+        root.dataset.timeline = "idle";
+        return;
+      }
+
+      const className = beat.timeline.className ?? "is-sequencing";
+      section.classList.remove(className, "is-settled");
+      void section.offsetWidth;
+      section.classList.add(className);
+
+      this.isBeatLocked = true;
+      root.dataset.timeline = "running";
+
+      const duration = reducedMotion.matches
+        ? beat.timeline.reducedDuration ?? 250
+        : beat.timeline.duration;
+
+      this.timelineTimer = window.setTimeout(() => {
+        this.timelineTimer = null;
+        this.isBeatLocked = false;
+        root.dataset.timeline = "settled";
+        section.classList.add("is-settled");
+        announcement.textContent = `${beat.label}. Sequence complete.`;
+        this.updateControls();
+      }, duration);
+    }
+
+    cancelTimeline() {
+      if (this.timelineTimer) window.clearTimeout(this.timelineTimer);
+      this.timelineTimer = null;
+      this.isBeatLocked = false;
+      root.dataset.timeline = "idle";
+      this.sections.forEach((section) => {
+        section.classList.remove("is-sequencing", "is-settled");
+      });
+    }
+
+    interruptTransition() {
+      this.transitionTimers.forEach((timer) => window.clearTimeout(timer));
+      this.transitionTimers = [];
+      this.isTransitioning = false;
+      root.classList.remove("is-reacting");
+      this.updateControls();
     }
 
     setInfoOpen(isOpen) {
