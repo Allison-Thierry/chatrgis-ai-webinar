@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#edf8fc" />
+    <meta
+      name="description"
+      content="Interactive support for the ChatRGIS AI Webinar."
+    />
+    <title>ChatRGIS AI Webinar</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <svg class="filter-definitions" aria-hidden="true">
+      <defs>
+        <filter id="liquid-distortion" x="-30%" y="-30%" width="160%" height="160%">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.011 0.016"
+            numOctaves="2"
+            seed="8"
+            result="noise"
+          />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="noise"
+            scale="12"
+            xChannelSelector="R"
+            yChannelSelector="B"
+          />
+        </filter>
+      </defs>
+    </svg>
+
+    <div class="experience" id="experience" data-beat="opening" data-info="open">
+      <div class="ambient-scene" aria-hidden="true">
+        <span class="ambient-scene__wash ambient-scene__wash--cyan"></span>
+        <span class="ambient-scene__wash ambient-scene__wash--violet"></span>
+        <span class="ambient-scene__wash ambient-scene__wash--pink"></span>
+        <span class="ambient-scene__grain"></span>
+        <span class="ambient-scene__arc ambient-scene__arc--one"></span>
+        <span class="ambient-scene__arc ambient-scene__arc--two"></span>
+      </div>
+
+      <header class="topbar">
+        <div class="brandmark" aria-label="RGIS">
+          <img src="assets/brand/rgis-logo.png" alt="RGIS" />
+        </div>
+
+        <div class="case-progress" aria-label="Three case webinar progress">
+          <span class="case-progress__label">Cases</span>
+          <ol class="case-progress__nodes">
+            <li class="case-node" data-case="1" data-status="upcoming">
+              <span class="case-node__liquid"></span>
+              <span class="sr-only">Case 1: upcoming</span>
+            </li>
+            <li class="case-node" data-case="2" data-status="upcoming">
+              <span class="case-node__liquid"></span>
+              <span class="sr-only">Case 2: upcoming</span>
+            </li>
+            <li class="case-node" data-case="3" data-status="upcoming">
+              <span class="case-node__liquid"></span>
+              <span class="sr-only">Case 3: upcoming</span>
+            </li>
+          </ol>
+        </div>
+      </header>
+
+      <main class="stage" id="stage" aria-label="Webinar presentation" tabindex="-1">
+        <button
+          class="core-activation"
+          id="coreActivation"
+          type="button"
+          aria-label="Start the webinar presentation"
+          data-advances-beat
+        >
+          <span class="energy-field" aria-hidden="true">
+            <span class="energy-field__ring energy-field__ring--one"></span>
+            <span class="energy-field__ring energy-field__ring--two"></span>
+            <span class="energy-field__ring energy-field__ring--three"></span>
+          </span>
+
+          <span class="liquid-core" aria-hidden="true">
+            <span class="liquid-core__shadow"></span>
+            <span class="liquid-core__body"></span>
+            <span class="liquid-core__body liquid-core__body--refracted"></span>
+            <span class="liquid-core__current liquid-core__current--one"></span>
+            <span class="liquid-core__current liquid-core__current--two"></span>
+            <span class="liquid-core__highlight"></span>
+            <span class="liquid-core__glint"></span>
+          </span>
+
+          <span class="particle particle--one" aria-hidden="true"></span>
+          <span class="particle particle--two" aria-hidden="true"></span>
+          <span class="particle particle--three" aria-hidden="true"></span>
+          <span class="particle particle--four" aria-hidden="true"></span>
+          <span class="particle particle--five" aria-hidden="true"></span>
+        </button>
+
+        <section
+          class="beat beat--opening is-active"
+          data-beat-id="opening"
+          aria-labelledby="opening-title"
+        >
+          <div class="opening-copy">
+            <p class="opening-copy__kicker">Global internal session</p>
+            <h1 id="opening-title">ChatRGIS <span>AI Webinar</span></h1>
+            <p class="opening-copy__hint">
+              <span class="hint-pulse" aria-hidden="true"></span>
+              Click when you&rsquo;re ready
+              <span class="opening-copy__shortcut">or press Space</span>
+            </p>
+          </div>
+        </section>
+
+        <section
+          class="beat beat--test"
+          data-beat-id="test"
+          aria-labelledby="test-title"
+          aria-hidden="true"
+        >
+          <div class="test-beat__line" aria-hidden="true"></div>
+          <div class="test-beat__content">
+            <p class="scene-label"><span>00</span> Transition test</p>
+            <h2 id="test-title">The room is ready.</h2>
+            <p class="test-beat__note">A temporary beat for testing the presentation flow.</p>
+            <div class="test-beat__signal" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="webinar-info glass-panel" id="webinarInfo" aria-label="Webinar information">
+        <button
+          class="webinar-info__toggle"
+          id="webinarInfoToggle"
+          type="button"
+          aria-expanded="true"
+          aria-controls="webinarInfoContent"
+        >
+          <span class="webinar-info__icon" aria-hidden="true">i</span>
+          <span class="webinar-info__label">Webinar info</span>
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="m6.5 8 3.5 3.5L13.5 8" />
+          </svg>
+        </button>
+
+        <div class="webinar-info__content" id="webinarInfoContent">
+          <article class="info-item">
+            <span class="info-item__emoji" aria-hidden="true">🎙️</span>
+            <div>
+              <h2>Mic check</h2>
+              <p>Please keep your mic off unless you&rsquo;re speaking &mdash; there are quite a few of us.</p>
+              <p class="info-item__aside">You don&rsquo;t want to be that person. <span aria-hidden="true">👀</span></p>
+            </div>
+          </article>
+
+          <article class="info-item">
+            <span class="info-item__emoji" aria-hidden="true">🙋</span>
+            <div>
+              <h2>Something about what we&rsquo;re showing?</h2>
+              <p>Feel free to raise your hand anytime.</p>
+            </div>
+          </article>
+
+          <article class="info-item">
+            <span class="info-item__emoji" aria-hidden="true">💬</span>
+            <div>
+              <h2>Bigger AI question?</h2>
+              <p>We&rsquo;ll leave time for broader questions at the end.</p>
+            </div>
+          </article>
+
+          <article class="info-item">
+            <span class="info-item__emoji" aria-hidden="true">📩</span>
+            <div>
+              <h2>No frantic screenshots required.</h2>
+              <p>You&rsquo;ll receive this whole support by email after the webinar.</p>
+            </div>
+          </article>
+        </div>
+      </aside>
+
+      <button
+        class="course-drawer__trigger"
+        id="courseDrawerTrigger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="courseDrawer"
+      >
+        <span class="course-drawer__spark" aria-hidden="true"></span>
+        <span>AI on WeLearn</span>
+        <svg viewBox="0 0 20 20" aria-hidden="true">
+          <path d="m8 5 5 5-5 5" />
+        </svg>
+      </button>
+
+      <div class="drawer-scrim" id="drawerScrim" aria-hidden="true"></div>
+
+      <aside
+        class="course-drawer glass-panel"
+        id="courseDrawer"
+        aria-label="AI courses on WeLearn"
+        aria-hidden="true"
+        inert
+      >
+        <div class="course-drawer__header">
+          <div>
+            <p class="panel-eyebrow">Continue learning</p>
+            <h2>AI on WeLearn</h2>
+            <p>Six short courses, from the essentials to building with ChatRGIS.</p>
+          </div>
+          <button class="icon-button" id="courseDrawerClose" type="button" aria-label="Close course drawer">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="m5 5 10 10M15 5 5 15" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="course-grid">
+          <article class="course-card" data-course-id="basics-1" tabindex="0">
+            <div class="course-card__image-wrap">
+              <img src="assets/courses/ai-basics-1.png" alt="AI Basics 1 — Understanding AI and Responsible Use" />
+              <span class="course-card__level">Basics</span>
+            </div>
+          </article>
+
+          <article class="course-card" data-course-id="basics-2" tabindex="0">
+            <div class="course-card__image-wrap">
+              <img src="assets/courses/ai-basics-2.png" alt="AI Basics 2 — Asking Better Questions and AI at RGIS" />
+              <span class="course-card__level">Basics</span>
+            </div>
+          </article>
+
+          <article class="course-card" data-course-id="intermediate-1" tabindex="0">
+            <div class="course-card__image-wrap">
+              <img src="assets/courses/ai-intermediate-1.png" alt="AI Intermediate 1 — Getting More from AI" />
+              <span class="course-card__level course-card__level--intermediate">Intermediate</span>
+            </div>
+          </article>
+
+          <article class="course-card" data-course-id="intermediate-2" tabindex="0">
+            <div class="course-card__image-wrap">
+              <img src="assets/courses/ai-intermediate-2.png" alt="AI Intermediate 2 — AI in Action" />
+              <span class="course-card__level course-card__level--intermediate">Intermediate</span>
+            </div>
+          </article>
+
+          <article class="course-card" data-course-id="intermediate-3" tabindex="0">
+            <div class="course-card__image-wrap">
+              <img src="assets/courses/ai-intermediate-3.png" alt="AI Intermediate 3 — Inside the ChatRGIS Workspace" />
+              <span class="course-card__level course-card__level--intermediate">Intermediate</span>
+            </div>
+          </article>
+
+          <article class="course-card" data-course-id="intermediate-4" tabindex="0">
+            <div class="course-card__image-wrap">
+              <img src="assets/courses/ai-intermediate-4.png" alt="AI Intermediate 4 — Build Your AI Colleague" />
+              <span class="course-card__level course-card__level--intermediate">Intermediate</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="course-drawer__footer">
+          <span class="mini-orb" aria-hidden="true"></span>
+          <p>Available in the global WeLearn catalogue</p>
+        </div>
+      </aside>
+
+      <nav class="presenter-controls glass-panel" aria-label="Presenter controls">
+        <button type="button" data-action="home" aria-label="Return to opening" title="Opening (Home)">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M3.5 9 10 3.5 16.5 9v7.5h-5v-5h-3v5h-5Z" />
+          </svg>
+        </button>
+        <span class="presenter-controls__divider"></span>
+        <button type="button" data-action="previous" aria-label="Previous beat" title="Previous (Left arrow)">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="m12 5-5 5 5 5" />
+          </svg>
+        </button>
+        <span class="presenter-controls__count" aria-live="polite"><span id="currentBeatNumber">1</span>/2</span>
+        <button type="button" data-action="next" aria-label="Next beat" title="Next (Right arrow or Space)">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="m8 5 5 5-5 5" />
+          </svg>
+        </button>
+      </nav>
+
+      <p class="sr-only" id="beatAnnouncement" aria-live="polite">Opening screen</p>
+    </div>
+
+    <script src="js/beats.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
