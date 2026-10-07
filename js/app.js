@@ -41,6 +41,7 @@
       this.isBeatLocked = false;
       this.hasStarted = false;
       this.timelineTimer = null;
+      this.activeTimelineClass = null;
       this.transitionTimers = [];
       this.drawerPreviouslyFocused = null;
       this.highlightTimer = null;
@@ -52,9 +53,10 @@
     }
 
     validateManifest() {
-      this.manifest.forEach(({ id }) => {
-        if (!this.sections.has(id)) {
-          console.warn(`[ChatRGIS Webinar] Missing section for beat: ${id}`);
+      this.manifest.forEach(({ id, sectionId }) => {
+        const resolvedSectionId = sectionId ?? id;
+        if (!this.sections.has(resolvedSectionId)) {
+          console.warn(`[ChatRGIS Webinar] Missing section for beat: ${id} (${resolvedSectionId})`);
         }
       });
     }
@@ -212,19 +214,22 @@
     render({ immediate = false } = {}) {
       const current = this.manifest[this.currentIndex];
       if (!current) return;
+      const sectionId = current.sectionId ?? current.id;
 
       this.sections.forEach((section, id) => {
-        const isActive = id === current.id;
+        const isActive = id === sectionId;
         section.classList.toggle("is-active", isActive);
         section.setAttribute("aria-hidden", String(!isActive));
       });
 
-      root.dataset.beat = current.id;
+      root.dataset.beat = sectionId;
+      root.dataset.beatState = current.id;
       root.classList.toggle("has-started", this.currentIndex > 0);
       beatNumber.textContent = String(this.currentIndex + 1);
       if (totalBeatNumber) totalBeatNumber.textContent = String(this.manifest.length);
       announcement.textContent = current.label;
 
+      if (current.hubState) this.setCaseHubState(current.hubState);
       this.beginTimeline(current);
       this.updateControls();
 
@@ -259,7 +264,7 @@
 
     beginTimeline(beat) {
       this.cancelTimeline();
-      const section = this.sections.get(beat.id);
+      const section = this.sections.get(beat.sectionId ?? beat.id);
       if (!beat.timeline || !section) {
         root.dataset.timeline = "idle";
         return;
@@ -269,6 +274,7 @@
       section.classList.remove(className, "is-settled");
       void section.offsetWidth;
       section.classList.add(className);
+      this.activeTimelineClass = className;
 
       this.isBeatLocked = true;
       root.dataset.timeline = "running";
@@ -293,8 +299,10 @@
       this.isBeatLocked = false;
       root.dataset.timeline = "idle";
       this.sections.forEach((section) => {
-        section.classList.remove("is-sequencing", "is-settled");
+        if (this.activeTimelineClass) section.classList.remove(this.activeTimelineClass);
+        section.classList.remove("is-sequencing", "is-entering", "is-unlocking", "is-settled");
       });
+      this.activeTimelineClass = null;
     }
 
     interruptTransition() {
@@ -365,6 +373,32 @@
       });
     }
 
+    setCaseHubState({ active = 0, complete = 0 } = {}) {
+      const hub = this.sections.get("case-hub");
+      if (!hub) return false;
+
+      const stateName = active > 0 ? `active-${active}` : complete > 0 ? `complete-${complete}` : "teaser";
+      hub.dataset.hubState = stateName;
+
+      hub.querySelectorAll(".case-exhibit[data-case-id]").forEach((exhibit) => {
+        const caseNumber = Number(exhibit.dataset.caseId);
+        let state = "locked";
+        if (caseNumber <= complete) state = "completed";
+        else if (caseNumber === active) state = "active";
+
+        exhibit.dataset.state = state;
+        if (state === "active") exhibit.setAttribute("aria-current", "step");
+        else exhibit.removeAttribute("aria-current");
+      });
+
+      root.dispatchEvent(
+        new CustomEvent("webinar:case-hub-change", {
+          detail: { active, complete },
+        }),
+      );
+      return true;
+    }
+
     pulseCourse(card) {
       const activeTimer = this.coursePulseTimers.get(card);
       if (activeTimer) window.clearTimeout(activeTimer);
@@ -417,6 +451,7 @@
     closeCourses: () => controller.closeDrawer(),
     highlightCourse: (courseId, options) => controller.highlightCourse(courseId, options),
     setCaseProgress: (state) => controller.setCaseProgress(state),
+    setCaseHubState: (state) => controller.setCaseHubState(state),
     get currentBeat() {
       return controller.manifest[controller.currentIndex];
     },

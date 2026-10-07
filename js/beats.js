@@ -9,6 +9,7 @@
  *
  * A timeline locks forward navigation while its internal animation runs. The
  * final composition remains visible after the lock ends until the next input.
+ * sectionId lets multiple presentation beats reuse the same stateful scene.
  */
 window.WEBINAR_BEATS = [
   {
@@ -24,6 +25,30 @@ window.WEBINAR_BEATS = [
       className: "is-sequencing",
       duration: 14000,
       reducedDuration: 250,
+    },
+  },
+  {
+    id: "case-hub-teaser",
+    sectionId: "case-hub",
+    label: "Three practical cases — teaser",
+    caseProgress: null,
+    hubState: { active: 0, complete: 0 },
+    timeline: {
+      className: "is-entering",
+      duration: 4600,
+      reducedDuration: 120,
+    },
+  },
+  {
+    id: "case-hub-case-1",
+    sectionId: "case-hub",
+    label: "Case 01 — Stay Ahead",
+    caseProgress: { active: 1, complete: 0 },
+    hubState: { active: 1, complete: 0 },
+    timeline: {
+      className: "is-unlocking",
+      duration: 1800,
+      reducedDuration: 120,
     },
   },
   {

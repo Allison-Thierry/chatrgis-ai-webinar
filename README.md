@@ -1,6 +1,6 @@
-# ChatRGIS AI Webinar — Phase 1
+# ChatRGIS AI Webinar — Phase 3
 
-A self-contained interactive webinar support designed for GitHub Pages. It currently includes the continuous visual shell, opening experience, the automatic “simple requests to broader goals” introduction, one temporary transition beat, Webinar Info, the WeLearn AI course drawer, future case-progress foundations and presenter controls.
+A self-contained interactive webinar support designed for GitHub Pages. It currently includes the continuous visual shell, opening experience, the automatic “simple requests to broader goals” introduction, the reusable three-case teaser hub and its Case 01 reveal, Webinar Info, the WeLearn AI course drawer, case-progress foundations and presenter controls.
 
 ## Preview
 
@@ -65,6 +65,16 @@ A beat can also run one complete internal timeline while forward navigation is t
 }
 ```
 
+Multiple beats can reuse one stateful scene through `sectionId`. The case hub uses this to move from the fully frosted teaser to the Case 01 reveal without recreating the scene:
+
+```js
+{
+  id: "case-hub-case-1",
+  sectionId: "case-hub",
+  hubState: { active: 1, complete: 0 },
+}
+```
+
 The reusable connected-energy motif lives in `capabilityClusterTemplate`. Add `data-component-template="capabilityClusterTemplate"` to an empty host element to clone it into another future scene.
 
 The shell exposes a small API for future scripted cues:
@@ -74,6 +84,7 @@ webinar.next();
 webinar.previous();
 webinar.home();
 webinar.setCaseProgress({ active: 2, complete: 1 });
+webinar.setCaseHubState({ active: 2, complete: 1 });
 webinar.highlightCourse("intermediate-3", { open: true, duration: 5000 });
 ```
 
@@ -82,11 +93,11 @@ Available course IDs are `basics-1`, `basics-2`, and `intermediate-1` through `i
 ## Project structure
 
 ```text
-index.html          Semantic shell and Phase 1 scenes
+index.html          Semantic shell and presentation scenes
 styles.css          Visual system, animation and reusable scene patterns
 js/beats.js         Ordered beat manifest and future component factories
 js/app.js           Navigation, overlays, progress and public presenter API
-assets/             RGIS logo and the six original WeLearn course cards
+assets/             RGIS logo, course cards and reusable case identities
 ```
 
 ## Motion and accessibility
