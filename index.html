@@ -13,27 +13,6 @@
   </head>
 
   <body>
-    <svg class="filter-definitions" aria-hidden="true">
-      <defs>
-        <filter id="liquid-distortion" x="-30%" y="-30%" width="160%" height="160%">
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency="0.011 0.016"
-            numOctaves="2"
-            seed="8"
-            result="noise"
-          />
-          <feDisplacementMap
-            in="SourceGraphic"
-            in2="noise"
-            scale="12"
-            xChannelSelector="R"
-            yChannelSelector="B"
-          />
-        </filter>
-      </defs>
-    </svg>
-
     <div class="experience" id="experience" data-beat="opening" data-info="open">
       <div class="ambient-scene" aria-hidden="true">
         <span class="ambient-scene__wash ambient-scene__wash--cyan"></span>
@@ -83,12 +62,14 @@
           </span>
 
           <span class="liquid-core" aria-hidden="true">
-            <span class="liquid-core__shadow"></span>
-            <span class="liquid-core__body"></span>
-            <span class="liquid-core__body liquid-core__body--refracted"></span>
-            <span class="liquid-core__current liquid-core__current--one"></span>
-            <span class="liquid-core__current liquid-core__current--two"></span>
-            <span class="liquid-core__highlight"></span>
+            <span class="liquid-core__halo"></span>
+            <img
+              class="liquid-core__art"
+              src="assets/visuals/liquid-glass-orb.png"
+              alt=""
+              draggable="false"
+            />
+            <span class="liquid-core__sheen"></span>
             <span class="liquid-core__glint"></span>
           </span>
 
@@ -224,42 +205,36 @@
           <article class="course-card" data-course-id="basics-1" tabindex="0">
             <div class="course-card__image-wrap">
               <img src="assets/courses/ai-basics-1.png" alt="AI Basics 1 — Understanding AI and Responsible Use" />
-              <span class="course-card__level">Basics</span>
             </div>
           </article>
 
           <article class="course-card" data-course-id="basics-2" tabindex="0">
             <div class="course-card__image-wrap">
               <img src="assets/courses/ai-basics-2.png" alt="AI Basics 2 — Asking Better Questions and AI at RGIS" />
-              <span class="course-card__level">Basics</span>
             </div>
           </article>
 
           <article class="course-card" data-course-id="intermediate-1" tabindex="0">
             <div class="course-card__image-wrap">
               <img src="assets/courses/ai-intermediate-1.png" alt="AI Intermediate 1 — Getting More from AI" />
-              <span class="course-card__level course-card__level--intermediate">Intermediate</span>
             </div>
           </article>
 
           <article class="course-card" data-course-id="intermediate-2" tabindex="0">
             <div class="course-card__image-wrap">
               <img src="assets/courses/ai-intermediate-2.png" alt="AI Intermediate 2 — AI in Action" />
-              <span class="course-card__level course-card__level--intermediate">Intermediate</span>
             </div>
           </article>
 
           <article class="course-card" data-course-id="intermediate-3" tabindex="0">
             <div class="course-card__image-wrap">
               <img src="assets/courses/ai-intermediate-3.png" alt="AI Intermediate 3 — Inside the ChatRGIS Workspace" />
-              <span class="course-card__level course-card__level--intermediate">Intermediate</span>
             </div>
           </article>
 
           <article class="course-card" data-course-id="intermediate-4" tabindex="0">
             <div class="course-card__image-wrap">
               <img src="assets/courses/ai-intermediate-4.png" alt="AI Intermediate 4 — Build Your AI Colleague" />
-              <span class="course-card__level course-card__level--intermediate">Intermediate</span>
             </div>
           </article>
         </div>
