@@ -28,6 +28,7 @@
       this.hasStarted = false;
       this.drawerPreviouslyFocused = null;
       this.highlightTimer = null;
+      this.coursePulseTimers = new WeakMap();
 
       this.validateManifest();
       this.bindEvents();
@@ -119,8 +120,19 @@
         this.closeDrawer();
       });
 
-      drawer?.addEventListener("click", (event) => event.stopPropagation());
-      drawer?.addEventListener("keydown", (event) => this.keepFocusInDrawer(event));
+      drawer?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const card = event.target.closest(".course-card");
+        if (card) this.pulseCourse(card);
+      });
+      drawer?.addEventListener("keydown", (event) => {
+        this.keepFocusInDrawer(event);
+        const card = event.target.closest(".course-card");
+        if (card && (event.key === "Enter" || event.code === "Space")) {
+          event.preventDefault();
+          this.pulseCourse(card);
+        }
+      });
     }
 
     next() {
@@ -260,6 +272,21 @@
         const srLabel = node.querySelector(".sr-only");
         if (srLabel) srLabel.textContent = `Case ${caseNumber}: ${readableStatus}`;
       });
+    }
+
+    pulseCourse(card) {
+      const activeTimer = this.coursePulseTimers.get(card);
+      if (activeTimer) window.clearTimeout(activeTimer);
+
+      card.classList.remove("is-attention-pulse");
+      void card.offsetWidth;
+      card.classList.add("is-attention-pulse");
+
+      const timer = window.setTimeout(() => {
+        card.classList.remove("is-attention-pulse");
+        this.coursePulseTimers.delete(card);
+      }, 1200);
+      this.coursePulseTimers.set(card, timer);
     }
 
     /**
