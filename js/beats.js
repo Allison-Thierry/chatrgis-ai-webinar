@@ -170,6 +170,17 @@ window.WEBINAR_BEATS = [
       reducedDuration: 120,
     },
   },
+  {
+    id: "breather-1",
+    label: "Audience breather — familiar writing patterns",
+    caseProgress: { active: 0, complete: 1 },
+    replayOnReturn: true,
+    timeline: {
+      className: "is-breather-entering",
+      duration: 5400,
+      reducedDuration: 150,
+    },
+  },
 ];
 
 /**
