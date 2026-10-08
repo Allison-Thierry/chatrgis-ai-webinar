@@ -1750,30 +1750,25 @@ button:focus-visible,
   filter: drop-shadow(0 8px 12px rgba(130, 38, 43, 0.1));
 }
 
-.peso-token {
+.money-emoji {
+  --money-rotation: 0deg;
+  --money-drift: -9px;
   position: absolute;
   z-index: 9;
-  display: grid;
-  place-items: center;
-  min-width: 48px;
-  height: 40px;
-  padding: 0 12px;
-  border: 1px solid rgba(255, 255, 255, 0.86);
-  border-radius: 999px;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.84), rgba(221, 250, 243, 0.52));
-  box-shadow: 0 17px 33px rgba(55, 131, 127, 0.13), inset 0 1px 0 white;
-  color: #258d80;
-  font-size: 0.75rem;
-  font-weight: 820;
-  letter-spacing: 0.06em;
+  display: block;
+  font-size: clamp(1.35rem, 2vw, 1.9rem);
+  line-height: 1;
   opacity: 0;
-  -webkit-backdrop-filter: blur(15px);
-  backdrop-filter: blur(15px);
+  filter: drop-shadow(0 10px 13px rgba(35, 111, 84, 0.2));
+  pointer-events: none;
+  transform: translateY(14px) rotate(var(--money-rotation)) scale(0.65);
+  user-select: none;
 }
 
-.peso-token--one { top: 31%; right: 10%; transform: translateY(12px) rotate(9deg) scale(0.65); }
-.peso-token--two { right: 14%; bottom: 19%; transform: translateY(12px) rotate(-8deg) scale(0.65); }
-.peso-token--three { bottom: 12%; left: 22%; transform: translateY(12px) rotate(5deg) scale(0.65); }
+.money-emoji--one { --money-rotation: 12deg; top: 29%; right: 4%; }
+.money-emoji--two { --money-rotation: -10deg; --money-drift: -7px; top: 40%; right: 25%; font-size: clamp(1.15rem, 1.65vw, 1.55rem); }
+.money-emoji--three { --money-rotation: -7deg; --money-drift: -11px; right: 1%; bottom: 22%; }
+.money-emoji--four { --money-rotation: 9deg; --money-drift: -8px; right: 22%; bottom: 13%; font-size: clamp(1.2rem, 1.75vw, 1.65rem); }
 
 .peso-spark {
   position: absolute;
@@ -1809,19 +1804,21 @@ button:focus-visible,
   animation: brandArrive 900ms var(--ease-out) 1s forwards;
 }
 
-.beat--case-one.is-scenario-entering .peso-token,
-.beat--case-one.is-settled[data-case-scene="scenario"] .peso-token {
-  animation: pesoPop 720ms var(--ease-out) forwards, pesoFloat 5.6s ease-in-out infinite 2.4s;
+.beat--case-one.is-scenario-entering .money-emoji,
+.beat--case-one.is-settled[data-case-scene="scenario"] .money-emoji {
+  animation: moneyEmojiArrive 720ms var(--ease-out) forwards, moneyEmojiFloat 4.8s ease-in-out infinite 2.4s;
 }
 
-.beat--case-one.is-scenario-entering .peso-token--one { animation-delay: 1.36s, 2.4s; }
-.beat--case-one.is-scenario-entering .peso-token--two { animation-delay: 1.58s, 2.65s; }
-.beat--case-one.is-scenario-entering .peso-token--three { animation-delay: 1.8s, 2.9s; }
+.beat--case-one.is-scenario-entering .money-emoji--one { animation-delay: 1.28s, 2.15s; }
+.beat--case-one.is-scenario-entering .money-emoji--two { animation-delay: 1.48s, 2.45s; }
+.beat--case-one.is-scenario-entering .money-emoji--three { animation-delay: 1.68s, 2.75s; }
+.beat--case-one.is-scenario-entering .money-emoji--four { animation-delay: 1.88s, 3.05s; }
 
-.beat--case-one.is-settled[data-case-scene="scenario"] .peso-token--one,
-.beat--case-one.is-settled[data-case-scene="scenario"] .peso-token--two,
-.beat--case-one.is-settled[data-case-scene="scenario"] .peso-token--three {
-  animation-delay: 0s, 0.75s;
+.beat--case-one.is-settled[data-case-scene="scenario"] .money-emoji--one,
+.beat--case-one.is-settled[data-case-scene="scenario"] .money-emoji--two,
+.beat--case-one.is-settled[data-case-scene="scenario"] .money-emoji--three,
+.beat--case-one.is-settled[data-case-scene="scenario"] .money-emoji--four {
+  animation-delay: 0s, 0.65s;
 }
 
 .beat--case-one.is-scenario-entering .peso-spark,
@@ -1850,11 +1847,11 @@ button:focus-visible,
   animation: none;
 }
 
-.beat--case-one.is-settled:not(.is-scenario-entering)[data-case-scene="scenario"] .peso-token {
-  opacity: 0.92;
-  filter: blur(0);
-  transform: translateY(0) scale(1);
-  animation: pesoFloat 5.6s ease-in-out infinite;
+.beat--case-one.is-settled:not(.is-scenario-entering)[data-case-scene="scenario"] .money-emoji {
+  opacity: 1;
+  filter: drop-shadow(0 10px 13px rgba(35, 111, 84, 0.2));
+  transform: translateY(0) rotate(var(--money-rotation)) scale(1);
+  animation: moneyEmojiFloat 4.8s ease-in-out infinite;
 }
 
 /* Simulated ChatRGIS conversation */
@@ -3455,15 +3452,16 @@ button:focus-visible,
   100% { opacity: 1; filter: blur(0); transform: translate(0, -50%) rotate(0) scale(1); }
 }
 
-@keyframes pesoPop {
-  0% { opacity: 0; filter: blur(6px); }
-  70% { opacity: 1; filter: blur(0); transform: translateY(-3px) rotate(0) scale(1.08); }
-  100% { opacity: 0.92; filter: blur(0); transform: translateY(0) rotate(0) scale(1); }
+@keyframes moneyEmojiArrive {
+  0% { opacity: 0; filter: blur(6px) drop-shadow(0 10px 13px rgba(35, 111, 84, 0.12)); }
+  70% { opacity: 1; filter: blur(0) drop-shadow(0 12px 16px rgba(35, 111, 84, 0.22)); transform: translateY(-4px) rotate(-2deg) scale(1.14); }
+  100% { opacity: 1; filter: blur(0) drop-shadow(0 10px 13px rgba(35, 111, 84, 0.2)); transform: translateY(0) rotate(var(--money-rotation)) scale(1); }
 }
 
-@keyframes pesoFloat {
-  0%, 100% { opacity: 0.88; transform: translateY(0) rotate(-2deg) scale(1); }
-  50% { opacity: 1; transform: translateY(-7px) rotate(3deg) scale(1.03); }
+@keyframes moneyEmojiFloat {
+  0%, 100% { opacity: 0.92; transform: translateY(1px) rotate(var(--money-rotation)) scale(0.98); }
+  45% { opacity: 1; transform: translateY(var(--money-drift)) rotate(calc(var(--money-rotation) + 5deg)) scale(1.06); }
+  72% { transform: translateY(-3px) rotate(calc(var(--money-rotation) - 3deg)) scale(1.01); }
 }
 
 @keyframes sparkBlink {
@@ -3756,8 +3754,10 @@ button:focus-visible,
     border-radius: 22px;
   }
 
-  .peso-token--one { right: 5%; }
-  .peso-token--two { right: 8%; }
+  .money-emoji--one { right: 2%; }
+  .money-emoji--two { right: 23%; }
+  .money-emoji--three { right: 0; }
+  .money-emoji--four { right: 20%; }
 
   .chat-window {
     width: calc(100vw - 24px);
