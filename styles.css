@@ -1584,6 +1584,45 @@ button:focus-visible,
   transform: scale(0.5);
 }
 
+.experience[data-beat="breather-1"] .ambient-scene__wash--cyan {
+  transform: translate(20vw, 4vh) scale(0.72);
+  opacity: 0.32;
+}
+
+.experience[data-beat="breather-1"] .ambient-scene__wash--violet {
+  transform: translate(-23vw, -9vh) scale(1.14);
+  opacity: 0.39;
+}
+
+.experience[data-beat="breather-1"] .ambient-scene__wash--pink {
+  transform: translate(-14vw, 7vh) scale(1.32);
+  opacity: 0.24;
+}
+
+.experience[data-beat="breather-1"] .ambient-scene__arc--one {
+  transform: translateY(-10vh) rotate(9deg) scaleY(0.21);
+  opacity: 0.54;
+}
+
+.experience[data-beat="breather-1"] .ambient-scene__arc--two {
+  transform: translate(-17vw, 19vh) rotate(10deg) scaleY(0.29);
+  opacity: 0.62;
+}
+
+.experience[data-beat="breather-1"] .core-activation {
+  --core-y: 10vh;
+  --core-scale: 0.08;
+  cursor: default;
+  filter: blur(20px) saturate(0.7);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.experience[data-beat="breather-1"] .energy-field {
+  opacity: 0;
+  transform: scale(0.4);
+}
+
 .experience.is-diving-case .beat--case-hub {
   visibility: visible;
   opacity: 1;
@@ -2498,6 +2537,333 @@ button:focus-visible,
   opacity: 1;
   transform: translateY(0);
   animation: none;
+}
+
+/* First breather: familiar writing patterns */
+
+.experience.is-entering-breather .beat--case-one {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: none;
+  transition: none;
+}
+
+.experience.is-entering-breather .automation-ideas__anchor {
+  animation: breatherDiamondDepart 880ms var(--ease-smooth) both !important;
+}
+
+.experience.is-entering-breather .automation-idea {
+  --depart-x: 0px;
+  --depart-y: -36px;
+  --depart-rotate: 0deg;
+  animation: breatherCardDepart 760ms var(--ease-smooth) both !important;
+  animation-delay: 0s !important;
+}
+
+.experience.is-entering-breather .automation-idea--sales {
+  --depart-x: -95px;
+  --depart-y: -44px;
+  --depart-rotate: -5deg;
+}
+
+.experience.is-entering-breather .automation-idea--hr {
+  --depart-x: 92px;
+  --depart-y: -52px;
+  --depart-rotate: 5deg;
+}
+
+.experience.is-entering-breather .automation-idea--learning {
+  --depart-x: -88px;
+  --depart-y: 58px;
+  --depart-rotate: 4deg;
+}
+
+.experience.is-entering-breather .automation-idea--events {
+  --depart-x: 96px;
+  --depart-y: 52px;
+  --depart-rotate: -4deg;
+}
+
+.experience.is-entering-breather .automation-ideas__caption {
+  animation: breatherCaptionDepart 460ms ease both !important;
+}
+
+.beat--breather {
+  z-index: 16;
+  overflow: hidden;
+}
+
+.breather-scene {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(1180px, calc(100vw - 190px));
+  height: min(720px, calc(100svh - 126px));
+  min-height: 520px;
+  transform: translate(-50%, -50%);
+}
+
+.breather-scene__glow {
+  position: absolute;
+  top: 48%;
+  left: 49%;
+  width: min(610px, 48vw);
+  aspect-ratio: 1.25;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 42% 43%, rgba(101, 220, 233, 0.2), transparent 48%),
+    radial-gradient(circle at 64% 58%, rgba(152, 118, 240, 0.17), transparent 54%);
+  filter: blur(52px);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.72);
+  pointer-events: none;
+}
+
+.breather-fragment {
+  --arrival-animation: breatherFragmentIn;
+  --enter-delay: 1s;
+  --float-duration: 7s;
+  --from-x: 0px;
+  --from-y: 20px;
+  --tilt: 0deg;
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  margin: 0;
+  padding: 15px 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  border-radius: 22px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.76), rgba(240, 250, 254, 0.43)),
+    rgba(255, 255, 255, 0.28);
+  box-shadow:
+    0 22px 58px rgba(48, 101, 137, 0.11),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  color: #29485c;
+  font-size: clamp(0.82rem, 1.05vw, 1.05rem);
+  font-weight: 590;
+  line-height: 1.36;
+  text-align: center;
+  text-wrap: balance;
+  opacity: 0;
+  filter: blur(8px);
+  transform: translate(var(--from-x), var(--from-y)) rotate(var(--tilt)) scale(0.84);
+  -webkit-backdrop-filter: blur(22px) saturate(138%);
+  backdrop-filter: blur(22px) saturate(138%);
+  will-change: transform, opacity, filter;
+}
+
+.breather-fragment::before {
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.42), transparent 42%, rgba(150, 117, 238, 0.055));
+  content: "";
+  pointer-events: none;
+}
+
+.breather-fragment--dash {
+  --arrival-animation: breatherGlyphIn;
+  --enter-delay: 0.45s;
+  --float-duration: 7.8s;
+  top: -5%;
+  left: 44%;
+  width: auto;
+  min-height: 0;
+  padding: 0 18px 14px;
+  border: 0;
+  background: linear-gradient(135deg, #48cde2 8%, #748eea 52%, #ae7ae9 88%);
+  box-shadow: none;
+  color: transparent;
+  font-size: clamp(5rem, 9vw, 8.3rem);
+  font-weight: 260;
+  letter-spacing: -0.08em;
+  line-height: 0.72;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  filter: blur(8px) drop-shadow(0 18px 28px rgba(99, 135, 220, 0.2));
+}
+
+.breather-fragment--dash::before {
+  display: none;
+}
+
+.breather-fragment--contrast {
+  --enter-delay: 2.2s;
+  --from-x: -26px;
+  --from-y: 8px;
+  --tilt: -1.4deg;
+  top: 17%;
+  left: 3%;
+  width: min(430px, 38vw);
+  min-height: 74px;
+  font-size: clamp(0.9rem, 1.22vw, 1.2rem);
+}
+
+.breather-fragment--good-news {
+  --enter-delay: 0.9s;
+  --from-x: 18px;
+  --from-y: -14px;
+  --tilt: 1.8deg;
+  top: 8%;
+  right: 7%;
+  min-height: 48px;
+  padding: 11px 20px;
+  border-radius: 999px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(228, 249, 253, 0.46)),
+    rgba(255, 255, 255, 0.3);
+}
+
+.breather-fragment--enthusiastic {
+  --arrival-animation: breatherBounceIn;
+  --enter-delay: 1.78s;
+  --float-duration: 6.4s;
+  --from-x: 22px;
+  --from-y: 18px;
+  --tilt: 1.1deg;
+  top: 38%;
+  right: 5%;
+  width: min(385px, 33vw);
+  background:
+    linear-gradient(142deg, rgba(255, 255, 255, 0.79), rgba(250, 239, 255, 0.46)),
+    rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 24px 62px rgba(112, 79, 156, 0.115),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+}
+
+.breather-fragment--game-changer {
+  --enter-delay: 3.08s;
+  --from-x: -16px;
+  --from-y: 24px;
+  --tilt: 0.8deg;
+  bottom: 6%;
+  left: 19%;
+  width: min(465px, 42vw);
+  min-height: 76px;
+  font-size: clamp(0.88rem, 1.15vw, 1.16rem);
+}
+
+.breather-fragment--thing {
+  --enter-delay: 1.35s;
+  --from-x: -20px;
+  --from-y: 5px;
+  --tilt: -2deg;
+  top: 52%;
+  left: 4%;
+  min-height: 50px;
+  padding: 12px 19px;
+  border-radius: 16px 24px 24px 20px;
+}
+
+.breather-fragment--correct {
+  --arrival-animation: breatherResultIn;
+  --enter-delay: 2.64s;
+  --from-x: 14px;
+  --from-y: 18px;
+  --tilt: -1deg;
+  right: 5%;
+  bottom: 12%;
+  min-height: 46px;
+  padding: 11px 17px 11px 34px;
+  border-radius: 14px;
+  color: #3d6d7c;
+  font-size: clamp(0.74rem, 0.9vw, 0.91rem);
+  font-weight: 680;
+}
+
+.breather-fragment--correct::after {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5dd5dd, #8a79e9);
+  box-shadow: 0 0 12px rgba(92, 200, 218, 0.45);
+  content: "";
+  transform: translateY(-50%);
+}
+
+.breather-fragment--matters {
+  --enter-delay: 3.52s;
+  --float-duration: 7.4s;
+  --from-x: 6px;
+  --from-y: 22px;
+  --tilt: 1.4deg;
+  right: 37%;
+  bottom: 28%;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-color: rgba(255, 255, 255, 0.68);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.37);
+  color: #42708a;
+  font-size: clamp(0.67rem, 0.82vw, 0.84rem);
+  font-weight: 760;
+  letter-spacing: 0.07em;
+}
+
+.beat--breather.is-breather-entering .breather-scene__glow,
+.beat--breather.is-settled .breather-scene__glow {
+  animation:
+    breatherGlowIn 1.6s var(--ease-out) 180ms forwards,
+    breatherGlowIdle 8s ease-in-out 1.8s infinite;
+}
+
+.beat--breather.is-breather-entering .breather-fragment {
+  animation:
+    var(--arrival-animation) 900ms var(--ease-out) var(--enter-delay) forwards,
+    breatherFragmentFloat var(--float-duration) ease-in-out calc(var(--enter-delay) + 900ms) infinite;
+}
+
+.breather-speck {
+  --speck-delay: 1.4s;
+  position: absolute;
+  z-index: 2;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(71, 200, 218, 0.72);
+  box-shadow: 0 0 16px rgba(75, 198, 221, 0.48);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.breather-speck--one { --speck-delay: 1.5s; top: 30%; left: 45%; }
+.breather-speck--two { --speck-delay: 2.15s; top: 69%; right: 31%; width: 3px; height: 3px; background: rgba(143, 111, 232, 0.78); }
+.breather-speck--three { --speck-delay: 2.8s; right: 14%; bottom: 36%; }
+.breather-speck--four { --speck-delay: 3.35s; bottom: 17%; left: 11%; width: 4px; height: 4px; background: rgba(231, 139, 207, 0.62); }
+
+.beat--breather.is-breather-entering .breather-speck,
+.beat--breather.is-settled .breather-speck {
+  animation: breatherSpeckIdle 5.8s ease-in-out var(--speck-delay) infinite;
+}
+
+.beat--breather.is-settled:not(.is-breather-entering) .breather-fragment {
+  opacity: 1;
+  filter: blur(0);
+  transform: rotate(var(--tilt)) scale(1);
+  animation: breatherFragmentFloat var(--float-duration) ease-in-out infinite;
+}
+
+.experience.is-returning-case-one .beat--breather {
+  visibility: visible;
+  opacity: 1;
+  animation: breatherSceneDepart 760ms var(--ease-smooth) both;
+  pointer-events: none;
+  transition: none;
+}
+
+.experience.is-returning-case-one .beat--case-one.is-active {
+  animation: caseOneReturnFromBreather 960ms var(--ease-out) both;
 }
 
 /* --- Temporary test beat --------------------------------------------------- */
@@ -3517,6 +3883,79 @@ button:focus-visible,
   50% { opacity: 1; transform: scale(1.15); }
 }
 
+@keyframes breatherDiamondDepart {
+  0% { opacity: 1; filter: blur(0) saturate(1); transform: translate(-50%, -50%) scale(1) rotate(0); }
+  48% { opacity: 0.72; filter: blur(3px) saturate(1.15); transform: translate(-50%, -50%) scale(1.07) rotate(2deg); }
+  100% { opacity: 0; filter: blur(18px) saturate(0.7); transform: translate(-50%, -50%) scale(0.42) rotate(-7deg); }
+}
+
+@keyframes breatherCardDepart {
+  0% { opacity: 1; filter: blur(0); transform: translate(0, 0) rotate(0) scale(1); }
+  100% { opacity: 0; filter: blur(9px); transform: translate(var(--depart-x), var(--depart-y)) rotate(var(--depart-rotate)) scale(0.9); }
+}
+
+@keyframes breatherCaptionDepart {
+  from { opacity: 1; filter: blur(0); transform: translateY(0); }
+  to { opacity: 0; filter: blur(5px); transform: translateY(15px); }
+}
+
+@keyframes breatherFragmentIn {
+  0% { opacity: 0; filter: blur(8px); transform: translate(var(--from-x), var(--from-y)) rotate(var(--tilt)) scale(0.84); }
+  68% { opacity: 1; filter: blur(0); transform: translate(0, -3px) rotate(var(--tilt)) scale(1.025); }
+  100% { opacity: 1; filter: blur(0); transform: translate(0, 0) rotate(var(--tilt)) scale(1); }
+}
+
+@keyframes breatherBounceIn {
+  0% { opacity: 0; filter: blur(9px); transform: translate(var(--from-x), var(--from-y)) rotate(var(--tilt)) scale(0.72); }
+  61% { opacity: 1; filter: blur(0); transform: translate(-2px, -5px) rotate(calc(var(--tilt) - 0.8deg)) scale(1.06); }
+  80% { transform: translate(1px, 2px) rotate(calc(var(--tilt) + 0.4deg)) scale(0.98); }
+  100% { opacity: 1; filter: blur(0); transform: translate(0, 0) rotate(var(--tilt)) scale(1); }
+}
+
+@keyframes breatherGlyphIn {
+  0% { opacity: 0; filter: blur(12px) drop-shadow(0 18px 28px rgba(99, 135, 220, 0)); transform: translateY(19px) rotate(-6deg) scale(0.52); }
+  64% { opacity: 1; filter: blur(0) drop-shadow(0 22px 32px rgba(99, 135, 220, 0.25)); transform: translateY(-5px) rotate(2deg) scale(1.09); }
+  100% { opacity: 0.94; filter: blur(0) drop-shadow(0 18px 28px rgba(99, 135, 220, 0.2)); transform: translateY(0) rotate(0) scale(1); }
+}
+
+@keyframes breatherResultIn {
+  0% { opacity: 0; filter: blur(5px); transform: translate(var(--from-x), var(--from-y)) rotate(var(--tilt)) scale(0.88); }
+  54% { opacity: 1; filter: blur(0); transform: translate(0, -2px) rotate(var(--tilt)) scale(1.04); box-shadow: 0 22px 58px rgba(48, 101, 137, 0.11), 0 0 0 5px rgba(92, 207, 220, 0.06), inset 0 1px 0 white; }
+  100% { opacity: 1; filter: blur(0); transform: translate(0, 0) rotate(var(--tilt)) scale(1); }
+}
+
+@keyframes breatherFragmentFloat {
+  0%, 100% { transform: translateY(0) rotate(var(--tilt)) scale(1); }
+  48% { transform: translateY(-7px) rotate(calc(var(--tilt) + 0.7deg)) scale(1.008); }
+  76% { transform: translateY(-2px) rotate(calc(var(--tilt) - 0.35deg)) scale(1); }
+}
+
+@keyframes breatherGlowIn {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.72); }
+  to { opacity: 0.82; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes breatherGlowIdle {
+  0%, 100% { opacity: 0.62; transform: translate(-50%, -50%) scale(0.96); }
+  50% { opacity: 0.84; transform: translate(-50%, -50%) scale(1.07); }
+}
+
+@keyframes breatherSpeckIdle {
+  0%, 100% { opacity: 0.08; transform: translateY(5px) scale(0.62); }
+  38% { opacity: 0.7; transform: translateY(-5px) scale(1); }
+  68% { opacity: 0.22; transform: translate(3px, -10px) scale(0.78); }
+}
+
+@keyframes breatherSceneDepart {
+  0% { opacity: 1; filter: blur(0); transform: scale(1); }
+  100% { opacity: 0; filter: blur(9px); transform: scale(1.035); }
+}
+
+@keyframes caseOneReturnFromBreather {
+  0% { opacity: 0; filter: blur(9px); transform: scale(0.95); }
+  100% { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+
 /* --- Responsive adaptations ----------------------------------------------- */
 
 @media (max-width: 900px) {
@@ -3584,6 +4023,22 @@ button:focus-visible,
   .automation-idea {
     width: min(285px, 31vw);
     padding: 14px 15px;
+  }
+
+  .breather-scene {
+    width: calc(100vw - 112px);
+  }
+
+  .breather-fragment--contrast {
+    width: 40vw;
+  }
+
+  .breather-fragment--enthusiastic {
+    width: 35vw;
+  }
+
+  .breather-fragment--game-changer {
+    width: 44vw;
   }
 }
 
@@ -3799,6 +4254,82 @@ button:focus-visible,
   .automation-idea p { font-size: 0.43rem; }
   .automation-idea h3 { font-size: 0.65rem; }
   .automation-idea div > span { font-size: 0.54rem; }
+
+  .breather-scene {
+    top: 51%;
+    width: calc(100vw - 28px);
+    height: calc(100svh - 104px);
+    min-height: 540px;
+  }
+
+  .breather-fragment {
+    min-height: 44px;
+    padding: 11px 14px;
+    border-radius: 16px;
+    font-size: clamp(0.66rem, 2.8vw, 0.82rem);
+  }
+
+  .breather-fragment--dash {
+    top: -1%;
+    left: 41%;
+    padding: 0 10px 10px;
+    font-size: clamp(4.2rem, 19vw, 6rem);
+  }
+
+  .breather-fragment--contrast {
+    top: 17%;
+    left: 1%;
+    width: 58vw;
+    min-height: 62px;
+  }
+
+  .breather-fragment--good-news {
+    top: 9%;
+    right: 1%;
+    min-height: 40px;
+    padding: 9px 13px;
+  }
+
+  .breather-fragment--enthusiastic {
+    top: 37%;
+    right: 1%;
+    width: 59vw;
+  }
+
+  .breather-fragment--thing {
+    top: 49%;
+    left: 1%;
+    min-height: 40px;
+    padding: 9px 13px;
+  }
+
+  .breather-fragment--matters {
+    right: auto;
+    bottom: 29%;
+    left: 6%;
+    min-height: 38px;
+    font-size: 0.59rem;
+  }
+
+  .breather-fragment--correct {
+    right: 1%;
+    bottom: 16%;
+    min-height: 40px;
+    padding: 9px 12px 9px 29px;
+  }
+
+  .breather-fragment--correct::after {
+    left: 11px;
+    width: 7px;
+    height: 7px;
+  }
+
+  .breather-fragment--game-changer {
+    bottom: 2%;
+    left: 1%;
+    width: 68vw;
+    min-height: 58px;
+  }
 }
 
 @media (max-height: 760px) and (min-width: 621px) {
