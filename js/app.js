@@ -11,6 +11,7 @@
   const drawerTrigger = document.getElementById("courseDrawerTrigger");
   const drawerClose = document.getElementById("courseDrawerClose");
   const drawerScrim = document.getElementById("drawerScrim");
+  const caseOneThread = document.getElementById("caseOneChatThread");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   if (!root || !stage) return;
@@ -46,6 +47,8 @@
       this.drawerPreviouslyFocused = null;
       this.highlightTimer = null;
       this.coursePulseTimers = new WeakMap();
+      this.visitedBeatIds = new Set();
+      this.typingFrame = null;
 
       this.validateManifest();
       this.bindEvents();
@@ -65,7 +68,7 @@
       stage.addEventListener("click", (event) => {
         const explicitAdvance = event.target.closest("[data-advances-beat]");
         const otherInteractive = event.target.closest(
-          "a, button:not([data-advances-beat]), input, select, textarea, [contenteditable='true']",
+          "a, button:not([data-advances-beat]), input, select, textarea, [contenteditable='true'], [data-no-advance]",
         );
 
         if (otherInteractive) return;
@@ -86,6 +89,11 @@
           target.closest(
             ".webinar-info, .course-drawer, .course-drawer__trigger, .presenter-controls",
           );
+        const isNoAdvanceControl =
+          target instanceof HTMLElement &&
+          target.closest(
+            "[data-no-advance], a, button:not([data-advances-beat]), input, select, textarea, [contenteditable='true']",
+          );
 
         if (event.key === "Escape" && root.classList.contains("is-drawer-open")) {
           event.preventDefault();
@@ -93,7 +101,12 @@
           return;
         }
 
-        if (isEditable || isPersistentControl || root.classList.contains("is-drawer-open")) return;
+        if (
+          isEditable ||
+          isPersistentControl ||
+          isNoAdvanceControl ||
+          root.classList.contains("is-drawer-open")
+        ) return;
 
         if (event.key === "ArrowRight" || event.code === "Space") {
           event.preventDefault();
@@ -151,6 +164,14 @@
           this.pulseCourse(card);
         }
       });
+
+      document.querySelectorAll("[data-copy-prompt]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          this.copyPrompt(button);
+        });
+      });
     }
 
     next() {
@@ -182,18 +203,40 @@
       const targetIndex = Math.max(0, Math.min(index, this.manifest.length - 1));
       if (targetIndex === this.currentIndex || this.isTransitioning) return;
 
+      const previousIndex = this.currentIndex;
+      const currentBeat = this.manifest[previousIndex];
+      const targetBeat = this.manifest[targetIndex];
+      const currentSectionId = currentBeat?.sectionId ?? currentBeat?.id;
+      const targetSectionId = targetBeat?.sectionId ?? targetBeat?.id;
       const leavingOpening = this.currentIndex === 0 && targetIndex > 0;
       const isFirstLaunch = leavingOpening && !this.hasStarted;
-      const transitionDelay = immediate || reducedMotion.matches ? 0 : isFirstLaunch ? 290 : 60;
-      const unlockDelay = immediate || reducedMotion.matches ? 20 : 1120;
+      const isCaseDive = currentSectionId === "case-hub" && targetSectionId === "case-1";
+      const isHubReturn = currentSectionId === "case-1" && targetSectionId === "case-hub";
+      const transitionDelay = immediate || reducedMotion.matches
+        ? 0
+        : isCaseDive || isHubReturn
+          ? 620
+          : isFirstLaunch
+            ? 290
+            : 60;
+      const unlockDelay = immediate || reducedMotion.matches
+        ? 20
+        : isCaseDive || isHubReturn
+          ? 1600
+          : 1120;
 
       this.isTransitioning = true;
       root.classList.add("is-reacting");
+      root.classList.toggle("is-diving-case", isCaseDive);
+      root.classList.toggle("is-returning-hub", isHubReturn);
 
       const activationTimer = window.setTimeout(() => {
         this.currentIndex = targetIndex;
         this.hasStarted ||= targetIndex > 0;
-        this.render({ immediate });
+        this.render({
+          immediate,
+          direction: targetIndex > previousIndex ? "forward" : "backward",
+        });
 
         if (targetIndex === 0) {
           this.setInfoOpen(true);
@@ -203,7 +246,7 @@
       }, transitionDelay);
 
       const unlockTimer = window.setTimeout(() => {
-        root.classList.remove("is-reacting");
+        root.classList.remove("is-reacting", "is-diving-case", "is-returning-hub");
         this.isTransitioning = false;
         this.updateControls();
       }, unlockDelay);
@@ -211,10 +254,11 @@
       this.transitionTimers = [activationTimer, unlockTimer];
     }
 
-    render({ immediate = false } = {}) {
+    render({ immediate = false, direction = "forward" } = {}) {
       const current = this.manifest[this.currentIndex];
       if (!current) return;
       const sectionId = current.sectionId ?? current.id;
+      const hasVisited = this.visitedBeatIds.has(current.id);
 
       this.sections.forEach((section, id) => {
         const isActive = id === sectionId;
@@ -230,7 +274,14 @@
       announcement.textContent = current.label;
 
       if (current.hubState) this.setCaseHubState(current.hubState);
-      this.beginTimeline(current);
+      if (current.caseOneState) {
+        this.setCaseOneState(current.caseOneState, {
+          animate: !immediate && direction === "forward" && !hasVisited,
+        });
+      }
+      this.beginTimeline(current, {
+        skip: Boolean(hasVisited && current.replayOnReturn === false),
+      });
       this.updateControls();
 
       if (current.caseProgress) {
@@ -248,6 +299,8 @@
           },
         }),
       );
+
+      this.visitedBeatIds.add(current.id);
     }
 
     updateControls() {
@@ -262,7 +315,7 @@
       }
     }
 
-    beginTimeline(beat) {
+    beginTimeline(beat, { skip = false } = {}) {
       this.cancelTimeline();
       const section = this.sections.get(beat.sectionId ?? beat.id);
       if (!beat.timeline || !section) {
@@ -272,6 +325,12 @@
 
       const className = beat.timeline.className ?? "is-sequencing";
       section.classList.remove(className, "is-settled");
+      if (skip) {
+        section.classList.add("is-settled");
+        root.dataset.timeline = "settled";
+        this.isBeatLocked = false;
+        return;
+      }
       void section.offsetWidth;
       section.classList.add(className);
       this.activeTimelineClass = className;
@@ -300,7 +359,16 @@
       root.dataset.timeline = "idle";
       this.sections.forEach((section) => {
         if (this.activeTimelineClass) section.classList.remove(this.activeTimelineClass);
-        section.classList.remove("is-sequencing", "is-entering", "is-unlocking", "is-settled");
+        section.classList.remove(
+          "is-sequencing",
+          "is-entering",
+          "is-unlocking",
+          "is-scenario-entering",
+          "is-chat-entering",
+          "is-message-arriving",
+          "is-ideas-entering",
+          "is-settled",
+        );
       });
       this.activeTimelineClass = null;
     }
@@ -309,8 +377,132 @@
       this.transitionTimers.forEach((timer) => window.clearTimeout(timer));
       this.transitionTimers = [];
       this.isTransitioning = false;
-      root.classList.remove("is-reacting");
+      root.classList.remove("is-reacting", "is-diving-case", "is-returning-hub");
       this.updateControls();
+    }
+
+    setCaseOneState({ scene = "scenario", messageCount = 0 } = {}, { animate = false } = {}) {
+      const section = this.sections.get("case-1");
+      if (!section) return false;
+
+      if (this.typingFrame) window.cancelAnimationFrame(this.typingFrame);
+      this.typingFrame = null;
+      section.dataset.caseScene = scene;
+      section.dataset.messageCount = String(messageCount);
+
+      const messages = [...section.querySelectorAll("[data-message-index]")];
+      messages.forEach((message) => {
+        const index = Number(message.dataset.messageIndex);
+        const visible = scene === "conversation" && index <= messageCount;
+        const current = visible && index === messageCount;
+        const isUser = message.classList.contains("case-chat-message--user");
+        message.dataset.visible = String(visible);
+        message.classList.toggle("is-current", current);
+        message.classList.remove("is-typing", "is-complete");
+
+        const typingOutput = message.querySelector(".case-chat-message__typing");
+        if (typingOutput) typingOutput.textContent = "";
+
+        if (visible && (!current || !animate)) {
+          message.classList.add("is-complete");
+        } else if (visible && current && isUser) {
+          this.typeUserMessage(message);
+        }
+      });
+
+      if (scene === "conversation" && messageCount > 0) {
+        window.requestAnimationFrame(() => this.scrollToMessage(messageCount, { smooth: animate }));
+      }
+
+      root.dispatchEvent(
+        new CustomEvent("webinar:case-one-change", {
+          detail: { scene, messageCount, animate },
+        }),
+      );
+      return true;
+    }
+
+    typeUserMessage(message) {
+      const source = message.querySelector(".prompt-copy-source");
+      const output = message.querySelector(".case-chat-message__typing");
+      if (!(source instanceof HTMLTextAreaElement) || !output) {
+        message.classList.add("is-complete");
+        return;
+      }
+
+      const text = source.value.trim();
+      const duration = Math.min(2900, Math.max(1500, text.length * 10));
+      const startedAt = performance.now();
+      let lastScrollAt = 0;
+      message.classList.add("is-typing");
+
+      const tick = (now) => {
+        const progress = reducedMotion.matches ? 1 : Math.min(1, (now - startedAt) / duration);
+        const eased = 1 - Math.pow(1 - progress, 2.2);
+        const length = Math.max(1, Math.round(text.length * eased));
+        output.textContent = text.slice(0, length);
+
+        if (now - lastScrollAt > 90 && caseOneThread) {
+          caseOneThread.scrollTop = caseOneThread.scrollHeight;
+          lastScrollAt = now;
+        }
+
+        if (progress < 1) {
+          this.typingFrame = window.requestAnimationFrame(tick);
+          return;
+        }
+
+        this.typingFrame = null;
+        message.classList.remove("is-typing");
+        message.classList.add("is-complete");
+        window.requestAnimationFrame(() => this.scrollToMessage(Number(message.dataset.messageIndex)));
+      };
+
+      this.typingFrame = window.requestAnimationFrame(tick);
+    }
+
+    scrollToMessage(messageIndex, { smooth = true } = {}) {
+      if (!caseOneThread) return;
+      const message = caseOneThread.querySelector(`[data-message-index="${messageIndex}"]`);
+      if (!message) return;
+      const top = Math.max(0, message.offsetTop - 24);
+      caseOneThread.scrollTo({
+        top,
+        behavior: smooth && !reducedMotion.matches ? "smooth" : "auto",
+      });
+    }
+
+    async copyPrompt(button) {
+      const message = button.closest(".case-chat-message");
+      const source = message?.querySelector(".prompt-copy-source");
+      if (!(source instanceof HTMLTextAreaElement)) return;
+
+      const text = source.value.trim();
+      let copied = false;
+      try {
+        await navigator.clipboard.writeText(text);
+        copied = true;
+      } catch {
+        const fallback = document.createElement("textarea");
+        fallback.value = text;
+        fallback.setAttribute("readonly", "");
+        fallback.style.position = "fixed";
+        fallback.style.opacity = "0";
+        document.body.append(fallback);
+        fallback.select();
+        copied = document.execCommand("copy");
+        fallback.remove();
+      }
+
+      const label = button.querySelector("span");
+      if (!label) return;
+      window.clearTimeout(button.copyFeedbackTimer);
+      label.textContent = copied ? "Copied" : "Copy failed";
+      button.classList.toggle("is-copied", copied);
+      button.copyFeedbackTimer = window.setTimeout(() => {
+        label.textContent = "Copy prompt";
+        button.classList.remove("is-copied");
+      }, 1600);
     }
 
     setInfoOpen(isOpen) {
@@ -452,6 +644,7 @@
     highlightCourse: (courseId, options) => controller.highlightCourse(courseId, options),
     setCaseProgress: (state) => controller.setCaseProgress(state),
     setCaseHubState: (state) => controller.setCaseHubState(state),
+    setCaseOneState: (state, options) => controller.setCaseOneState(state, options),
     get currentBeat() {
       return controller.manifest[controller.currentIndex];
     },
