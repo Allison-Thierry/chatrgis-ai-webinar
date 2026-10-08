@@ -1344,8 +1344,20 @@ button:focus-visible,
   line-height: 1.05;
   text-align: center;
   text-transform: uppercase;
-  transition: color 1.1s ease, letter-spacing 1.1s var(--ease-out), text-shadow 1.1s ease;
+  transition:
+    color 1.1s ease,
+    letter-spacing 1.1s var(--ease-out),
+    text-shadow 1.1s ease,
+    opacity 1.1s ease,
+    filter 1.1s ease,
+    transform 1.1s var(--ease-out);
   white-space: nowrap;
+}
+
+.case-exhibit[data-state="locked"] .case-exhibit__title {
+  opacity: 0.36;
+  filter: blur(5px);
+  transform: scale(1.025);
 }
 
 .case-exhibit__frost {
@@ -1490,6 +1502,9 @@ button:focus-visible,
 .case-exhibit[data-state="active"] .case-exhibit__title {
   color: #18384d;
   letter-spacing: 0.135em;
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
   text-shadow: 0 8px 25px rgba(70, 143, 178, 0.1);
 }
 
@@ -1519,6 +1534,9 @@ button:focus-visible,
 
 .case-exhibit[data-state="completed"] .case-exhibit__title {
   color: #4c6979;
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
 }
 
 .case-exhibit[data-state="completed"] .case-exhibit__complete {
