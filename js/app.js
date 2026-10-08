@@ -212,10 +212,16 @@
       const isFirstLaunch = leavingOpening && !this.hasStarted;
       const isCaseDive = currentSectionId === "case-hub" && targetSectionId === "case-1";
       const isHubReturn = currentSectionId === "case-1" && targetSectionId === "case-hub";
+      const isBreatherEntry = currentBeat?.id === "case-1-automation-ideas" && targetBeat?.id === "breather-1";
+      const isBreatherReturn = currentBeat?.id === "breather-1" && targetBeat?.id === "case-1-automation-ideas";
       const transitionDelay = immediate || reducedMotion.matches
         ? 0
         : isCaseDive || isHubReturn
           ? 620
+          : isBreatherEntry
+            ? 820
+            : isBreatherReturn
+              ? 620
           : isFirstLaunch
             ? 290
             : 60;
@@ -223,12 +229,16 @@
         ? 20
         : isCaseDive || isHubReturn
           ? 1600
+          : isBreatherEntry || isBreatherReturn
+            ? 1700
           : 1120;
 
       this.isTransitioning = true;
       root.classList.add("is-reacting");
       root.classList.toggle("is-diving-case", isCaseDive);
       root.classList.toggle("is-returning-hub", isHubReturn);
+      root.classList.toggle("is-entering-breather", isBreatherEntry);
+      root.classList.toggle("is-returning-case-one", isBreatherReturn);
 
       const activationTimer = window.setTimeout(() => {
         this.currentIndex = targetIndex;
@@ -246,7 +256,13 @@
       }, transitionDelay);
 
       const unlockTimer = window.setTimeout(() => {
-        root.classList.remove("is-reacting", "is-diving-case", "is-returning-hub");
+        root.classList.remove(
+          "is-reacting",
+          "is-diving-case",
+          "is-returning-hub",
+          "is-entering-breather",
+          "is-returning-case-one",
+        );
         this.isTransitioning = false;
         this.updateControls();
       }, unlockDelay);
@@ -367,6 +383,7 @@
           "is-chat-entering",
           "is-message-arriving",
           "is-ideas-entering",
+          "is-breather-entering",
           "is-settled",
         );
       });
@@ -377,7 +394,13 @@
       this.transitionTimers.forEach((timer) => window.clearTimeout(timer));
       this.transitionTimers = [];
       this.isTransitioning = false;
-      root.classList.remove("is-reacting", "is-diving-case", "is-returning-hub");
+      root.classList.remove(
+        "is-reacting",
+        "is-diving-case",
+        "is-returning-hub",
+        "is-entering-breather",
+        "is-returning-case-one",
+      );
       this.updateControls();
     }
 
