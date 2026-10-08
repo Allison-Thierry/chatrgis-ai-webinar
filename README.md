@@ -1,6 +1,6 @@
-# ChatRGIS AI Webinar — Phase 3
+# ChatRGIS AI Webinar — Phase 4
 
-A self-contained interactive webinar support designed for GitHub Pages. It currently includes the continuous visual shell, opening experience, the automatic “simple requests to broader goals” introduction, the reusable three-case teaser hub and its Case 01 reveal, Webinar Info, the WeLearn AI course drawer, case-progress foundations and presenter controls.
+A self-contained interactive webinar support designed for GitHub Pages. It currently includes the continuous visual shell, opening experience, the automatic “simple requests to broader goals” introduction, the reusable three-case teaser hub, and the complete Case 01 — Stay Ahead sequence. Case 01 includes the MINISO opportunity scene, a progressive simulated ChatRGIS conversation, a visual monitoring-schedule proposal, reusable copyable prompts, and a final gallery of automation ideas.
 
 ## Preview
 
@@ -23,6 +23,8 @@ Then open `http://localhost:4173` in Edge or Chrome.
 | Close AI courses | Close button or `Escape` |
 
 The presentation does not advance when the Webinar Info panel, course drawer or presenter controls are used.
+
+Within Case 01, the chat history is scrollable and each user message has a **Copy prompt** control. Interacting with the conversation or copying a prompt does not advance the presentation.
 
 ## GitHub Pages
 
@@ -75,6 +77,16 @@ Multiple beats can reuse one stateful scene through `sectionId`. The case hub us
 }
 ```
 
+Case 01 uses the same pattern for its scenario, conversation and final ideas gallery. `messageCount` determines how much of the preserved conversation is visible:
+
+```js
+{
+  id: "case-1-message-4",
+  sectionId: "case-1",
+  caseOneState: { scene: "conversation", messageCount: 4 },
+}
+```
+
 The reusable connected-energy motif lives in `capabilityClusterTemplate`. Add `data-component-template="capabilityClusterTemplate"` to an empty host element to clone it into another future scene.
 
 The shell exposes a small API for future scripted cues:
@@ -85,6 +97,7 @@ webinar.previous();
 webinar.home();
 webinar.setCaseProgress({ active: 2, complete: 1 });
 webinar.setCaseHubState({ active: 2, complete: 1 });
+webinar.setCaseOneState({ scene: "conversation", messageCount: 7 });
 webinar.highlightCourse("intermediate-3", { open: true, duration: 5000 });
 ```
 
