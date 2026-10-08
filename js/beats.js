@@ -59,7 +59,7 @@ window.WEBINAR_BEATS = [
     label: "Case 01 — a new MINISO opportunity",
     caseProgress: { active: 1, complete: 0 },
     caseOneState: { scene: "scenario", messageCount: 0 },
-    replayOnReturn: false,
+    replayOnReturn: true,
     timeline: {
       className: "is-scenario-entering",
       duration: 4300,
