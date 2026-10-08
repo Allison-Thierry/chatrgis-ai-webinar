@@ -9,7 +9,7 @@
       content="Interactive support for the ChatRGIS AI Webinar."
     />
     <title>ChatRGIS AI Webinar</title>
-    <link rel="stylesheet" href="styles.css?v=phase3b-20261007" />
+    <link rel="stylesheet" href="styles.css?v=phase4-20261008" />
   </head>
 
   <body>
@@ -228,18 +228,256 @@
         </section>
 
         <section
-          class="beat beat--test"
-          data-beat-id="test"
-          aria-labelledby="test-title"
+          class="beat beat--case-one"
+          data-beat-id="case-1"
+          data-case-scene="scenario"
+          aria-labelledby="case-one-title"
           aria-hidden="true"
         >
-          <div class="test-beat__line" aria-hidden="true"></div>
-          <div class="test-beat__content">
-            <p class="scene-label"><span>00</span> Transition test</p>
-            <h2 id="test-title">The room is ready.</h2>
-            <p class="test-beat__note">A temporary beat for testing the presentation flow.</p>
-            <div class="test-beat__signal" aria-hidden="true">
-              <span></span><span></span><span></span><span></span><span></span>
+          <h2 class="sr-only" id="case-one-title">Case 01 — Stay Ahead</h2>
+
+          <div class="case-one-scene case-one-scenario" data-case-one-scene="scenario">
+            <div class="scenario-composition" aria-label="A new business opportunity with MINISO in Mexico City">
+              <p class="scenario-composition__context">Mexico City · District Manager</p>
+              <p class="scenario-composition__question">A new opportunity?</p>
+
+              <div class="scenario-composition__diamond" aria-hidden="true">
+                <span class="scenario-composition__aura"></span>
+                <img src="assets/cases/case-01-stay-ahead.png" alt="" draggable="false" />
+              </div>
+
+              <div class="scenario-composition__brand glass-panel">
+                <img src="assets/brand/miniso-logo.svg" alt="MINISO" />
+              </div>
+
+              <span class="peso-token peso-token--one" aria-hidden="true">MX$</span>
+              <span class="peso-token peso-token--two" aria-hidden="true">$</span>
+              <span class="peso-token peso-token--three" aria-hidden="true">MX$</span>
+              <span class="peso-spark peso-spark--one" aria-hidden="true"></span>
+              <span class="peso-spark peso-spark--two" aria-hidden="true"></span>
+            </div>
+          </div>
+
+          <div class="case-one-scene case-one-chat" data-case-one-scene="conversation">
+            <div class="chat-window glass-panel" aria-label="Simulated ChatRGIS conversation">
+              <header class="chat-window__bar">
+                <div class="chatrgis-mark" aria-hidden="true">OI</div>
+                <div>
+                  <p class="chat-window__name">ChatRGIS</p>
+                  <p class="chat-window__context">Case 01 · Stay Ahead</p>
+                </div>
+                <span class="chat-window__status"><i aria-hidden="true"></i> Simulation</span>
+              </header>
+
+              <div class="chat-thread" id="caseOneChatThread" tabindex="0" data-no-advance>
+                <div class="chat-thread__intro" aria-hidden="true">
+                  <span></span>
+                  <p>Mexico City opportunity watch</p>
+                  <span></span>
+                </div>
+
+                <article class="case-chat-message case-chat-message--user" data-message-index="1">
+                  <div class="case-chat-message__meta">
+                    <span>You</span>
+                    <button class="copy-prompt" type="button" data-copy-prompt aria-label="Copy prompt 1">
+                      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 6.5V4.8A1.8 1.8 0 0 1 8.8 3h6.4A1.8 1.8 0 0 1 17 4.8v6.4a1.8 1.8 0 0 1-1.8 1.8h-1.7M4.8 7h6.4A1.8 1.8 0 0 1 13 8.8v6.4a1.8 1.8 0 0 1-1.8 1.8H4.8A1.8 1.8 0 0 1 3 15.2V8.8A1.8 1.8 0 0 1 4.8 7Z" /></svg>
+                      <span>Copy prompt</span>
+                    </button>
+                  </div>
+                  <div class="case-chat-message__surface">
+                    <textarea class="prompt-copy-source" hidden>I'm a District Manager covering Mexico City.
+
+We recently completed a successful inventory for a MINISO store, and I'd like to explore opportunities with other stores from the same chain.
+
+Can you find other MINISO stores in my area and give me their names and locations?</textarea>
+                    <div class="case-chat-message__typing" aria-hidden="true"></div>
+                    <div class="case-chat-message__body">
+                      <p>I'm a District Manager covering Mexico City.</p>
+                      <p>We recently completed a successful inventory for a MINISO store, and I'd like to explore opportunities with other stores from the same chain.</p>
+                      <p>Can you find other MINISO stores in my area and give me their names and locations?</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--assistant" data-message-index="2">
+                  <div class="case-chat-message__meta"><span class="assistant-label"><i aria-hidden="true">OI</i> ChatRGIS</span></div>
+                  <div class="assistant-thinking" aria-hidden="true"><span></span><span></span><span></span></div>
+                  <div class="case-chat-message__surface">
+                    <div class="case-chat-message__body">
+                      <p>Here's a list of other MINISO stores across Mexico City and greater metro area you could approach for similar inventory opportunities:</p>
+                      <p><strong>Central / South CDMX</strong></p>
+                      <ul>
+                        <li>Miniso Insurgentes Flagship — Av. Insurgentes Sur 414, Hipódromo Condesa, Cuauhtémoc</li>
+                        <li>Miniso Condesa — Av. Sonora 180, Hipódromo Condesa, Cuauhtémoc</li>
+                        <li>Miniso Torre Latinoamericana — Eje Central Lázaro Cárdenas 2, Cuauhtémoc</li>
+                      </ul>
+                      <p class="response-ellipsis">...</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--user" data-message-index="3">
+                  <div class="case-chat-message__meta">
+                    <span>You</span>
+                    <button class="copy-prompt" type="button" data-copy-prompt aria-label="Copy prompt 3">
+                      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 6.5V4.8A1.8 1.8 0 0 1 8.8 3h6.4A1.8 1.8 0 0 1 17 4.8v6.4a1.8 1.8 0 0 1-1.8 1.8h-1.7M4.8 7h6.4A1.8 1.8 0 0 1 13 8.8v6.4a1.8 1.8 0 0 1-1.8 1.8H4.8A1.8 1.8 0 0 1 3 15.2V8.8A1.8 1.8 0 0 1 4.8 7Z" /></svg>
+                      <span>Copy prompt</span>
+                    </button>
+                  </div>
+                  <div class="case-chat-message__surface">
+                    <textarea class="prompt-copy-source" hidden>Can you look for recent news about MINISO in Mexico City and the surrounding area?
+
+I'm particularly interested in new or upcoming store openings, expansions, or other developments that could represent potential business opportunities for RGIS.
+
+Please include dates and links to your sources.</textarea>
+                    <div class="case-chat-message__typing" aria-hidden="true"></div>
+                    <div class="case-chat-message__body">
+                      <p>Can you look for recent news about MINISO in Mexico City and the surrounding area?</p>
+                      <p>I'm particularly interested in new or upcoming store openings, expansions, or other developments that could represent potential business opportunities for RGIS.</p>
+                      <p>Please include dates and links to your sources.</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--assistant" data-message-index="4">
+                  <div class="case-chat-message__meta"><span class="assistant-label"><i aria-hidden="true">OI</i> ChatRGIS</span></div>
+                  <div class="assistant-thinking" aria-hidden="true"><span></span><span></span><span></span></div>
+                  <div class="case-chat-message__surface">
+                    <div class="case-chat-message__body">
+                      <p>Here's a roundup of recent MINISO news relevant to Mexico City and the broader Mexican market:</p>
+                      <p><strong>1. MINISO is rolling out large-format “Land” stores in Mexico (7 June 2026)</strong></p>
+                      <p>MINISO's founder and CEO, Ye Guofu, announced that during the second half of 2026, MINISO will introduce the “Land” store format in Mexico — units of approximately 800 m², roughly three times larger than the chain's typical Mexican stores (currently mostly under 300 m²).</p>
+                      <p>The goal is to extend customer dwell time, expand merchandise displays (especially licensed/IP products), and boost average ticket size.</p>
+                      <p class="plain-source">Source: ejecentral.com.mx</p>
+                      <p><strong>2. Mexico flagged as a top-3 global market, with mall push for “Land” and “Friends” formats (Q4 2025 earnings call)</strong></p>
+                      <p class="response-ellipsis">...</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--user" data-message-index="5">
+                  <div class="case-chat-message__meta">
+                    <span>You</span>
+                    <button class="copy-prompt" type="button" data-copy-prompt aria-label="Copy prompt 5">
+                      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 6.5V4.8A1.8 1.8 0 0 1 8.8 3h6.4A1.8 1.8 0 0 1 17 4.8v6.4a1.8 1.8 0 0 1-1.8 1.8h-1.7M4.8 7h6.4A1.8 1.8 0 0 1 13 8.8v6.4a1.8 1.8 0 0 1-1.8 1.8H4.8A1.8 1.8 0 0 1 3 15.2V8.8A1.8 1.8 0 0 1 4.8 7Z" /></svg>
+                      <span>Copy prompt</span>
+                    </button>
+                  </div>
+                  <div class="case-chat-message__surface">
+                    <textarea class="prompt-copy-source" hidden>This is really useful! I'd like to stay informed about new MINISO developments and potential business opportunities in my area, without having to remember to search for them every week.
+
+What's the best way to do that?</textarea>
+                    <div class="case-chat-message__typing" aria-hidden="true"></div>
+                    <div class="case-chat-message__body">
+                      <p>This is really useful! I'd like to stay informed about new MINISO developments and potential business opportunities in my area, without having to remember to search for them every week.</p>
+                      <p>What's the best way to do that?</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--assistant case-chat-message--automation" data-message-index="6">
+                  <div class="case-chat-message__meta"><span class="assistant-label"><i aria-hidden="true">OI</i> ChatRGIS</span></div>
+                  <div class="assistant-thinking" aria-hidden="true"><span></span><span></span><span></span></div>
+                  <div class="case-chat-message__surface">
+                    <div class="case-chat-message__body">
+                      <p>I can set up a recurring automation that searches for MINISO news and sends you a summary automatically — no need to remember.</p>
+
+                      <section class="monitoring-panel" aria-label="Simulated monitoring schedule">
+                        <div class="monitoring-panel__heading">
+                          <span class="monitoring-panel__icon" aria-hidden="true">
+                            <svg viewBox="0 0 20 20"><path d="M10 5.2v5l3.1 1.8M16.6 10A6.6 6.6 0 1 1 10 3.4 6.6 6.6 0 0 1 16.6 10Z" /></svg>
+                          </span>
+                          <div>
+                            <h3>Monitoring schedule</h3>
+                            <p>How often would you like me to check for MINISO news and send you an update?</p>
+                          </div>
+                        </div>
+                        <div class="monitoring-options">
+                          <div class="monitoring-option monitoring-option--recommended">
+                            <span class="monitoring-option__radio" aria-hidden="true"><i></i></span>
+                            <div><strong>Weekly (Monday mornings)</strong><p>A concise digest of new MINISO developments from the past week.</p></div>
+                            <span class="monitoring-option__badge">Recommended</span>
+                          </div>
+                          <div class="monitoring-option">
+                            <span class="monitoring-option__radio" aria-hidden="true"></span>
+                            <div><strong>Bi-weekly</strong><p>Every two weeks, useful if you want less frequent updates.</p></div>
+                          </div>
+                          <div class="monitoring-option">
+                            <span class="monitoring-option__radio" aria-hidden="true"></span>
+                            <div><strong>Monthly</strong><p>A broader monthly roundup, best if you only need major developments.</p></div>
+                          </div>
+                          <div class="monitoring-option">
+                            <span class="monitoring-option__radio" aria-hidden="true"></span>
+                            <div><strong>Other</strong><p>Type your answer.</p></div>
+                          </div>
+                        </div>
+                        <p class="monitoring-panel__simulation">Preview only · no automation is created</p>
+                      </section>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--user" data-message-index="7">
+                  <div class="case-chat-message__meta">
+                    <span>You</span>
+                    <button class="copy-prompt" type="button" data-copy-prompt aria-label="Copy prompt 7">
+                      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 6.5V4.8A1.8 1.8 0 0 1 8.8 3h6.4A1.8 1.8 0 0 1 17 4.8v6.4a1.8 1.8 0 0 1-1.8 1.8h-1.7M4.8 7h6.4A1.8 1.8 0 0 1 13 8.8v6.4a1.8 1.8 0 0 1-1.8 1.8H4.8A1.8 1.8 0 0 1 3 15.2V8.8A1.8 1.8 0 0 1 4.8 7Z" /></svg>
+                      <span>Copy prompt</span>
+                    </button>
+                  </div>
+                  <div class="case-chat-message__surface">
+                    <textarea class="prompt-copy-source" hidden>That's great! But now that I know you can do this, I'd actually like to go a step further.
+
+Instead of monitoring just MINISO, could you give me a weekly brief on retail developments across Mexico City and the surrounding area?
+
+I'm interested in new retailers entering the market, upcoming store openings, expansions, major changes to existing retail chains, or anything else that could represent a potential business opportunity for RGIS.
+
+Keep it concise, include links to the sources, and focus on genuinely new developments rather than repeating the same news every week.
+
+Could we set that up for every Monday morning?</textarea>
+                    <div class="case-chat-message__typing" aria-hidden="true"></div>
+                    <div class="case-chat-message__body">
+                      <p>That's great! But now that I know you can do this, I'd actually like to go a step further.</p>
+                      <p>Instead of monitoring just MINISO, could you give me a weekly brief on retail developments across Mexico City and the surrounding area?</p>
+                      <p>I'm interested in new retailers entering the market, upcoming store openings, expansions, major changes to existing retail chains, or anything else that could represent a potential business opportunity for RGIS.</p>
+                      <p>Keep it concise, include links to the sources, and focus on genuinely new developments rather than repeating the same news every week.</p>
+                      <p>Could we set that up for every Monday morning?</p>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+
+          <div class="case-one-scene case-one-ideas" data-case-one-scene="ideas">
+            <div class="automation-ideas" aria-label="Four automation ideas for RGIS roles">
+              <div class="automation-ideas__anchor" aria-hidden="true">
+                <span class="automation-ideas__aura"></span>
+                <img src="assets/cases/case-01-stay-ahead.png" alt="" draggable="false" />
+                <span class="automation-ideas__orbit"></span>
+              </div>
+
+              <article class="automation-idea automation-idea--sales">
+                <span class="automation-idea__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7M4.5 7.5h15A1.5 1.5 0 0 1 21 9v8.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a1.5 1.5 0 0 1 1.5-1.5ZM3.5 12h17M10 12v1h4v-1" /></svg></span>
+                <div><p>Sales / Key Account Managers</p><h3>Customer Watch</h3><span>Keep an eye on developments affecting an existing customer.</span></div>
+              </article>
+
+              <article class="automation-idea automation-idea--hr">
+                <span class="automation-idea__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8.5 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7-1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM3 19a5.5 5.5 0 0 1 11 0m-.5-6a5 5 0 0 1 7.5 4.3" /></svg></span>
+                <div><p>HR</p><h3>Employment &amp; Labour Updates</h3><span>Stay informed about regulatory changes without checking official websites manually.</span></div>
+              </article>
+
+              <article class="automation-idea automation-idea--learning">
+                <span class="automation-idea__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m2.5 9.5 9.5-5 9.5 5-9.5 5-9.5-5Zm3 2.2v5.1c3.9 2.6 9.1 2.6 13 0v-5.1M21.5 10v6" /></svg></span>
+                <div><p>Training / L&amp;D</p><h3>Learning Innovation Watch</h3><span>Discover useful developments in workplace learning and digital training.</span></div>
+              </article>
+
+              <article class="automation-idea automation-idea--events">
+                <span class="automation-idea__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 13V9l12-4v12L4 13Zm12-5.5c2.7.7 4.2 2.2 4.2 3.5S18.7 13.8 16 14.5M6.5 13.5l1.2 5h3.8l-1.3-6" /></svg></span>
+                <div><p>Recruitment / Marketing</p><h3>Local Events Watch</h3><span>Find opportunities to connect with potential candidates.</span></div>
+              </article>
+
+              <p class="automation-ideas__caption"><span>Case 01</span> Stay ahead · one useful signal at a time</p>
             </div>
           </div>
         </section>
@@ -427,7 +665,7 @@
             <path d="m12 5-5 5 5 5" />
           </svg>
         </button>
-        <span class="presenter-controls__count" aria-live="polite"><span id="currentBeatNumber">1</span>/<span id="totalBeatNumber">5</span></span>
+        <span class="presenter-controls__count" aria-live="polite"><span id="currentBeatNumber">1</span>/<span id="totalBeatNumber">13</span></span>
         <button type="button" data-action="next" aria-label="Next beat" title="Next (Right arrow or Space)">
           <svg viewBox="0 0 20 20" aria-hidden="true">
             <path d="m8 5 5 5-5 5" />
@@ -438,7 +676,7 @@
       <p class="sr-only" id="beatAnnouncement" aria-live="polite">Opening screen</p>
     </div>
 
-    <script src="js/beats.js?v=phase3-20261007"></script>
-    <script src="js/app.js?v=phase3-20261007"></script>
+    <script src="js/beats.js?v=phase4-20261008"></script>
+    <script src="js/app.js?v=phase4-20261008"></script>
   </body>
 </html>
