@@ -62,7 +62,7 @@ window.WEBINAR_BEATS = [
     replayOnReturn: false,
     timeline: {
       className: "is-scenario-entering",
-      duration: 2500,
+      duration: 4300,
       reducedDuration: 120,
     },
   },
