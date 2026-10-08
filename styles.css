@@ -1810,11 +1810,11 @@ button:focus-visible,
   animation: moneyEmojiArrive 620ms var(--ease-out) forwards, moneyEmojiFloat 4.8s ease-in-out infinite 3s;
 }
 
-.beat--case-one.is-scenario-entering .money-emoji--one { animation-delay: 1.35s, 2.65s; }
-.beat--case-one.is-scenario-entering .money-emoji--two { animation-delay: 1.47s, 2.8s; }
-.beat--case-one.is-scenario-entering .money-emoji--three { animation-delay: 1.59s, 2.95s; }
-.beat--case-one.is-scenario-entering .money-emoji--four { animation-delay: 1.71s, 3.1s; }
-.beat--case-one.is-scenario-entering .money-emoji--five { animation-delay: 1.83s, 3.25s; }
+.beat--case-one.is-scenario-entering .money-emoji--one { animation-delay: 3s, 3.62s; }
+.beat--case-one.is-scenario-entering .money-emoji--two { animation-delay: 3.14s, 3.76s; }
+.beat--case-one.is-scenario-entering .money-emoji--three { animation-delay: 3.28s, 3.9s; }
+.beat--case-one.is-scenario-entering .money-emoji--four { animation-delay: 3.42s, 4.04s; }
+.beat--case-one.is-scenario-entering .money-emoji--five { animation-delay: 3.56s, 4.18s; }
 
 .beat--case-one.is-scenario-entering .peso-spark,
 .beat--case-one.is-settled[data-case-scene="scenario"] .peso-spark {
