@@ -9,7 +9,7 @@
       content="Interactive support for the ChatRGIS AI Webinar."
     />
     <title>ChatRGIS AI Webinar</title>
-    <link rel="stylesheet" href="styles.css?v=phase5a-20261008" />
+    <link rel="stylesheet" href="styles.css?v=phase6a-20261009" />
   </head>
 
   <body>
@@ -521,7 +521,334 @@ Could we set that up for every Monday morning?</textarea>
             </p>
           </div>
         </section>
+
+        <section
+          class="beat beat--case-two"
+          data-beat-id="case-2"
+          data-case-scene="scenario"
+          aria-labelledby="case-two-title"
+          aria-hidden="true"
+        >
+          <h2 class="sr-only" id="case-two-title">Case 02 — Find the Story</h2>
+
+          <div class="case-two-scene case-two-scenario" data-case-two-scene="scenario">
+            <div class="data-scenario" aria-label="An RGIS RTS starting a conversation with an auditor performance report">
+              <div class="data-scenario__ring" aria-hidden="true">
+                <span class="data-scenario__aura"></span>
+                <img src="assets/cases/case-02-find-the-story.png" alt="" draggable="false" />
+              </div>
+
+              <div class="data-report glass-panel">
+                <div class="data-report__bar">
+                  <span class="data-report__file" aria-hidden="true">X</span>
+                  <div><strong>PT A List.xlsx</strong><span>Auditor performance · Last week</span></div>
+                  <span class="data-report__dots" aria-hidden="true">•••</span>
+                </div>
+                <img
+                  src="assets/case-02/tableau-auditor-performance.png"
+                  alt="Tableau export showing last week's auditor performance"
+                />
+              </div>
+
+              <span class="data-chat-emoji data-chat-emoji--one" aria-hidden="true">💬</span>
+              <span class="data-chat-emoji data-chat-emoji--two" aria-hidden="true">💬</span>
+              <span class="data-chat-emoji data-chat-emoji--three" aria-hidden="true">💬</span>
+              <span class="data-chat-emoji data-chat-emoji--four" aria-hidden="true">💬</span>
+              <p class="data-scenario__context">RGIS RTS · Last week’s performance</p>
+            </div>
+          </div>
+
+          <div class="case-two-scene case-two-chat" data-case-two-scene="conversation">
+            <div class="chat-window chat-window--case-two glass-panel" aria-label="Simulated ChatRGIS data conversation">
+              <header class="chat-window__bar">
+                <div class="chatrgis-mark" aria-hidden="true">OI</div>
+                <div>
+                  <p class="chat-window__name">ChatRGIS</p>
+                  <p class="chat-window__context">Case 02 · Find the Story</p>
+                </div>
+                <span class="chat-window__status"><i aria-hidden="true"></i> Simulation</span>
+              </header>
+
+              <div class="chat-thread" id="caseTwoChatThread" tabindex="0" data-no-advance>
+                <div class="chat-thread__intro" aria-hidden="true">
+                  <span></span><p>PT A List.xlsx · Data conversation</p><span></span>
+                </div>
+
+                <article class="case-chat-message case-chat-message--user" data-message-index="1">
+                  <div class="case-chat-message__meta">
+                    <span>You</span>
+                    <button class="copy-prompt" type="button" data-copy-prompt aria-label="Copy prompt 1">
+                      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 6.5V4.8A1.8 1.8 0 0 1 8.8 3h6.4A1.8 1.8 0 0 1 17 4.8v6.4a1.8 1.8 0 0 1-1.8 1.8h-1.7M4.8 7h6.4A1.8 1.8 0 0 1 13 8.8v6.4a1.8 1.8 0 0 1-1.8 1.8H4.8A1.8 1.8 0 0 1 3 15.2V8.8A1.8 1.8 0 0 1 4.8 7Z" /></svg>
+                      <span>Copy prompt</span>
+                    </button>
+                  </div>
+                  <div class="case-chat-message__surface">
+                    <textarea class="prompt-copy-source" hidden>I'm an RTS at RGIS, and I've attached a Tableau export showing my auditors' performance from last week.
+
+What was the average TTFS across my teams last week?</textarea>
+                    <div class="chat-attachment" aria-label="Attached file PT A List.xlsx">
+                      <span class="chat-attachment__icon" aria-hidden="true">X</span>
+                      <span><strong>PT A List.xlsx</strong><small>Excel spreadsheet · attached</small></span>
+                    </div>
+                    <div class="case-chat-message__typing" aria-hidden="true"></div>
+                    <div class="case-chat-message__body">
+                      <p>I'm an RTS at RGIS, and I've attached a Tableau export showing my auditors' performance from last week.</p>
+                      <p>What was the average TTFS across my teams last week?</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--assistant" data-message-index="2">
+                  <div class="case-chat-message__meta"><span class="assistant-label"><i aria-hidden="true">OI</i> ChatRGIS</span></div>
+                  <div class="assistant-thinking" aria-hidden="true"><span></span><span></span><span></span></div>
+                  <div class="case-chat-message__surface">
+                    <div class="case-chat-message__body">
+                      <p>Based on your attached Tableau export (PT A List.xlsx), across all 96 auditors listed for last week, the average TTFS (Min) was <strong class="data-highlight">25.27 minutes</strong>.</p>
+                      <p><strong>A few notes on the data:</strong></p>
+                      <p>A handful of outliers are pulling the average up — a few auditors show TTFS values around 130–142 minutes, versus the typical 3.5–12 minute range for most.</p>
+                      <p>If you want, I can recompute the average excluding those outliers, or break it down by ASET rank, Score Color, or another column.</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--user" data-message-index="3">
+                  <div class="case-chat-message__meta">
+                    <span>You</span>
+                    <button class="copy-prompt" type="button" data-copy-prompt aria-label="Copy prompt 3">
+                      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 6.5V4.8A1.8 1.8 0 0 1 8.8 3h6.4A1.8 1.8 0 0 1 17 4.8v6.4a1.8 1.8 0 0 1-1.8 1.8h-1.7M4.8 7h6.4A1.8 1.8 0 0 1 13 8.8v6.4a1.8 1.8 0 0 1-1.8 1.8H4.8A1.8 1.8 0 0 1 3 15.2V8.8A1.8 1.8 0 0 1 4.8 7Z" /></svg>
+                      <span>Copy prompt</span>
+                    </button>
+                  </div>
+                  <div class="case-chat-message__surface">
+                    <textarea class="prompt-copy-source" hidden>Good point! Let's exclude those outliers and recalculate the average TTFS.
+
+Can you explain which values you're excluding and why, and show me how much the average changes?</textarea>
+                    <div class="case-chat-message__typing" aria-hidden="true"></div>
+                    <div class="case-chat-message__body">
+                      <p>Good point! Let's exclude those outliers and recalculate the average TTFS.</p>
+                      <p>Can you explain which values you're excluding and why, and show me how much the average changes?</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--assistant case-chat-message--calculation" data-message-index="4">
+                  <div class="case-chat-message__meta"><span class="assistant-label"><i aria-hidden="true">OI</i> ChatRGIS</span></div>
+                  <div class="assistant-thinking" aria-hidden="true"><span></span><span></span><span></span></div>
+                  <div class="case-chat-message__surface">
+                    <div class="case-chat-message__body">
+                      <p>Using the standard IQR method (values above Q3 + 1.5×IQR) on the TTFS Min column, here's what's flagged as an outlier and the recalculated average:</p>
+                      <p><strong>Why these were flagged:</strong></p>
+                      <p>Q1 = 5.5 min and Q3 = 10.33 min.</p>
+                      <p>IQR = 4.83 min.</p>
+                      <p>Values above approximately <strong>17.56 minutes</strong> are statistical outliers.</p>
+                      <p><strong>14 auditors excluded</strong>, including:</p>
+                      <ul>
+                        <li>Auditor 63 — 169.7 min</li>
+                        <li>Auditor 23 — 167.6 min</li>
+                        <li>Auditor 31 — 163.9 min</li>
+                        <li>…</li>
+                      </ul>
+                      <p><strong>Result:</strong></p>
+                      <div class="metric-comparison" aria-label="TTFS average comparison">
+                        <div><span>All 96 auditors</span><strong>25.27 min</strong></div>
+                        <span class="metric-comparison__arrow" aria-hidden="true">→</span>
+                        <div><span>82 remaining</span><strong>7.12 min</strong></div>
+                        <p>Difference <strong>−18.15 minutes (−71.8%)</strong></p>
+                      </div>
+                      <p>These 14 cases are worth investigating separately rather than being folded into a single team average.</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--user" data-message-index="5">
+                  <div class="case-chat-message__meta">
+                    <span>You</span>
+                    <button class="copy-prompt" type="button" data-copy-prompt aria-label="Copy prompt 5">
+                      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 6.5V4.8A1.8 1.8 0 0 1 8.8 3h6.4A1.8 1.8 0 0 1 17 4.8v6.4a1.8 1.8 0 0 1-1.8 1.8h-1.7M4.8 7h6.4A1.8 1.8 0 0 1 13 8.8v6.4a1.8 1.8 0 0 1-1.8 1.8H4.8A1.8 1.8 0 0 1 3 15.2V8.8A1.8 1.8 0 0 1 4.8 7Z" /></svg>
+                      <span>Copy prompt</span>
+                    </button>
+                  </div>
+                  <div class="case-chat-message__surface">
+                    <textarea class="prompt-copy-source" hidden>That's interesting. Now I'd like to take a step back from TTFS.
+
+Looking at the entire report, is there anything else that stands out to you?
+
+Think like an RTS reviewing last week's auditor performance. What trends, unusual results, or potential areas for improvement do you notice?
+
+Focus on the findings that would actually be useful for me, and explain why they're worth my attention.</textarea>
+                    <div class="case-chat-message__typing" aria-hidden="true"></div>
+                    <div class="case-chat-message__body">
+                      <p>That's interesting. Now I'd like to take a step back from TTFS.</p>
+                      <p>Looking at the entire report, is there anything else that stands out to you?</p>
+                      <p>Think like an RTS reviewing last week's auditor performance. What trends, unusual results, or potential areas for improvement do you notice?</p>
+                      <p>Focus on the findings that would actually be useful for me, and explain why they're worth my attention.</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--assistant case-chat-message--findings" data-message-index="6">
+                  <div class="case-chat-message__meta"><span class="assistant-label"><i aria-hidden="true">OI</i> ChatRGIS</span></div>
+                  <div class="assistant-thinking" aria-hidden="true"><span></span><span></span><span></span></div>
+                  <div class="case-chat-message__surface">
+                    <div class="case-chat-message__body findings-response">
+                      <section><span>01</span><div><strong>Red and Amber dominate</strong><p>37 Red and 39 Amber auditors out of 96. Approximately <strong>79%</strong> of the roster is in these two bands.</p></div></section>
+                      <section><span>02</span><div><strong>Downtime and performance</strong><p>Average adjusted downtime by Score Color:</p><ul><li>Black: 12.8%</li><li>Green: 22.7%</li><li>Amber: 26.6%</li><li>Red: 26.6%</li></ul><p>Several very low-scoring auditors also show exceptionally high downtime. This is an observed relationship, not a proven cause.</p></div></section>
+                      <section><span>03</span><div><strong>New-hire groups</strong><p>NH1 and NH2 account for 50 of the 96 auditors.</p><ul><li>NH1: average Score Per 58.4; 7 of 8 Red.</li><li>NH2: average Score Per 70.5; 24 of 42 Red.</li></ul><p>These groups may warrant closer investigation and support.</p></div></section>
+                      <section><span>04</span><div><strong>Limited event exposure</strong><p>11 auditors worked only one event during the week. Their scores may need additional context before performance conclusions are drawn.</p></div></section>
+                      <section><span>05</span><div><strong>Potential data-quality issue</strong><p>Auditor 96 has a negative TALS value of <strong>−5.0 minutes</strong>. This should be checked in the source system before drawing conclusions.</p></div></section>
+                      <p class="findings-response__focus"><strong>Where I'd focus first:</strong> Review Red-band new hires with high downtime, investigate the unusual data for Auditor 96, and look separately at auditors with only one event.</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--user" data-message-index="7">
+                  <div class="case-chat-message__meta">
+                    <span>You</span>
+                    <button class="copy-prompt" type="button" data-copy-prompt aria-label="Copy prompt 7">
+                      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 6.5V4.8A1.8 1.8 0 0 1 8.8 3h6.4A1.8 1.8 0 0 1 17 4.8v6.4a1.8 1.8 0 0 1-1.8 1.8h-1.7M4.8 7h6.4A1.8 1.8 0 0 1 13 8.8v6.4a1.8 1.8 0 0 1-1.8 1.8H4.8A1.8 1.8 0 0 1 3 15.2V8.8A1.8 1.8 0 0 1 4.8 7Z" /></svg>
+                      <span>Copy prompt</span>
+                    </button>
+                  </div>
+                  <div class="case-chat-message__surface">
+                    <textarea class="prompt-copy-source" hidden>These are some interesting findings!
+
+Could you create a few charts to help me visualise the most important points you've identified?
+
+Choose the charts you think would be most useful for an RTS reviewing last week's performance. Keep them clear and easy to understand.</textarea>
+                    <div class="case-chat-message__typing" aria-hidden="true"></div>
+                    <div class="case-chat-message__body">
+                      <p>These are some interesting findings!</p>
+                      <p>Could you create a few charts to help me visualise the most important points you've identified?</p>
+                      <p>Choose the charts you think would be most useful for an RTS reviewing last week's performance. Keep them clear and easy to understand.</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--assistant case-chat-message--chart" data-message-index="8">
+                  <div class="case-chat-message__meta"><span class="assistant-label"><i aria-hidden="true">OI</i> ChatRGIS</span></div>
+                  <div class="assistant-thinking" aria-hidden="true"><span></span><span></span><span></span></div>
+                  <div class="case-chat-message__surface">
+                    <button class="chart-response" type="button" data-chart-expand="assets/case-02/simple-graphs.png" data-chart-alt="Basic auditor performance charts generated by ChatRGIS" aria-label="Open basic charts in a larger view">
+                      <img src="assets/case-02/simple-graphs.png" alt="Basic auditor performance charts generated by ChatRGIS" />
+                      <span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 3.5h-4v4M12.5 3.5h4v4M7.5 16.5h-4v-4M12.5 16.5h4v-4" /></svg> View larger</span>
+                    </button>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--user case-chat-message--mega" data-message-index="9">
+                  <div class="case-chat-message__meta">
+                    <span>You</span>
+                    <button class="copy-prompt" type="button" data-copy-prompt aria-label="Copy the complete mega prompt">
+                      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 6.5V4.8A1.8 1.8 0 0 1 8.8 3h6.4A1.8 1.8 0 0 1 17 4.8v6.4a1.8 1.8 0 0 1-1.8 1.8h-1.7M4.8 7h6.4A1.8 1.8 0 0 1 13 8.8v6.4a1.8 1.8 0 0 1-1.8 1.8H4.8A1.8 1.8 0 0 1 3 15.2V8.8A1.8 1.8 0 0 1 4.8 7Z" /></svg>
+                      <span>Copy prompt</span>
+                    </button>
+                  </div>
+                  <div class="case-chat-message__surface mega-prompt">
+                    <textarea class="prompt-copy-source" hidden>Let's take these visualisations to the next level.
+
+I'd like you to create a polished, professional set of charts based on the auditor performance data I've uploaded, suitable for presenting to RGIS management.
+
+This time, I want something much more sophisticated than basic charts.
+
+Visual design
+
+- Use an RGIS-inspired colour palette: deep navy, blue, cyan, and clean neutral tones.
+- Give all charts a consistent, premium business-intelligence aesthetic.
+- Use clear typography, strong visual hierarchy, thoughtful spacing, and well-positioned labels.
+- Make the charts visually engaging while keeping them professional and easy to read.
+
+What to visualise
+
+Choose the most meaningful findings from our analysis, including:
+
+- The distribution of auditors across Score Color bands.
+- Performance differences across ASET ranks.
+- The relationship between adjusted downtime and performance score.
+- TTFS distribution, highlighting the impact of statistical outliers.
+- Any other particularly useful finding supported by the data.
+
+Choose the best chart type for each finding rather than using the same format repeatedly.
+
+Presentation quality
+
+- Give every chart a meaningful, insight-driven title rather than just naming the variables.
+- Include exact values and useful annotations where appropriate.
+- Highlight the most important observations visually.
+- Make the charts readable on a large screen during a management presentation.
+- Create a cohesive visual style across the entire set.
+- Include a short, clear takeaway for each chart.
+
+Accuracy
+
+- Use only the actual data from my uploaded file.
+- Check calculations and ensure percentages use the correct denominators.
+- Clearly distinguish statistical observations from possible explanations.
+- Do not invent benchmarks, targets, or historical comparisons.
+- Do not remove outliers without clearly indicating it.
+
+Output
+
+Generate the actual charts as high-quality visualisations that I can view and use in a presentation.
+
+Where supported, provide them as downloadable PNG or SVG images.
+
+Do not create an HTML page, website, interactive dashboard, or application. I only want a beautifully designed collection of charts.
+
+Aim for something that looks like it was prepared by a professional data visualisation specialist for an RGIS management review.</textarea>
+                    <button class="mega-prompt__toggle" type="button" data-mega-toggle aria-expanded="false">
+                      <span class="mega-prompt__spark" aria-hidden="true">✦</span>
+                      <strong>MEGA PROMPT</strong>
+                      <span class="mega-prompt__hint">View the full brief</span>
+                      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4" /></svg>
+                    </button>
+                    <div class="mega-prompt__content" data-no-advance>
+                      <p>Let's take these visualisations to the next level.</p>
+                      <p>I'd like you to create a polished, professional set of charts based on the auditor performance data I've uploaded, suitable for presenting to RGIS management.</p>
+                      <p>This time, I want something much more sophisticated than basic charts.</p>
+                      <h3>Visual design</h3>
+                      <ul><li>Use an RGIS-inspired colour palette: deep navy, blue, cyan, and clean neutral tones.</li><li>Give all charts a consistent, premium business-intelligence aesthetic.</li><li>Use clear typography, strong visual hierarchy, thoughtful spacing, and well-positioned labels.</li><li>Make the charts visually engaging while keeping them professional and easy to read.</li></ul>
+                      <h3>What to visualise</h3>
+                      <p>Choose the most meaningful findings from our analysis, including:</p>
+                      <ul><li>The distribution of auditors across Score Color bands.</li><li>Performance differences across ASET ranks.</li><li>The relationship between adjusted downtime and performance score.</li><li>TTFS distribution, highlighting the impact of statistical outliers.</li><li>Any other particularly useful finding supported by the data.</li></ul>
+                      <p>Choose the best chart type for each finding rather than using the same format repeatedly.</p>
+                      <h3>Presentation quality</h3>
+                      <ul><li>Give every chart a meaningful, insight-driven title rather than just naming the variables.</li><li>Include exact values and useful annotations where appropriate.</li><li>Highlight the most important observations visually.</li><li>Make the charts readable on a large screen during a management presentation.</li><li>Create a cohesive visual style across the entire set.</li><li>Include a short, clear takeaway for each chart.</li></ul>
+                      <h3>Accuracy</h3>
+                      <ul><li>Use only the actual data from my uploaded file.</li><li>Check calculations and ensure percentages use the correct denominators.</li><li>Clearly distinguish statistical observations from possible explanations.</li><li>Do not invent benchmarks, targets, or historical comparisons.</li><li>Do not remove outliers without clearly indicating it.</li></ul>
+                      <h3>Output</h3>
+                      <p>Generate the actual charts as high-quality visualisations that I can view and use in a presentation.</p>
+                      <p>Where supported, provide them as downloadable PNG or SVG images.</p>
+                      <p><strong>Do not create an HTML page, website, interactive dashboard, or application.</strong> I only want a beautifully designed collection of charts.</p>
+                      <p>Aim for something that looks like it was prepared by a professional data visualisation specialist for an RGIS management review.</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--assistant case-chat-message--chart" data-message-index="10">
+                  <div class="case-chat-message__meta"><span class="assistant-label"><i aria-hidden="true">OI</i> ChatRGIS</span></div>
+                  <div class="assistant-thinking" aria-hidden="true"><span></span><span></span><span></span></div>
+                  <div class="case-chat-message__surface">
+                    <button class="chart-response chart-response--polished" type="button" data-chart-expand="assets/case-02/complex-graphs.png" data-chart-alt="Polished RGIS management charts generated after the mega prompt" aria-label="Open improved charts in a larger view">
+                      <img src="assets/case-02/complex-graphs.png" alt="Polished RGIS management charts generated after the mega prompt" />
+                      <span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 3.5h-4v4M12.5 3.5h4v4M7.5 16.5h-4v-4M12.5 16.5h4v-4" /></svg> View larger</span>
+                    </button>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
+
+      <div class="chart-lightbox" id="chartLightbox" aria-hidden="true" data-no-advance>
+        <button class="chart-lightbox__scrim" type="button" data-chart-close aria-label="Close chart view"></button>
+        <figure class="chart-lightbox__frame glass-panel" role="dialog" aria-modal="true" aria-label="Expanded chart image">
+          <button class="chart-lightbox__close" type="button" data-chart-close aria-label="Close chart view">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
+          </button>
+          <img id="chartLightboxImage" src="" alt="" />
+        </figure>
+      </div>
 
       <template id="capabilityClusterTemplate">
         <div class="capability-cluster">
@@ -705,7 +1032,7 @@ Could we set that up for every Monday morning?</textarea>
             <path d="m12 5-5 5 5 5" />
           </svg>
         </button>
-        <span class="presenter-controls__count" aria-live="polite"><span id="currentBeatNumber">1</span>/<span id="totalBeatNumber">13</span></span>
+        <span class="presenter-controls__count" aria-live="polite"><span id="currentBeatNumber">1</span>/<span id="totalBeatNumber">26</span></span>
         <button type="button" data-action="next" aria-label="Next beat" title="Next (Right arrow or Space)">
           <svg viewBox="0 0 20 20" aria-hidden="true">
             <path d="m8 5 5 5-5 5" />
@@ -716,7 +1043,7 @@ Could we set that up for every Monday morning?</textarea>
       <p class="sr-only" id="beatAnnouncement" aria-live="polite">Opening screen</p>
     </div>
 
-    <script src="js/beats.js?v=phase5a-20261008"></script>
-    <script src="js/app.js?v=phase5a-20261008"></script>
+    <script src="js/beats.js?v=phase6a-20261009"></script>
+    <script src="js/app.js?v=phase6a-20261009"></script>
   </body>
 </html>

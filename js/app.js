@@ -12,6 +12,9 @@
   const drawerClose = document.getElementById("courseDrawerClose");
   const drawerScrim = document.getElementById("drawerScrim");
   const caseOneThread = document.getElementById("caseOneChatThread");
+  const caseTwoThread = document.getElementById("caseTwoChatThread");
+  const chartLightbox = document.getElementById("chartLightbox");
+  const chartLightboxImage = document.getElementById("chartLightboxImage");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   if (!root || !stage) return;
@@ -95,6 +98,12 @@
             "[data-no-advance], a, button:not([data-advances-beat]), input, select, textarea, [contenteditable='true']",
           );
 
+        if (event.key === "Escape" && chartLightbox?.classList.contains("is-open")) {
+          event.preventDefault();
+          this.closeChartLightbox();
+          return;
+        }
+
         if (event.key === "Escape" && root.classList.contains("is-drawer-open")) {
           event.preventDefault();
           this.closeDrawer();
@@ -172,6 +181,30 @@
           this.copyPrompt(button);
         });
       });
+
+      document.querySelectorAll("[data-mega-toggle]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          this.toggleMegaPrompt(button);
+        });
+      });
+
+      document.querySelectorAll("[data-chart-expand]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          this.openChartLightbox(button);
+        });
+      });
+
+      document.querySelectorAll("[data-chart-close]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          this.closeChartLightbox();
+        });
+      });
     }
 
     next() {
@@ -210,14 +243,18 @@
       const targetSectionId = targetBeat?.sectionId ?? targetBeat?.id;
       const leavingOpening = this.currentIndex === 0 && targetIndex > 0;
       const isFirstLaunch = leavingOpening && !this.hasStarted;
-      const isCaseDive = currentSectionId === "case-hub" && targetSectionId === "case-1";
-      const isHubReturn = currentSectionId === "case-1" && targetSectionId === "case-hub";
+      const isCaseDive = currentSectionId === "case-hub" && ["case-1", "case-2"].includes(targetSectionId);
+      const isHubReturn = ["case-1", "case-2"].includes(currentSectionId) && targetSectionId === "case-hub";
       const isBreatherEntry = currentBeat?.id === "case-1-automation-ideas" && targetBeat?.id === "breather-1";
       const isBreatherReturn = currentBeat?.id === "breather-1" && targetBeat?.id === "case-1-automation-ideas";
+      const isBreatherHubReturn = currentBeat?.id === "breather-1" && targetBeat?.id === "case-hub-case-2";
+      const isHubBreatherReturn = currentBeat?.id === "case-hub-case-2" && targetBeat?.id === "breather-1";
       const transitionDelay = immediate || reducedMotion.matches
         ? 0
         : isCaseDive || isHubReturn
           ? 620
+          : isBreatherHubReturn || isHubBreatherReturn
+            ? 720
           : isBreatherEntry
             ? 820
             : isBreatherReturn
@@ -227,7 +264,7 @@
             : 60;
       const unlockDelay = immediate || reducedMotion.matches
         ? 20
-        : isCaseDive || isHubReturn
+        : isCaseDive || isHubReturn || isBreatherHubReturn || isHubBreatherReturn
           ? 1600
           : isBreatherEntry || isBreatherReturn
             ? 1700
@@ -239,6 +276,8 @@
       root.classList.toggle("is-returning-hub", isHubReturn);
       root.classList.toggle("is-entering-breather", isBreatherEntry);
       root.classList.toggle("is-returning-case-one", isBreatherReturn);
+      root.classList.toggle("is-breather-to-hub", isBreatherHubReturn);
+      root.classList.toggle("is-hub-to-breather", isHubBreatherReturn);
 
       const activationTimer = window.setTimeout(() => {
         this.currentIndex = targetIndex;
@@ -262,6 +301,8 @@
           "is-returning-hub",
           "is-entering-breather",
           "is-returning-case-one",
+          "is-breather-to-hub",
+          "is-hub-to-breather",
         );
         this.isTransitioning = false;
         this.updateControls();
@@ -292,6 +333,11 @@
       if (current.hubState) this.setCaseHubState(current.hubState);
       if (current.caseOneState) {
         this.setCaseOneState(current.caseOneState, {
+          animate: !immediate && direction === "forward" && !hasVisited,
+        });
+      }
+      if (current.caseTwoState) {
+        this.setCaseTwoState(current.caseTwoState, {
           animate: !immediate && direction === "forward" && !hasVisited,
         });
       }
@@ -384,6 +430,8 @@
           "is-message-arriving",
           "is-ideas-entering",
           "is-breather-entering",
+          "is-case-two-scenario-entering",
+          "is-case-two-chat-entering",
           "is-settled",
         );
       });
@@ -400,12 +448,32 @@
         "is-returning-hub",
         "is-entering-breather",
         "is-returning-case-one",
+        "is-breather-to-hub",
+        "is-hub-to-breather",
       );
       this.updateControls();
     }
 
     setCaseOneState({ scene = "scenario", messageCount = 0 } = {}, { animate = false } = {}) {
-      const section = this.sections.get("case-1");
+      return this.setConversationState(
+        "case-1",
+        caseOneThread,
+        { scene, messageCount },
+        { animate, eventName: "webinar:case-one-change" },
+      );
+    }
+
+    setCaseTwoState({ scene = "scenario", messageCount = 0 } = {}, { animate = false } = {}) {
+      return this.setConversationState(
+        "case-2",
+        caseTwoThread,
+        { scene, messageCount },
+        { animate, eventName: "webinar:case-two-change" },
+      );
+    }
+
+    setConversationState(sectionId, thread, { scene = "scenario", messageCount = 0 } = {}, { animate = false, eventName = "webinar:conversation-change" } = {}) {
+      const section = this.sections.get(sectionId);
       if (!section) return false;
 
       if (this.typingFrame) window.cancelAnimationFrame(this.typingFrame);
@@ -419,6 +487,7 @@
         const visible = scene === "conversation" && index <= messageCount;
         const current = visible && index === messageCount;
         const isUser = message.classList.contains("case-chat-message--user");
+        const isMega = message.classList.contains("case-chat-message--mega");
         message.dataset.visible = String(visible);
         message.classList.toggle("is-current", current);
         message.classList.remove("is-typing", "is-complete");
@@ -428,24 +497,33 @@
 
         if (visible && (!current || !animate)) {
           message.classList.add("is-complete");
-        } else if (visible && current && isUser) {
-          this.typeUserMessage(message);
+        } else if (visible && current && isUser && !isMega) {
+          this.typeUserMessage(message, thread);
+        } else if (visible) {
+          message.classList.add("is-complete");
         }
       });
 
+      if (messageCount < 9) {
+        section.querySelectorAll(".case-chat-message--mega.is-expanded").forEach((message) => {
+          message.classList.remove("is-expanded");
+          message.querySelector("[data-mega-toggle]")?.setAttribute("aria-expanded", "false");
+        });
+      }
+
       if (scene === "conversation" && messageCount > 0) {
-        window.requestAnimationFrame(() => this.scrollToMessage(messageCount, { smooth: animate }));
+        window.requestAnimationFrame(() => this.scrollToMessage(messageCount, { smooth: animate, thread }));
       }
 
       root.dispatchEvent(
-        new CustomEvent("webinar:case-one-change", {
+        new CustomEvent(eventName, {
           detail: { scene, messageCount, animate },
         }),
       );
       return true;
     }
 
-    typeUserMessage(message) {
+    typeUserMessage(message, thread = caseOneThread) {
       const source = message.querySelector(".prompt-copy-source");
       const output = message.querySelector(".case-chat-message__typing");
       if (!(source instanceof HTMLTextAreaElement) || !output) {
@@ -465,8 +543,8 @@
         const length = Math.max(1, Math.round(text.length * eased));
         output.textContent = text.slice(0, length);
 
-        if (now - lastScrollAt > 90 && caseOneThread) {
-          caseOneThread.scrollTop = caseOneThread.scrollHeight;
+        if (now - lastScrollAt > 90 && thread) {
+          thread.scrollTop = thread.scrollHeight;
           lastScrollAt = now;
         }
 
@@ -478,18 +556,18 @@
         this.typingFrame = null;
         message.classList.remove("is-typing");
         message.classList.add("is-complete");
-        window.requestAnimationFrame(() => this.scrollToMessage(Number(message.dataset.messageIndex)));
+        window.requestAnimationFrame(() => this.scrollToMessage(Number(message.dataset.messageIndex), { thread }));
       };
 
       this.typingFrame = window.requestAnimationFrame(tick);
     }
 
-    scrollToMessage(messageIndex, { smooth = true } = {}) {
-      if (!caseOneThread) return;
-      const message = caseOneThread.querySelector(`[data-message-index="${messageIndex}"]`);
+    scrollToMessage(messageIndex, { smooth = true, thread = caseOneThread } = {}) {
+      if (!thread) return;
+      const message = thread.querySelector(`[data-message-index="${messageIndex}"]`);
       if (!message) return;
       const top = Math.max(0, message.offsetTop - 24);
-      caseOneThread.scrollTo({
+      thread.scrollTo({
         top,
         behavior: smooth && !reducedMotion.matches ? "smooth" : "auto",
       });
@@ -526,6 +604,41 @@
         label.textContent = "Copy prompt";
         button.classList.remove("is-copied");
       }, 1600);
+    }
+
+    toggleMegaPrompt(button) {
+      const message = button.closest(".case-chat-message--mega");
+      if (!message) return;
+      const expanded = !message.classList.contains("is-expanded");
+      message.classList.toggle("is-expanded", expanded);
+      button.setAttribute("aria-expanded", String(expanded));
+      const hint = button.querySelector(".mega-prompt__hint");
+      if (hint) hint.textContent = expanded ? "Hide the full brief" : "View the full brief";
+      window.requestAnimationFrame(() => {
+        if (caseTwoThread) {
+          const top = Math.max(0, message.offsetTop - 18);
+          caseTwoThread.scrollTo({ top, behavior: reducedMotion.matches ? "auto" : "smooth" });
+        }
+      });
+    }
+
+    openChartLightbox(button) {
+      if (!chartLightbox || !(chartLightboxImage instanceof HTMLImageElement)) return;
+      const source = button.dataset.chartExpand;
+      if (!source) return;
+      chartLightboxImage.src = source;
+      chartLightboxImage.alt = button.dataset.chartAlt ?? "Expanded chart image";
+      chartLightbox.classList.add("is-open");
+      chartLightbox.setAttribute("aria-hidden", "false");
+      root.classList.add("is-chart-open");
+      chartLightbox.querySelector("[data-chart-close]")?.focus();
+    }
+
+    closeChartLightbox() {
+      if (!chartLightbox) return;
+      chartLightbox.classList.remove("is-open");
+      chartLightbox.setAttribute("aria-hidden", "true");
+      root.classList.remove("is-chart-open");
     }
 
     setInfoOpen(isOpen) {
@@ -668,6 +781,7 @@
     setCaseProgress: (state) => controller.setCaseProgress(state),
     setCaseHubState: (state) => controller.setCaseHubState(state),
     setCaseOneState: (state, options) => controller.setCaseOneState(state, options),
+    setCaseTwoState: (state, options) => controller.setCaseTwoState(state, options),
     get currentBeat() {
       return controller.manifest[controller.currentIndex];
     },
