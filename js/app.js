@@ -437,6 +437,14 @@
       this.beginTimeline(current, {
         skip: Boolean(hasVisited && current.replayOnReturn === false),
       });
+      if (
+        current.caseThreeState?.montage &&
+        !immediate &&
+        direction === "forward" &&
+        !hasVisited
+      ) {
+        this.startCaseThreeMontage();
+      }
       this.updateControls();
 
       if (current.caseProgress) {
@@ -590,7 +598,6 @@
           eventName: "webinar:case-three-change",
         },
       );
-      if (changed && montage && animate) this.startCaseThreeMontage();
       return changed;
     }
 

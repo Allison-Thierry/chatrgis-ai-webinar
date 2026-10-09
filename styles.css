@@ -5078,7 +5078,7 @@ button:focus-visible,
   height: min(470px, 56vh);
   opacity: 0;
   filter: blur(10px);
-  transform: translate(42px, 20px) perspective(1200px) rotateY(-7deg) scale(0.88);
+  transform: translate(42px, 20px) scale(0.88);
   transform-style: preserve-3d;
 }
 
@@ -5202,7 +5202,7 @@ button:focus-visible,
 .beat--case-three.is-settled:not(.is-case-three-scenario-entering)[data-case-scene="scenario"] .award-podium {
   opacity: 1;
   filter: blur(0);
-  transform: translate(0, 0) perspective(1200px) rotateY(-7deg) scale(1);
+  transform: translate(0, 0) scale(1);
   animation: none;
 }
 
@@ -5526,8 +5526,8 @@ button:focus-visible,
 }
 
 @keyframes awardPodiumArrive {
-  0% { opacity: 0; filter: blur(10px); transform: translate(42px, 20px) perspective(1200px) rotateY(-10deg) scale(0.88); }
-  100% { opacity: 1; filter: blur(0); transform: translate(0, 0) perspective(1200px) rotateY(-7deg) scale(1); }
+  0% { opacity: 0; filter: blur(10px); transform: translate(42px, 20px) scale(0.88); }
+  100% { opacity: 1; filter: blur(0); transform: translate(0, 0) scale(1); }
 }
 
 @keyframes trophyPop {
