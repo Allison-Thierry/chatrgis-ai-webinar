@@ -194,6 +194,7 @@
         button.addEventListener("click", (event) => {
           event.preventDefault();
           event.stopPropagation();
+          if (!button.closest(".beat.is-active")) return;
           this.openChartLightbox(button);
         });
       });

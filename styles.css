@@ -424,6 +424,15 @@ button:focus-visible,
   transition: opacity 650ms ease 180ms, visibility 0s;
 }
 
+/*
+ * Scene-specific descendants can opt back into pointer events. Make sure
+ * those controls can never remain interactive once their beat is inactive.
+ */
+.beat:not(.is-active),
+.beat:not(.is-active) * {
+  pointer-events: none !important;
+}
+
 /* --- Liquid centrepiece ---------------------------------------------------- */
 
 .core-activation {
