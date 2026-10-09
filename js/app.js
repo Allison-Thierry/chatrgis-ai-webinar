@@ -249,6 +249,8 @@
       const isBreatherReturn = currentBeat?.id === "breather-1" && targetBeat?.id === "case-1-automation-ideas";
       const isBreatherHubReturn = currentBeat?.id === "breather-1" && targetBeat?.id === "case-hub-case-2";
       const isHubBreatherReturn = currentBeat?.id === "case-hub-case-2" && targetBeat?.id === "breather-1";
+      const isBreatherTwoEntry = currentBeat?.id === "case-2-message-10" && targetBeat?.id === "breather-2-angry";
+      const isBreatherTwoReturn = currentBeat?.id === "breather-2-angry" && targetBeat?.id === "case-2-message-10";
       const transitionDelay = immediate || reducedMotion.matches
         ? 0
         : isCaseDive || isHubReturn
@@ -259,6 +261,10 @@
             ? 820
             : isBreatherReturn
               ? 620
+            : isBreatherTwoEntry
+              ? 760
+              : isBreatherTwoReturn
+                ? 620
           : isFirstLaunch
             ? 290
             : 60;
@@ -266,7 +272,7 @@
         ? 20
         : isCaseDive || isHubReturn || isBreatherHubReturn || isHubBreatherReturn
           ? 1600
-          : isBreatherEntry || isBreatherReturn
+          : isBreatherEntry || isBreatherReturn || isBreatherTwoEntry || isBreatherTwoReturn
             ? 1700
           : 1120;
 
@@ -278,6 +284,8 @@
       root.classList.toggle("is-returning-case-one", isBreatherReturn);
       root.classList.toggle("is-breather-to-hub", isBreatherHubReturn);
       root.classList.toggle("is-hub-to-breather", isHubBreatherReturn);
+      root.classList.toggle("is-entering-breather-two", isBreatherTwoEntry);
+      root.classList.toggle("is-returning-case-two", isBreatherTwoReturn);
 
       const activationTimer = window.setTimeout(() => {
         this.currentIndex = targetIndex;
@@ -303,6 +311,8 @@
           "is-returning-case-one",
           "is-breather-to-hub",
           "is-hub-to-breather",
+          "is-entering-breather-two",
+          "is-returning-case-two",
         );
         this.isTransitioning = false;
         this.updateControls();
@@ -340,6 +350,9 @@
         this.setCaseTwoState(current.caseTwoState, {
           animate: !immediate && direction === "forward" && !hasVisited,
         });
+      }
+      if (current.breatherTwoState) {
+        this.setBreatherTwoState(current.breatherTwoState);
       }
       this.beginTimeline(current, {
         skip: Boolean(hasVisited && current.replayOnReturn === false),
@@ -432,6 +445,8 @@
           "is-breather-entering",
           "is-case-two-scenario-entering",
           "is-case-two-chat-entering",
+          "is-breather-two-angry-entering",
+          "is-breather-two-loved-entering",
           "is-settled",
         );
       });
@@ -450,6 +465,8 @@
         "is-returning-case-one",
         "is-breather-to-hub",
         "is-hub-to-breather",
+        "is-entering-breather-two",
+        "is-returning-case-two",
       );
       this.updateControls();
     }
@@ -470,6 +487,18 @@
         { scene, messageCount },
         { animate, eventName: "webinar:case-two-change" },
       );
+    }
+
+    setBreatherTwoState(state = "angry") {
+      const section = this.sections.get("breather-2");
+      if (!section) return false;
+      section.dataset.breatherState = state;
+      root.dispatchEvent(
+        new CustomEvent("webinar:breather-two-change", {
+          detail: { state },
+        }),
+      );
+      return true;
     }
 
     setConversationState(sectionId, thread, { scene = "scenario", messageCount = 0 } = {}, { animate = false, eventName = "webinar:conversation-change" } = {}) {
@@ -782,6 +811,7 @@
     setCaseHubState: (state) => controller.setCaseHubState(state),
     setCaseOneState: (state, options) => controller.setCaseOneState(state, options),
     setCaseTwoState: (state, options) => controller.setCaseTwoState(state, options),
+    setBreatherTwoState: (state) => controller.setBreatherTwoState(state),
     get currentBeat() {
       return controller.manifest[controller.currentIndex];
     },

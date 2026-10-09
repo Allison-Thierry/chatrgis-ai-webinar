@@ -4562,6 +4562,370 @@ button:focus-visible,
   50% { transform: translate(-50%, calc(-50% - 9px)) rotate(1.4deg) scale(1.025); }
 }
 
+/* Second breather: our strange relationship with AI ----------------------- */
+
+.experience[data-beat="breather-2"] .ambient-scene__wash--cyan {
+  transform: translate(-22vw, 4vh) scale(1.12);
+  opacity: 0.4;
+}
+
+.experience[data-beat="breather-2"] .ambient-scene__wash--violet {
+  transform: translate(20vw, -8vh) scale(0.88);
+  opacity: 0.31;
+}
+
+.experience[data-beat="breather-2"] .ambient-scene__wash--pink {
+  transform: translate(21vw, 10vh) scale(1.05);
+  opacity: 0.26;
+}
+
+.experience[data-beat="breather-2"] .core-activation,
+.experience[data-beat="breather-2"] .energy-field {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.38);
+}
+
+.experience.is-entering-breather-two .beat--case-two {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: none;
+  animation: caseTwoConversationDepart 920ms var(--ease-smooth) both;
+  transition: none;
+}
+
+.experience.is-entering-breather-two .beat--breather-two.is-active {
+  animation: breatherTwoSceneArrive 940ms var(--ease-out) both;
+}
+
+.experience.is-returning-case-two .beat--breather-two {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: none;
+  animation: breatherTwoSceneDepart 760ms var(--ease-smooth) both;
+  transition: none;
+}
+
+.experience.is-returning-case-two .beat--case-two.is-active {
+  animation: caseTwoConversationReturn 980ms var(--ease-out) both;
+}
+
+.beat--breather-two {
+  z-index: 14;
+  overflow: hidden;
+}
+
+.breather-two-scene {
+  position: absolute;
+  inset: 0;
+}
+
+.breather-two-scene__wash {
+  position: absolute;
+  width: min(520px, 38vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  opacity: 0;
+  filter: blur(52px);
+  pointer-events: none;
+}
+
+.breather-two-scene__wash--cyan {
+  top: 22%;
+  left: 10%;
+  background: radial-gradient(circle, rgba(91, 221, 232, 0.2), rgba(115, 195, 230, 0.06) 52%, transparent 72%);
+}
+
+.breather-two-scene__wash--pink {
+  right: 9%;
+  bottom: 15%;
+  background: radial-gradient(circle, rgba(240, 145, 207, 0.19), rgba(156, 127, 235, 0.07) 54%, transparent 73%);
+}
+
+.beat--breather-two.is-active .breather-two-scene__wash {
+  opacity: 1;
+  animation: petSceneWash 8s ease-in-out infinite;
+}
+
+.breather-two-scene__wash--pink { animation-delay: -3.5s !important; }
+
+.pet-composition {
+  --pet-base-rotation: 0deg;
+  position: absolute;
+  top: 50%;
+  width: min(470px, 36vw, 56vh);
+  aspect-ratio: 831 / 642;
+  transform: translateY(-48%);
+}
+
+.pet-composition--angry {
+  left: 8.5%;
+  --pet-base-rotation: -1.5deg;
+}
+
+.pet-composition--loved {
+  right: 8.5%;
+  --pet-base-rotation: 1.5deg;
+}
+
+.pet-character {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  filter: blur(10px) drop-shadow(0 28px 38px rgba(42, 89, 117, 0.13));
+  pointer-events: none;
+  transform: translateY(24px) rotate(var(--pet-base-rotation)) scale(0.72);
+  transform-origin: 50% 70%;
+}
+
+.pet-composition__glow {
+  position: absolute;
+  inset: 15% 9% 11%;
+  z-index: 1;
+  border-radius: 50%;
+  opacity: 0;
+  filter: blur(30px);
+  transform: scale(0.7);
+}
+
+.pet-composition--angry .pet-composition__glow {
+  background:
+    radial-gradient(circle at 47% 48%, rgba(99, 210, 233, 0.24), transparent 55%),
+    radial-gradient(circle at 65% 61%, rgba(246, 155, 93, 0.12), transparent 65%);
+}
+
+.pet-composition--loved .pet-composition__glow {
+  background:
+    radial-gradient(circle at 45% 48%, rgba(232, 123, 197, 0.26), transparent 56%),
+    radial-gradient(circle at 59% 58%, rgba(99, 213, 228, 0.15), transparent 67%);
+}
+
+.pet-composition__shadow {
+  position: absolute;
+  right: 18%;
+  bottom: 2%;
+  left: 18%;
+  z-index: 0;
+  height: 10%;
+  border-radius: 50%;
+  background: rgba(51, 104, 133, 0.13);
+  opacity: 0;
+  filter: blur(16px);
+  transform: scale(0.7);
+}
+
+.pet-emoji {
+  --emoji-rotation: 0deg;
+  --emoji-drift-x: 0px;
+  --emoji-drift-y: -9px;
+  position: absolute;
+  z-index: 7;
+  display: block;
+  font-size: clamp(1.65rem, 2.65vw, 2.55rem);
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px) rotate(var(--emoji-rotation)) scale(0.1);
+  transform-origin: 50% 75%;
+  user-select: none;
+}
+
+.pet-composition--angry .pet-emoji {
+  filter: drop-shadow(0 11px 13px rgba(166, 76, 61, 0.16));
+}
+
+.pet-composition--loved .pet-emoji {
+  filter: drop-shadow(0 9px 15px rgba(213, 76, 161, 0.22));
+}
+
+.pet-emoji--angry-one { --emoji-rotation: -11deg; top: 4%; left: 5%; }
+.pet-emoji--angry-two { --emoji-rotation: 8deg; top: 16%; right: -1%; font-size: clamp(1.5rem, 2.3vw, 2.25rem); }
+.pet-emoji--angry-three { --emoji-rotation: 7deg; bottom: 12%; left: 1%; }
+.pet-emoji--angry-four { --emoji-rotation: -8deg; right: 7%; bottom: 5%; font-size: clamp(1.5rem, 2.35vw, 2.25rem); }
+
+.pet-emoji--heart-one { --emoji-rotation: -8deg; top: 2%; left: 12%; }
+.pet-emoji--heart-two { --emoji-rotation: 10deg; top: 15%; right: -1%; font-size: clamp(1.45rem, 2.25vw, 2.2rem); }
+.pet-emoji--heart-three { --emoji-rotation: -7deg; bottom: 10%; left: 0; }
+.pet-emoji--heart-four { --emoji-rotation: 7deg; right: 8%; bottom: 2%; font-size: clamp(1.55rem, 2.4vw, 2.3rem); }
+.pet-emoji--heart-five { --emoji-rotation: 5deg; top: 45%; left: -5%; font-size: clamp(1.4rem, 2.15vw, 2.05rem); }
+
+/* Beat 1 — empty scene, then the frustrated character */
+
+.beat--breather-two.is-breather-two-angry-entering .pet-composition--angry .pet-character {
+  animation:
+    petCharacterArrive 1.05s var(--ease-out) 2.2s forwards,
+    petCharacterFloat 6.2s ease-in-out 3.25s infinite;
+}
+
+.beat--breather-two.is-breather-two-angry-entering .pet-composition--angry .pet-composition__glow {
+  animation: petGlowArrive 1.1s ease 2.2s forwards, petGlowIdle 6s ease-in-out 3.3s infinite;
+}
+
+.beat--breather-two.is-breather-two-angry-entering .pet-composition--angry .pet-composition__shadow {
+  animation: petShadowArrive 900ms ease 2.45s forwards, petShadowIdle 6.2s ease-in-out 3.35s infinite;
+}
+
+.beat--breather-two.is-breather-two-angry-entering .pet-emoji--angry-one { animation: petEmojiPop 620ms var(--ease-out) 4.2s forwards, petEmojiFloat 4.8s ease-in-out 4.82s infinite; }
+.beat--breather-two.is-breather-two-angry-entering .pet-emoji--angry-two { animation: petEmojiPop 620ms var(--ease-out) 4.42s forwards, petEmojiFloat 5.3s ease-in-out 5.04s infinite; }
+.beat--breather-two.is-breather-two-angry-entering .pet-emoji--angry-three { animation: petEmojiPop 620ms var(--ease-out) 4.64s forwards, petEmojiFloat 4.6s ease-in-out 5.26s infinite; }
+.beat--breather-two.is-breather-two-angry-entering .pet-emoji--angry-four { animation: petEmojiPop 620ms var(--ease-out) 4.86s forwards, petEmojiFloat 5.1s ease-in-out 5.48s infinite; }
+
+/* Beat 2 — retain the left side, introduce affection on the right */
+
+.beat--breather-two[data-breather-state="both"] .pet-composition--angry .pet-character,
+.beat--breather-two.is-settled:not(.is-breather-two-angry-entering)[data-breather-state="angry"] .pet-composition--angry .pet-character {
+  opacity: 1;
+  filter: drop-shadow(0 28px 38px rgba(42, 89, 117, 0.13));
+  transform: translateY(0) rotate(var(--pet-base-rotation)) scale(1);
+  animation: petCharacterFloat 6.2s ease-in-out infinite;
+}
+
+.beat--breather-two[data-breather-state="both"] .pet-composition--angry .pet-composition__glow,
+.beat--breather-two.is-settled:not(.is-breather-two-angry-entering)[data-breather-state="angry"] .pet-composition--angry .pet-composition__glow {
+  opacity: 1;
+  transform: scale(1);
+  animation: petGlowIdle 6s ease-in-out infinite;
+}
+
+.beat--breather-two[data-breather-state="both"] .pet-composition--angry .pet-composition__shadow,
+.beat--breather-two.is-settled:not(.is-breather-two-angry-entering)[data-breather-state="angry"] .pet-composition--angry .pet-composition__shadow {
+  opacity: 1;
+  transform: scale(1);
+  animation: petShadowIdle 6.2s ease-in-out infinite;
+}
+
+.beat--breather-two[data-breather-state="both"] .pet-composition--angry .pet-emoji,
+.beat--breather-two.is-settled:not(.is-breather-two-angry-entering)[data-breather-state="angry"] .pet-composition--angry .pet-emoji {
+  opacity: 1;
+  transform: translateY(0) rotate(var(--emoji-rotation)) scale(1);
+  animation: petEmojiFloat 4.9s ease-in-out infinite;
+}
+
+.beat--breather-two.is-breather-two-loved-entering .pet-composition--loved .pet-character {
+  animation:
+    petCharacterArrive 1.05s var(--ease-out) 350ms forwards,
+    petCharacterFloat 6.4s ease-in-out 1.4s infinite;
+}
+
+.beat--breather-two.is-breather-two-loved-entering .pet-composition--loved .pet-composition__glow {
+  animation: petGlowArrive 1.15s ease 350ms forwards, petGlowIdle 6.4s ease-in-out 1.5s infinite;
+}
+
+.beat--breather-two.is-breather-two-loved-entering .pet-composition--loved .pet-composition__shadow {
+  animation: petShadowArrive 900ms ease 600ms forwards, petShadowIdle 6.4s ease-in-out 1.55s infinite;
+}
+
+.beat--breather-two.is-breather-two-loved-entering .pet-emoji--heart-one { animation: petHeartPop 620ms var(--ease-out) 2.3s forwards, petEmojiFloat 4.7s ease-in-out 2.92s infinite; }
+.beat--breather-two.is-breather-two-loved-entering .pet-emoji--heart-two { animation: petHeartPop 620ms var(--ease-out) 2.5s forwards, petEmojiFloat 5.2s ease-in-out 3.12s infinite; }
+.beat--breather-two.is-breather-two-loved-entering .pet-emoji--heart-three { animation: petHeartPop 620ms var(--ease-out) 2.7s forwards, petEmojiFloat 4.8s ease-in-out 3.32s infinite; }
+.beat--breather-two.is-breather-two-loved-entering .pet-emoji--heart-four { animation: petHeartPop 620ms var(--ease-out) 2.9s forwards, petEmojiFloat 5.4s ease-in-out 3.52s infinite; }
+.beat--breather-two.is-breather-two-loved-entering .pet-emoji--heart-five { animation: petHeartPop 620ms var(--ease-out) 3.1s forwards, petEmojiFloat 4.6s ease-in-out 3.72s infinite; }
+
+.beat--breather-two.is-settled:not(.is-breather-two-loved-entering)[data-breather-state="both"] .pet-composition--loved .pet-character {
+  opacity: 1;
+  filter: drop-shadow(0 28px 38px rgba(42, 89, 117, 0.13));
+  transform: translateY(0) rotate(var(--pet-base-rotation)) scale(1);
+  animation: petCharacterFloat 6.4s ease-in-out infinite;
+}
+
+.beat--breather-two.is-settled:not(.is-breather-two-loved-entering)[data-breather-state="both"] .pet-composition--loved .pet-composition__glow {
+  opacity: 1;
+  transform: scale(1);
+  animation: petGlowIdle 6.4s ease-in-out infinite;
+}
+
+.beat--breather-two.is-settled:not(.is-breather-two-loved-entering)[data-breather-state="both"] .pet-composition--loved .pet-composition__shadow {
+  opacity: 1;
+  transform: scale(1);
+  animation: petShadowIdle 6.4s ease-in-out infinite;
+}
+
+.beat--breather-two.is-settled:not(.is-breather-two-loved-entering)[data-breather-state="both"] .pet-composition--loved .pet-emoji {
+  opacity: 1;
+  transform: translateY(0) rotate(var(--emoji-rotation)) scale(1);
+  animation: petEmojiFloat 5s ease-in-out infinite;
+}
+
+@keyframes caseTwoConversationDepart {
+  0% { opacity: 1; filter: blur(0); transform: scale(1); }
+  55% { opacity: 0.36; filter: blur(5px); transform: scale(0.975); }
+  100% { opacity: 0; filter: blur(13px); transform: translateY(-34px) scale(0.95); }
+}
+
+@keyframes breatherTwoSceneArrive {
+  0% { opacity: 0; filter: blur(10px); transform: scale(1.025); }
+  100% { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+
+@keyframes breatherTwoSceneDepart {
+  0% { opacity: 1; filter: blur(0); transform: scale(1); }
+  100% { opacity: 0; filter: blur(10px); transform: scale(1.035); }
+}
+
+@keyframes caseTwoConversationReturn {
+  0% { opacity: 0; filter: blur(11px); transform: translateY(-20px) scale(0.96); }
+  100% { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); }
+}
+
+@keyframes petCharacterArrive {
+  0% { opacity: 0; filter: blur(10px) drop-shadow(0 28px 38px rgba(42, 89, 117, 0)); transform: translateY(24px) rotate(var(--pet-base-rotation)) scale(0.72); }
+  64% { opacity: 1; filter: blur(0) drop-shadow(0 31px 42px rgba(42, 89, 117, 0.15)); transform: translateY(-5px) rotate(var(--pet-base-rotation)) scale(1.035); }
+  100% { opacity: 1; filter: blur(0) drop-shadow(0 28px 38px rgba(42, 89, 117, 0.13)); transform: translateY(0) rotate(var(--pet-base-rotation)) scale(1); }
+}
+
+@keyframes petCharacterFloat {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 28px 38px rgba(42, 89, 117, 0.13)); transform: translateY(0) rotate(var(--pet-base-rotation)) scale(1); }
+  50% { opacity: 1; filter: drop-shadow(0 34px 44px rgba(42, 89, 117, 0.16)); transform: translateY(-10px) rotate(calc(var(--pet-base-rotation) + 1deg)) scale(1.012); }
+}
+
+@keyframes petGlowArrive {
+  0% { opacity: 0; transform: scale(0.7); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes petGlowIdle {
+  0%, 100% { opacity: 0.76; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+@keyframes petShadowArrive {
+  0% { opacity: 0; transform: scale(0.7); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes petShadowIdle {
+  0%, 100% { opacity: 0.55; transform: scale(0.92); }
+  50% { opacity: 0.8; transform: scale(1.04); }
+}
+
+@keyframes petEmojiPop {
+  0% { opacity: 0; transform: translateY(16px) rotate(var(--emoji-rotation)) scale(0.1); }
+  58% { opacity: 1; transform: translateY(-6px) rotate(var(--emoji-rotation)) scale(1.2); }
+  78% { transform: translateY(2px) rotate(var(--emoji-rotation)) scale(0.94); }
+  100% { opacity: 1; transform: translateY(0) rotate(var(--emoji-rotation)) scale(1); }
+}
+
+@keyframes petHeartPop {
+  0% { opacity: 0; filter: drop-shadow(0 0 0 rgba(236, 92, 177, 0)); transform: translateY(18px) rotate(var(--emoji-rotation)) scale(0.08); }
+  58% { opacity: 1; filter: drop-shadow(0 0 17px rgba(236, 92, 177, 0.34)); transform: translateY(-7px) rotate(var(--emoji-rotation)) scale(1.22); }
+  100% { opacity: 1; filter: drop-shadow(0 9px 15px rgba(213, 76, 161, 0.22)); transform: translateY(0) rotate(var(--emoji-rotation)) scale(1); }
+}
+
+@keyframes petEmojiFloat {
+  0%, 100% { opacity: 1; transform: translate(0, 0) rotate(var(--emoji-rotation)) scale(1); }
+  50% { opacity: 0.9; transform: translate(var(--emoji-drift-x), var(--emoji-drift-y)) rotate(calc(var(--emoji-rotation) + 2deg)) scale(1.045); }
+}
+
+@keyframes petSceneWash {
+  0%, 100% { transform: translateY(0) scale(0.95); }
+  50% { transform: translateY(-12px) scale(1.08); }
+}
+
 /* --- Responsive adaptations ----------------------------------------------- */
 
 @media (max-width: 900px) {
@@ -4638,6 +5002,13 @@ button:focus-visible,
   .data-report {
     width: min(560px, 62vw);
   }
+
+  .pet-composition {
+    width: min(400px, 39vw, 50vh);
+  }
+
+  .pet-composition--angry { left: 4%; }
+  .pet-composition--loved { right: 4%; }
 
   .automation-ideas {
     width: calc(100vw - 120px);
@@ -4887,6 +5258,27 @@ button:focus-visible,
   .mega-prompt__toggle { grid-template-columns: auto 1fr auto; min-height: 64px; padding: 12px; }
   .mega-prompt__hint { display: none; }
   .chart-lightbox__frame { width: calc(100vw - 20px); height: calc(100svh - 20px); padding: 10px; border-radius: 20px; }
+
+  .pet-composition {
+    width: min(330px, 68vw, 38vh);
+  }
+
+  .pet-composition--angry {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .beat--breather-two[data-breather-state="both"] .pet-composition--angry {
+    top: 29%;
+  }
+
+  .pet-composition--loved {
+    top: 70%;
+    right: auto;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
   .monitoring-option { grid-template-columns: auto minmax(0, 1fr); }
   .monitoring-option__badge { grid-column: 2; width: fit-content; }
 
@@ -5092,6 +5484,10 @@ button:focus-visible,
   .data-report { width: min(600px, 58vw); }
   .chart-response img { max-height: 390px; }
   .chart-response--polished img { max-height: 450px; }
+
+  .pet-composition {
+    width: min(410px, 35vw, 53vh);
+  }
 
   .monitoring-option {
     min-height: 41px;

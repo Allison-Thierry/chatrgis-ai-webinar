@@ -301,6 +301,32 @@ window.WEBINAR_BEATS = [
     replayOnReturn: false,
     timeline: { className: "is-message-arriving", duration: 2100, reducedDuration: 120 },
   },
+  {
+    id: "breather-2-angry",
+    sectionId: "breather-2",
+    label: "Audience breather — arguing with AI",
+    caseProgress: { active: 0, complete: 2 },
+    breatherTwoState: "angry",
+    replayOnReturn: false,
+    timeline: {
+      className: "is-breather-two-angry-entering",
+      duration: 6500,
+      reducedDuration: 150,
+    },
+  },
+  {
+    id: "breather-2-both",
+    sectionId: "breather-2",
+    label: "Audience breather — affection for AI",
+    caseProgress: { active: 0, complete: 2 },
+    breatherTwoState: "both",
+    replayOnReturn: false,
+    timeline: {
+      className: "is-breather-two-loved-entering",
+      duration: 4800,
+      reducedDuration: 150,
+    },
+  },
 ];
 
 /**
