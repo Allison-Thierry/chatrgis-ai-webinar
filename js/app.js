@@ -13,6 +13,7 @@
   const drawerScrim = document.getElementById("drawerScrim");
   const caseOneThread = document.getElementById("caseOneChatThread");
   const caseTwoThread = document.getElementById("caseTwoChatThread");
+  const caseThreeThread = document.getElementById("caseThreeChatThread");
   const chartLightbox = document.getElementById("chartLightbox");
   const chartLightboxImage = document.getElementById("chartLightboxImage");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -30,6 +31,64 @@
   }
 
   mountComponentTemplates();
+
+  async function mountMegaDocuments() {
+    const documents = [...document.querySelectorAll("[data-mega-document]")];
+    await Promise.all(documents.map(async (documentHost) => {
+      const message = documentHost.closest(".case-chat-message--mega");
+      const source = message?.querySelector(".prompt-copy-source");
+      if (!(source instanceof HTMLTextAreaElement)) return;
+
+      const sourceUrl = source.dataset.sourceUrl;
+      if (sourceUrl && !source.value.trim()) {
+        try {
+          const response = await fetch(sourceUrl);
+          if (!response.ok) throw new Error(`Prompt source returned ${response.status}`);
+          source.value = (await response.text()).trim();
+        } catch (error) {
+          console.warn("[ChatRGIS Webinar] Could not load the MEGA MEGA PROMPT", error);
+          documentHost.textContent = "The complete brief could not be loaded.";
+          return;
+        }
+      }
+
+      const lines = source.value.replace(/\r/g, "").split("\n");
+      let list = null;
+      lines.forEach((rawLine) => {
+        const line = rawLine.trim();
+        if (!line) {
+          list = null;
+          return;
+        }
+
+        if (/^(?:[A-Z][A-Z /&()\-—0-9]+|\d+\s+—\s+.+)$/.test(line) && line.length < 110) {
+          const heading = document.createElement("h3");
+          heading.textContent = line;
+          documentHost.append(heading);
+          list = null;
+          return;
+        }
+
+        if (line.startsWith("- ")) {
+          if (!list) {
+            list = document.createElement("ul");
+            documentHost.append(list);
+          }
+          const item = document.createElement("li");
+          item.textContent = line.slice(2);
+          list.append(item);
+          return;
+        }
+
+        const paragraph = document.createElement("p");
+        paragraph.textContent = line;
+        documentHost.append(paragraph);
+        list = null;
+      });
+    }));
+  }
+
+  mountMegaDocuments();
 
   class PresentationController {
     constructor(manifest) {
@@ -52,6 +111,7 @@
       this.coursePulseTimers = new WeakMap();
       this.visitedBeatIds = new Set();
       this.typingFrame = null;
+      this.montageTimers = [];
 
       this.validateManifest();
       this.bindEvents();
@@ -244,19 +304,23 @@
       const targetSectionId = targetBeat?.sectionId ?? targetBeat?.id;
       const leavingOpening = this.currentIndex === 0 && targetIndex > 0;
       const isFirstLaunch = leavingOpening && !this.hasStarted;
-      const isCaseDive = currentSectionId === "case-hub" && ["case-1", "case-2"].includes(targetSectionId);
-      const isHubReturn = ["case-1", "case-2"].includes(currentSectionId) && targetSectionId === "case-hub";
+      const isCaseDive = currentSectionId === "case-hub" && ["case-1", "case-2", "case-3"].includes(targetSectionId);
+      const isHubReturn = ["case-1", "case-2", "case-3"].includes(currentSectionId) && targetSectionId === "case-hub";
       const isBreatherEntry = currentBeat?.id === "case-1-automation-ideas" && targetBeat?.id === "breather-1";
       const isBreatherReturn = currentBeat?.id === "breather-1" && targetBeat?.id === "case-1-automation-ideas";
       const isBreatherHubReturn = currentBeat?.id === "breather-1" && targetBeat?.id === "case-hub-case-2";
       const isHubBreatherReturn = currentBeat?.id === "case-hub-case-2" && targetBeat?.id === "breather-1";
       const isBreatherTwoEntry = currentBeat?.id === "case-2-message-10" && targetBeat?.id === "breather-2-angry";
       const isBreatherTwoReturn = currentBeat?.id === "breather-2-angry" && targetBeat?.id === "case-2-message-10";
+      const isBreatherTwoHubReturn = currentBeat?.id === "breather-2-both" && targetBeat?.id === "case-hub-case-3";
+      const isHubBreatherTwoReturn = currentBeat?.id === "case-hub-case-3" && targetBeat?.id === "breather-2-both";
+      const isCaseThreeClosingEntry = currentBeat?.id === "case-3-montage" && targetBeat?.id === "case-3-closing";
+      const isCaseThreeConversationReturn = currentBeat?.id === "case-3-closing" && targetBeat?.id === "case-3-montage";
       const transitionDelay = immediate || reducedMotion.matches
         ? 0
         : isCaseDive || isHubReturn
           ? 620
-          : isBreatherHubReturn || isHubBreatherReturn
+          : isBreatherHubReturn || isHubBreatherReturn || isBreatherTwoHubReturn || isHubBreatherTwoReturn
             ? 720
           : isBreatherEntry
             ? 820
@@ -266,14 +330,16 @@
               ? 760
               : isBreatherTwoReturn
                 ? 620
+                : isCaseThreeClosingEntry || isCaseThreeConversationReturn
+                  ? 720
           : isFirstLaunch
             ? 290
             : 60;
       const unlockDelay = immediate || reducedMotion.matches
         ? 20
-        : isCaseDive || isHubReturn || isBreatherHubReturn || isHubBreatherReturn
+        : isCaseDive || isHubReturn || isBreatherHubReturn || isHubBreatherReturn || isBreatherTwoHubReturn || isHubBreatherTwoReturn
           ? 1600
-          : isBreatherEntry || isBreatherReturn || isBreatherTwoEntry || isBreatherTwoReturn
+          : isBreatherEntry || isBreatherReturn || isBreatherTwoEntry || isBreatherTwoReturn || isCaseThreeClosingEntry || isCaseThreeConversationReturn
             ? 1700
           : 1120;
 
@@ -287,6 +353,10 @@
       root.classList.toggle("is-hub-to-breather", isHubBreatherReturn);
       root.classList.toggle("is-entering-breather-two", isBreatherTwoEntry);
       root.classList.toggle("is-returning-case-two", isBreatherTwoReturn);
+      root.classList.toggle("is-breather-two-to-hub", isBreatherTwoHubReturn);
+      root.classList.toggle("is-hub-to-breather-two", isHubBreatherTwoReturn);
+      root.classList.toggle("is-entering-case-three-closing", isCaseThreeClosingEntry);
+      root.classList.toggle("is-returning-case-three-conversation", isCaseThreeConversationReturn);
 
       const activationTimer = window.setTimeout(() => {
         this.currentIndex = targetIndex;
@@ -314,6 +384,10 @@
           "is-hub-to-breather",
           "is-entering-breather-two",
           "is-returning-case-two",
+          "is-breather-two-to-hub",
+          "is-hub-to-breather-two",
+          "is-entering-case-three-closing",
+          "is-returning-case-three-conversation",
         );
         this.isTransitioning = false;
         this.updateControls();
@@ -349,6 +423,11 @@
       }
       if (current.caseTwoState) {
         this.setCaseTwoState(current.caseTwoState, {
+          animate: !immediate && direction === "forward" && !hasVisited,
+        });
+      }
+      if (current.caseThreeState) {
+        this.setCaseThreeState(current.caseThreeState, {
           animate: !immediate && direction === "forward" && !hasVisited,
         });
       }
@@ -430,6 +509,8 @@
 
     cancelTimeline() {
       if (this.timelineTimer) window.clearTimeout(this.timelineTimer);
+      this.montageTimers.forEach((timer) => window.clearTimeout(timer));
+      this.montageTimers = [];
       this.timelineTimer = null;
       this.isBeatLocked = false;
       root.dataset.timeline = "idle";
@@ -448,6 +529,10 @@
           "is-case-two-chat-entering",
           "is-breather-two-angry-entering",
           "is-breather-two-loved-entering",
+          "is-case-three-scenario-entering",
+          "is-case-three-chat-entering",
+          "is-case-three-montage-entering",
+          "is-case-three-closing-entering",
           "is-settled",
         );
       });
@@ -468,6 +553,10 @@
         "is-hub-to-breather",
         "is-entering-breather-two",
         "is-returning-case-two",
+        "is-breather-two-to-hub",
+        "is-hub-to-breather-two",
+        "is-entering-case-three-closing",
+        "is-returning-case-three-conversation",
       );
       this.updateControls();
     }
@@ -490,6 +579,21 @@
       );
     }
 
+    setCaseThreeState({ scene = "scenario", messageCount = 0, montage = false } = {}, { animate = false } = {}) {
+      const changed = this.setConversationState(
+        "case-3",
+        caseThreeThread,
+        { scene, messageCount },
+        {
+          animate,
+          deferScroll: montage && animate,
+          eventName: "webinar:case-three-change",
+        },
+      );
+      if (changed && montage && animate) this.startCaseThreeMontage();
+      return changed;
+    }
+
     setBreatherTwoState(state = "angry") {
       const section = this.sections.get("breather-2");
       if (!section) return false;
@@ -502,7 +606,7 @@
       return true;
     }
 
-    setConversationState(sectionId, thread, { scene = "scenario", messageCount = 0 } = {}, { animate = false, eventName = "webinar:conversation-change" } = {}) {
+    setConversationState(sectionId, thread, { scene = "scenario", messageCount = 0 } = {}, { animate = false, deferScroll = false, eventName = "webinar:conversation-change" } = {}) {
       const section = this.sections.get(sectionId);
       if (!section) return false;
 
@@ -534,14 +638,14 @@
         }
       });
 
-      if (messageCount < 9) {
-        section.querySelectorAll(".case-chat-message--mega.is-expanded").forEach((message) => {
+      section.querySelectorAll(".case-chat-message--mega.is-expanded").forEach((message) => {
+        if (message.dataset.visible !== "true") {
           message.classList.remove("is-expanded");
           message.querySelector("[data-mega-toggle]")?.setAttribute("aria-expanded", "false");
-        });
-      }
+        }
+      });
 
-      if (scene === "conversation" && messageCount > 0) {
+      if (scene === "conversation" && messageCount > 0 && !deferScroll) {
         window.requestAnimationFrame(() => this.scrollToMessage(messageCount, { smooth: animate, thread }));
       }
 
@@ -551,6 +655,21 @@
         }),
       );
       return true;
+    }
+
+    startCaseThreeMontage() {
+      this.montageTimers.forEach((timer) => window.clearTimeout(timer));
+      this.montageTimers = [];
+      const indices = [6, 7, 8, 9, 10, 11, 12, 13, 14];
+      const delays = reducedMotion.matches
+        ? indices.map(() => 0)
+        : [500, 1050, 1600, 2150, 2700, 3250, 3800, 4350, 5700];
+      indices.forEach((index, position) => {
+        const timer = window.setTimeout(() => {
+          this.scrollToMessage(index, { smooth: true, thread: caseThreeThread });
+        }, delays[position]);
+        this.montageTimers.push(timer);
+      });
     }
 
     typeUserMessage(message, thread = caseOneThread) {
@@ -645,9 +764,10 @@
       const hint = button.querySelector(".mega-prompt__hint");
       if (hint) hint.textContent = expanded ? "Hide the full brief" : "View the full brief";
       window.requestAnimationFrame(() => {
-        if (caseTwoThread) {
+        const thread = message.closest(".chat-thread");
+        if (thread) {
           const top = Math.max(0, message.offsetTop - 18);
-          caseTwoThread.scrollTo({ top, behavior: reducedMotion.matches ? "auto" : "smooth" });
+          thread.scrollTo({ top, behavior: reducedMotion.matches ? "auto" : "smooth" });
         }
       });
     }
@@ -812,6 +932,7 @@
     setCaseHubState: (state) => controller.setCaseHubState(state),
     setCaseOneState: (state, options) => controller.setCaseOneState(state, options),
     setCaseTwoState: (state, options) => controller.setCaseTwoState(state, options),
+    setCaseThreeState: (state, options) => controller.setCaseThreeState(state, options),
     setBreatherTwoState: (state) => controller.setBreatherTwoState(state),
     get currentBeat() {
       return controller.manifest[controller.currentIndex];

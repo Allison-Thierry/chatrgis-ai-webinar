@@ -9,7 +9,7 @@
       content="Interactive support for the ChatRGIS AI Webinar."
     />
     <title>ChatRGIS AI Webinar</title>
-    <link rel="stylesheet" href="styles.css?v=phase7b-20261009" />
+    <link rel="stylesheet" href="styles.css?v=phase8-20261009" />
   </head>
 
   <body>
@@ -884,6 +884,257 @@ Aim for something that looks like it was prepared by a professional data visuali
             </div>
           </div>
         </section>
+
+        <section
+          class="beat beat--case-three"
+          data-beat-id="case-3"
+          data-case-scene="scenario"
+          aria-labelledby="case-three-title"
+          aria-hidden="true"
+        >
+          <h2 class="sr-only" id="case-three-title">Case 03 — Make It Real</h2>
+
+          <div class="case-three-scene case-three-scenario" data-case-three-scene="scenario">
+            <div class="achievement-scenario" aria-label="A district year in review represented by a winners' podium">
+              <div class="achievement-orb" aria-hidden="true">
+                <span class="achievement-orb__aura"></span>
+                <img src="assets/cases/case-03-make-it-real.png" alt="" draggable="false" />
+              </div>
+
+              <div class="award-podium" aria-hidden="true">
+                <span class="award-podium__floor"></span>
+                <div class="podium-place podium-place--second">
+                  <span class="podium-place__label">DISTRICT XX</span>
+                  <span class="podium-place__number">2</span>
+                </div>
+                <div class="podium-place podium-place--first">
+                  <span class="podium-place__label">DISTRICT XX</span>
+                  <span class="podium-place__number">1</span>
+                </div>
+                <div class="podium-place podium-place--third">
+                  <span class="podium-place__label">DISTRICT XX</span>
+                  <span class="podium-place__number">3</span>
+                </div>
+              </div>
+
+              <span class="trophy-emoji trophy-emoji--one" aria-hidden="true">🏆</span>
+              <span class="trophy-emoji trophy-emoji--two" aria-hidden="true">🏆</span>
+              <span class="trophy-emoji trophy-emoji--three" aria-hidden="true">🏆</span>
+              <span class="trophy-emoji trophy-emoji--four" aria-hidden="true">🏆</span>
+            </div>
+          </div>
+
+          <div class="case-three-scene case-three-chat" data-case-three-scene="conversation">
+            <div class="chat-window chat-window--case-three glass-panel" aria-label="Simulated ChatRGIS project-design conversation">
+              <header class="chat-window__bar">
+                <div class="chatrgis-mark" aria-hidden="true">OI</div>
+                <div>
+                  <p class="chat-window__name">ChatRGIS</p>
+                  <p class="chat-window__context">Case 03 · Make It Real</p>
+                </div>
+                <span class="chat-window__status"><i aria-hidden="true"></i> Simulation</span>
+              </header>
+
+              <div class="chat-thread" id="caseThreeChatThread" tabindex="0" data-no-advance>
+                <div class="chat-thread__intro" aria-hidden="true">
+                  <span></span><p>Detail.xlsx · Project design conversation</p><span></span>
+                </div>
+
+                <article class="case-chat-message case-chat-message--user" data-message-index="1">
+                  <div class="case-chat-message__meta">
+                    <span>You</span>
+                    <button class="copy-prompt" type="button" data-copy-prompt aria-label="Copy the initial project prompt">
+                      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 6.5V4.8A1.8 1.8 0 0 1 8.8 3h6.4A1.8 1.8 0 0 1 17 4.8v6.4a1.8 1.8 0 0 1-1.8 1.8h-1.7M4.8 7h6.4A1.8 1.8 0 0 1 13 8.8v6.4a1.8 1.8 0 0 1-1.8 1.8H4.8A1.8 1.8 0 0 1 3 15.2V8.8A1.8 1.8 0 0 1 4.8 7Z" /></svg>
+                      <span>Copy prompt</span>
+                    </button>
+                  </div>
+                  <div class="case-chat-message__surface">
+                    <textarea class="prompt-copy-source" hidden>I'm an Operations Manager at RGIS, and I've attached an APICS Tableau export containing all the inventories completed by one of my districts over the past year.
+
+I'd like to turn this data into something much more engaging than a regular report or a few charts.
+
+I'm imagining something interactive, where I could explore the district's performance, discover interesting statistics, see its biggest achievements.
+
+The problem is, I don't really know how to create it.
+
+Could you help me figure out what's possible and how we could build it?</textarea>
+                    <div class="chat-attachment" aria-label="Attached file Detail.xlsx">
+                      <span class="chat-attachment__icon" aria-hidden="true">X</span>
+                      <span><strong>Detail.xlsx</strong><small>Excel spreadsheet · attached</small></span>
+                    </div>
+                    <div class="case-chat-message__typing" aria-hidden="true"></div>
+                    <div class="case-chat-message__body">
+                      <p>I'm an Operations Manager at RGIS, and I've attached an APICS Tableau export containing all the inventories completed by one of my districts over the past year.</p>
+                      <p>I'd like to turn this data into something much more engaging than a regular report or a few charts.</p>
+                      <p>I'm imagining something interactive, where I could explore the district's performance, discover interesting statistics, see its biggest achievements.</p>
+                      <p>The problem is, I don't really know how to create it.</p>
+                      <p>Could you help me figure out what's possible and how we could build it?</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--assistant case-chat-message--formats" data-message-index="2">
+                  <div class="case-chat-message__meta"><span class="assistant-label"><i aria-hidden="true">OI</i> ChatRGIS</span></div>
+                  <div class="assistant-thinking" aria-hidden="true"><span></span><span></span><span></span></div>
+                  <div class="case-chat-message__surface">
+                    <div class="case-chat-message__body">
+                      <p>Turning an APICS export into something people actually want to click through (instead of skimming a PDF) is very doable — and your file already has everything needed: PPH, APH, accuracy %, pieces, hours, auditors, dates, stores, supervisors.</p>
+                      <p>Here's what's realistically on the table:</p>
+                      <p><strong>Option 1 — Interactive HTML dashboard (recommended)</strong></p>
+                      <p>A single self-contained web page you open in any browser, no install needed.</p>
+                      <p>It could include:</p>
+                      <ul><li>Filters by store, supervisor, month and event type.</li><li>KPI cards showing pieces counted, PPH/APH, accuracy and hours.</li><li>A Hall of Fame highlighting achievements.</li><li>Charts that react to filters.</li></ul>
+                      <p><strong>Pros:</strong> Visually engaging, shareable, works offline.</p>
+                      <p><strong>Cons:</strong> Standalone file, not connected to live data.</p>
+                      <p><strong>Option 2 — Interactive Excel workbook</strong></p>
+                      <p>PivotTables and slicers that people can explore directly in Excel.</p>
+                      <p><strong>Pros:</strong> Familiar and easy to share.</p>
+                      <p><strong>Cons:</strong> Less visually engaging.</p>
+                      <p><strong>Option 3 — Tableau</strong></p>
+                      <p>A live, drillable reporting experience built with the Tableau team.</p>
+                      <p><strong>Pros:</strong> Better suited to a long-term, regularly refreshed solution.</p>
+                      <p><strong>Cons:</strong> Requires the relevant Tableau development access and support.</p>
+                      <p><strong>My suggestion:</strong> Start with the HTML dashboard. I can build it from your actual file.</p>
+                    </div>
+
+                    <div class="format-picker" aria-label="Illustrative format selection interface">
+                      <div class="format-picker__heading">
+                        <span class="format-picker__icon" aria-hidden="true">✦</span>
+                        <div><strong>Pick a direction</strong><small>What would you like to create?</small></div>
+                      </div>
+                      <div class="format-picker__options">
+                        <div class="format-option format-option--recommended"><span class="format-option__radio"></span><div><strong>Interactive HTML dashboard</strong><small>Standalone, visual and shareable</small></div><em>Recommended</em></div>
+                        <div class="format-option"><span class="format-option__radio"></span><div><strong>Interactive Excel workbook</strong><small>PivotTables and slicers in Excel</small></div></div>
+                        <div class="format-option"><span class="format-option__radio"></span><div><strong>Guidance for Tableau</strong><small>Plan a live reporting solution</small></div></div>
+                        <div class="format-option"><span class="format-option__radio"></span><div><strong>Other</strong><small>Describe another direction</small></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--user" data-message-index="3">
+                  <div class="case-chat-message__meta">
+                    <span>You</span>
+                    <button class="copy-prompt" type="button" data-copy-prompt aria-label="Copy the project-design prompt">
+                      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 6.5V4.8A1.8 1.8 0 0 1 8.8 3h6.4A1.8 1.8 0 0 1 17 4.8v6.4a1.8 1.8 0 0 1-1.8 1.8h-1.7M4.8 7h6.4A1.8 1.8 0 0 1 13 8.8v6.4a1.8 1.8 0 0 1-1.8 1.8H4.8A1.8 1.8 0 0 1 3 15.2V8.8A1.8 1.8 0 0 1 4.8 7Z" /></svg>
+                      <span>Copy prompt</span>
+                    </button>
+                  </div>
+                  <div class="case-chat-message__surface">
+                    <textarea class="prompt-copy-source" hidden>Actually, let's not build the dashboard just yet.
+
+I'd like to get this right from the start, so instead of jumping straight into creating something, let's work together on designing the best possible version of it.
+
+I want you to help me create a really detailed, well-structured prompt that I can give to another AI conversation to build the dashboard.
+
+So first, ask me questions one at a time to understand exactly what I want: the purpose, the audience, the features, the visual style, the kind of insights I'd like to explore, and anything else that matters.
+
+Feel free to suggest creative ideas or features I might not have thought of, and challenge me if something isn't clear or doesn't make sense.
+
+Once we've worked through everything, I want you to write the final, comprehensive prompt for me.
+
+But for now, don't build anything. Let's design it together first.</textarea>
+                    <div class="case-chat-message__typing" aria-hidden="true"></div>
+                    <div class="case-chat-message__body">
+                      <p>Actually, let's not build the dashboard just yet.</p>
+                      <p>I'd like to get this right from the start, so instead of jumping straight into creating something, let's work together on designing the best possible version of it.</p>
+                      <p>I want you to help me create a really detailed, well-structured prompt that I can give to another AI conversation to build the dashboard.</p>
+                      <p>So first, ask me questions <strong>one at a time</strong> to understand exactly what I want: the purpose, the audience, the features, the visual style, the kind of insights I'd like to explore, and anything else that matters.</p>
+                      <p>Feel free to suggest creative ideas or features I might not have thought of, and challenge me if something isn't clear or doesn't make sense.</p>
+                      <p>Once we've worked through everything, I want you to write the final, comprehensive prompt for me.</p>
+                      <p>But for now, <strong>don't build anything. Let's design it together first.</strong></p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--assistant case-chat-message--interview" data-message-index="4">
+                  <div class="case-chat-message__meta"><span class="assistant-label"><i aria-hidden="true">OI</i> ChatRGIS</span></div>
+                  <div class="assistant-thinking" aria-hidden="true"><span></span><span></span><span></span></div>
+                  <div class="case-chat-message__surface">
+                    <div class="case-chat-message__body">
+                      <p>Good approach — getting the brief right first will save a lot of back-and-forth later.</p>
+                      <p>Looking at your file, I can already see it's rich enough for this: per-event data with store, customer, supervisor, dates, PPH, APH, accuracy %, pieces, hours, auditors and PIQA comments.</p>
+                      <p>Let's start with the most important question:</p>
+                      <p><strong>Who is this dashboard actually for, and what's the main occasion you'd use it?</strong></p>
+                      <p><strong>A. Internal team motivation</strong></p>
+                      <p>Something you'd show your supervisors or auditors to celebrate wins and build friendly competition.</p>
+                      <p><strong>B. Management / executive storytelling</strong></p>
+                      <p>Something you'd present upward or to customers to demonstrate district performance.</p>
+                      <p><strong>C. Your own exploration tool</strong></p>
+                      <p>Something for exploring trends, spotting issues and preparing conversations with your team or customers.</p>
+                      <p>Which one is closest — or is it a mix?</p>
+                    </div>
+                    <div class="interview-options" aria-hidden="true">
+                      <div><span>A</span><p><strong>Internal team motivation</strong><small>Celebrate wins and build friendly competition</small></p></div>
+                      <div><span>B</span><p><strong>Management / executive storytelling</strong><small>Present performance upward or to customers</small></p></div>
+                      <div class="is-selected"><span>C</span><p><strong>Your own exploration tool</strong><small>Explore trends and prepare conversations</small></p></div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--user case-chat-message--short" data-message-index="5">
+                  <div class="case-chat-message__meta">
+                    <span>You</span>
+                    <button class="copy-prompt" type="button" data-copy-prompt aria-label="Copy the interview answer">
+                      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 6.5V4.8A1.8 1.8 0 0 1 8.8 3h6.4A1.8 1.8 0 0 1 17 4.8v6.4a1.8 1.8 0 0 1-1.8 1.8h-1.7M4.8 7h6.4A1.8 1.8 0 0 1 13 8.8v6.4a1.8 1.8 0 0 1-1.8 1.8H4.8A1.8 1.8 0 0 1 3 15.2V8.8A1.8 1.8 0 0 1 4.8 7Z" /></svg>
+                      <span>Copy prompt</span>
+                    </button>
+                  </div>
+                  <div class="case-chat-message__surface">
+                    <textarea class="prompt-copy-source" hidden>C. My own exploration tool, but I do like nice visuals even if it's just for me.</textarea>
+                    <div class="case-chat-message__typing" aria-hidden="true"></div>
+                    <div class="case-chat-message__body"><p>C. My own exploration tool, but I do like nice visuals even if it's just for me.</p></div>
+                  </div>
+                </article>
+
+                <article class="case-chat-message case-chat-message--assistant case-chat-message--montage" data-message-index="6"><div class="case-chat-message__meta"><span class="assistant-label"><i aria-hidden="true">OI</i> ChatRGIS</span></div><div class="case-chat-message__surface"><div class="case-chat-message__body"><p>...</p></div></div></article>
+                <article class="case-chat-message case-chat-message--user case-chat-message--montage" data-message-index="7"><div class="case-chat-message__meta"><span>You</span></div><div class="case-chat-message__surface"><div class="case-chat-message__body"><p>...</p></div></div></article>
+                <article class="case-chat-message case-chat-message--assistant case-chat-message--montage" data-message-index="8"><div class="case-chat-message__meta"><span class="assistant-label"><i aria-hidden="true">OI</i> ChatRGIS</span></div><div class="case-chat-message__surface"><div class="case-chat-message__body"><p>...</p></div></div></article>
+                <article class="case-chat-message case-chat-message--user case-chat-message--montage" data-message-index="9"><div class="case-chat-message__meta"><span>You</span></div><div class="case-chat-message__surface"><div class="case-chat-message__body"><p>...</p></div></div></article>
+                <article class="case-chat-message case-chat-message--assistant case-chat-message--montage" data-message-index="10"><div class="case-chat-message__meta"><span class="assistant-label"><i aria-hidden="true">OI</i> ChatRGIS</span></div><div class="case-chat-message__surface"><div class="case-chat-message__body"><p>...</p></div></div></article>
+                <article class="case-chat-message case-chat-message--user case-chat-message--montage" data-message-index="11"><div class="case-chat-message__meta"><span>You</span></div><div class="case-chat-message__surface"><div class="case-chat-message__body"><p>...</p></div></div></article>
+                <article class="case-chat-message case-chat-message--assistant case-chat-message--montage" data-message-index="12"><div class="case-chat-message__meta"><span class="assistant-label"><i aria-hidden="true">OI</i> ChatRGIS</span></div><div class="case-chat-message__surface"><div class="case-chat-message__body"><p>...</p></div></div></article>
+                <article class="case-chat-message case-chat-message--user case-chat-message--montage" data-message-index="13"><div class="case-chat-message__meta"><span>You</span></div><div class="case-chat-message__surface"><div class="case-chat-message__body"><p>...</p></div></div></article>
+
+                <article class="case-chat-message case-chat-message--assistant case-chat-message--mega case-chat-message--mega-mega" data-message-index="14">
+                  <div class="case-chat-message__meta">
+                    <span class="assistant-label"><i aria-hidden="true">OI</i> ChatRGIS</span>
+                    <button class="copy-prompt" type="button" data-copy-prompt aria-label="Copy the complete mega mega prompt">
+                      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 6.5V4.8A1.8 1.8 0 0 1 8.8 3h6.4A1.8 1.8 0 0 1 17 4.8v6.4a1.8 1.8 0 0 1-1.8 1.8h-1.7M4.8 7h6.4A1.8 1.8 0 0 1 13 8.8v6.4a1.8 1.8 0 0 1-1.8 1.8H4.8A1.8 1.8 0 0 1 3 15.2V8.8A1.8 1.8 0 0 1 4.8 7Z" /></svg>
+                      <span>Copy prompt</span>
+                    </button>
+                  </div>
+                  <div class="case-chat-message__surface mega-prompt">
+                    <textarea class="prompt-copy-source" data-source-url="assets/case-03/mega-mega-prompt.txt" hidden></textarea>
+                    <button class="mega-prompt__toggle" type="button" data-mega-toggle aria-expanded="false">
+                      <span class="mega-prompt__spark" aria-hidden="true">✦</span>
+                      <strong>MEGA MEGA PROMPT</strong>
+                      <span class="mega-prompt__hint">View the complete build brief</span>
+                      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4" /></svg>
+                    </button>
+                    <div class="mega-prompt__content mega-mega-document" data-mega-document data-no-advance></div>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+
+          <div class="case-three-scene case-three-closing" data-case-three-scene="closing">
+            <h2 class="sr-only">Ready to build the idea</h2>
+            <div class="case-three-closing__wash case-three-closing__wash--cyan" aria-hidden="true"></div>
+            <div class="case-three-closing__wash case-three-closing__wash--pink" aria-hidden="true"></div>
+            <figure class="closing-object closing-object--build" aria-hidden="true">
+              <span class="closing-object__glow"></span>
+              <span class="closing-object__shadow"></span>
+              <img src="assets/case-03/closing-build-kit.gif" alt="" draggable="false" />
+            </figure>
+            <figure class="closing-object closing-object--visualise" aria-hidden="true">
+              <span class="closing-object__glow"></span>
+              <span class="closing-object__shadow"></span>
+              <img src="assets/case-03/closing-visualisation.gif" alt="" draggable="false" />
+            </figure>
+          </div>
+        </section>
       </main>
 
       <div class="chart-lightbox" id="chartLightbox" aria-hidden="true" data-no-advance>
@@ -1078,7 +1329,7 @@ Aim for something that looks like it was prepared by a professional data visuali
             <path d="m12 5-5 5 5 5" />
           </svg>
         </button>
-        <span class="presenter-controls__count" aria-live="polite"><span id="currentBeatNumber">1</span>/<span id="totalBeatNumber">28</span></span>
+        <span class="presenter-controls__count" aria-live="polite"><span id="currentBeatNumber">1</span>/<span id="totalBeatNumber">37</span></span>
         <button type="button" data-action="next" aria-label="Next beat" title="Next (Right arrow or Space)">
           <svg viewBox="0 0 20 20" aria-hidden="true">
             <path d="m8 5 5 5-5 5" />
@@ -1089,7 +1340,7 @@ Aim for something that looks like it was prepared by a professional data visuali
       <p class="sr-only" id="beatAnnouncement" aria-live="polite">Opening screen</p>
     </div>
 
-    <script src="js/beats.js?v=phase7a-20261009"></script>
-    <script src="js/app.js?v=phase7b-20261009"></script>
+    <script src="js/beats.js?v=phase8-20261009"></script>
+    <script src="js/app.js?v=phase8-20261009"></script>
   </body>
 </html>

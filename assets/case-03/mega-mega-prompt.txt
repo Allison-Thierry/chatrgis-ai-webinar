@@ -1,0 +1,86 @@
+I have attached a Tableau APICS export containing all inventory events for one RGIS district for the current year. Each row represents one inventory event.
+I want you to use the actual data in the attached file to create a single self-contained interactive HTML file called "District Year in Review."
+The result should feel like a polished end-of-year "Wrapped" experience rather than a traditional business dashboard: visual, fun, easy to explore, and slightly playful — while keeping all calculations based on the real data.
+EFFICIENCY — read this first, before anything else:
+
+Do the entire data inspection (columns, types, duplicates, missing values) in one single consolidated code execution, not a sequence of small exploratory runs. Print everything you need to see in that one pass: header/column map, duplicate column positions, row count, date range, missing-value counts, and the distributions needed for award thresholds (e.g. percentile breakdown of Pieces, and percentile breakdown of AAV so outlier handling in section 8 is based on real distribution, not guesswork). Do not re-run exploration steps you've already completed.
+Compute every single metric the page needs — KPIs, monthly aggregates, daily heatmap aggregates, Plan vs Reality, Performance Snapshot, all 12 awards, all Did You Know facts, all Unnecessary Statistics, and the full bubble-chart dataset — in one consolidated computation pass, storing everything in a single data structure. Do not recompute the same aggregates in multiple separate cells.
+Build the final HTML (structure + embedded JSON + CSS + JS) as one single assembly step immediately after the computation pass, using that one data structure as the only input. Do not iterate on small pieces of the HTML/JS across many separate executions.
+Run all verification checks (JSON validity, record counts, heatmap day counts, bubble-chart dot counts, script balance, double-backslash check, placeholder check) together in one final consolidated verification pass against the actual saved file — not as separate checks spread across multiple tool calls.
+The goal: data inspection = 1 execution, computation = 1 execution, HTML assembly = 1 execution, verification = 1 execution. Favor fewer, larger steps over many small ones, as long as each step is correct and complete.
+DELIVERY METHOD — read this first:
+
+Do not paste the final HTML file into the chat as a code block. It is too long and will get truncated, which has caused broken files before. Instead:
+Do all data inspection, validation, and calculation using code execution.
+Write the complete final HTML file directly to disk as one operation (not built up across multiple chat messages).
+Give me a real, working download link or a file I can open from a Files/Downloads panel — not a placeholder, not a partial file, not something I have to assemble myself.
+Before telling me it's done, re-open the actual file you wrote from disk and confirm the placeholder for the data has been replaced with the real embedded JSON (search for it and confirm it's gone), not just confirm it in a separate test snippet.
+Your final delivery message must be short: only tell me how/where to get the file (e.g. "Controls → Files → Download"). Do not describe the data validation you did, do not describe or recap the sections you built, and do not list the verification checks you ran — keep all of that internal, just hand me the file with the retrieval instructions.
+DEFINITIONS TO LOCK IN — decide these once up front and state them visibly in the relevant section of the page (not hidden in a methodology page), so results are reproducible and nothing has to be patched afterward:
+
+"Substantial" inventory minimum-size threshold (used for Speedrun, Skeleton Crew, Peak RGIS): choose a real, round, defensible cutoff based on the actual Pieces distribution you print during data inspection (e.g. a percentile breakpoint) — document the exact number used next to each award/stat that relies on it.
+Daytime window (used for "% outside typical daytime hours" in Did You Know): pick one explicit HH:MM–HH:MM range and state it next to that fact.
+Evening/overnight window (used for Night Owl): pick one explicit boundary (e.g. starts ≥ 18:00 or < 06:00) and handle midnight-crossing correctly in the scoring logic; state the rule next to the award.
+Which duplicate-named column is authoritative: the file has multiple APH-named columns (e.g. "APH", "APH Event", "APH History") and multiple accuracy columns (e.g. "Qty Acc %" vs "Pcs Acc RGIS %" vs "Pcs Acc Cust %", "Area Ctrl %" vs "Area Ctrl RGIS %" vs "Area Ctrl Cust %"). Compare them during data inspection, pick the single column that represents the district's own primary operational metric (not a customer-reported or historical/rolled-up variant) for each KPI, and never mix variants across sections.
+Zero-piece and null-ratio events: events with 0 pieces or missing values in a ratio's inputs (accuracy %, APH, pieces-per-employee, etc.) must be excluded from that specific ratio/weighted-average calculation, not treated as 0 — state this exclusion where relevant rather than silently dropping the event from the whole dataset.
+JAVASCRIPT SYNTAX SAFETY — critical, this has broken a previous version:
+
+In any JavaScript string literal that contains an apostrophe (e.g. "year's", "district's", "that's"), escape it with a single backslash only (\'). Never use a double backslash (\\') — that breaks the string early and throws Uncaught SyntaxError: Unexpected identifier in the browser console, which prevents ALL JavaScript on the page from running (every section stays empty under its title).
+Prefer avoiding apostrophes in hardcoded JS string literals entirely where possible (rephrase to avoid contractions/possessives), and where unavoidable, use the HTML entity &rsquo; or string concatenation instead of an escaped apostrophe inside a single-quoted string.
+After writing the file to disk, as part of verification, specifically search the saved file's JavaScript for any occurrence of \\' (double backslash before an apostrophe) or any other doubled backslash sequence, and confirm zero occurrences before delivering the file.
+Also confirm brace {}, parenthesis (), and bracket [] counts are balanced within each <script> block individually, not just across the whole file.
+RENDERING RELIABILITY — critical, this has also broken a previous version:
+
+Every value rendered dynamically in JavaScript (document.getElementById(...).textContent = ...) must use an ID that exists literally, character for character, in the HTML. Before writing the JavaScript, list every ID present in the HTML for the KPI, Plan vs Reality, and Performance Snapshot sections, then check every getElementById call against that list. A silent error in the middle of a block stops the rest of that specific block from executing. Verify this explicitly during final verification: open the real file, run the JavaScript, and confirm every value that should display actually shows a real number, not a dash or an empty value.
+For any scroll-triggered fade-in animation applied to a grid of cards (KPI, awards, facts, stats): the animation logic must look for the class that triggers the cascading effect both on the element itself AND its descendants (querySelectorAll), never on the root element alone. Verify this explicitly: render the real HTML, manually trigger the reveal logic, and confirm every card in every grid transitions to visible.
+DATA-DRIVEN SECTIONS MUST NEVER SHIP WITH PLACEHOLDER/SAMPLE DATA. Any embedded JSON block that feeds a chart, heatmap, table, or bubble plot must contain the full real dataset computed from the attached file. Count the embedded records programmatically and confirm the count matches the real number of unique events, days, and months.
+The busiest-periods heatmap must render one visible cell for every single calendar day in every quarter present in the data, including zero-activity days (rendered as the lowest-intensity color, not omitted). Confirm the count equals the actual number of days in that quarter.
+FIRST: UNDERSTAND AND VALIDATE THE DATA
+Before building the HTML, inspect the file and identify the relevant columns, their data types, missing values, duplicates and any obvious data-quality issues.
+Important:
+Each row should represent one inventory event, but verify this using event_id and the available identifiers.
+The export contains some duplicate column names such as event_id, eventsegmentid and APH History. Handle these carefully rather than double-counting anything.
+Do not invent missing information.
+Do not infer causes for performance results.
+For averages and percentages, choose an appropriate calculation method based on the underlying data rather than blindly averaging displayed percentages (weight by pieces where relevant).
+If a metric cannot be calculated reliably from the available fields, omit it rather than approximating it.
+Use only actual records from the attached file.
+Once you understand the data, build the HTML directly. You do not need to give me a long written analysis first.
+DISTRICT YEAR IN REVIEW
+Create a visually engaging opening section showing the District number and the year covered by the data.
+Add a subtitle: "The important KPIs. And some considerably less important ones."
+1 — THE YEAR AT A GLANCE
+Large KPI cards for exactly these 4 metrics (no others): Inventories Completed (unique events), Pieces Counted (total Pieces), Total Hours (total Hrs Total), Customers Served (unique Customer values).
+2 — THE YEAR IN MOTION
+Visual overview of activity across the year: inventories completed by month, pieces counted by month, hours by month, with an interactive monthly toggle.
+Include a heatmap of the busiest periods laid out as 3+ horizontal rows, one per quarter present in the data, with each day of the quarter as one cell in chronological order (no day-of-week grid). Each quarter row fills the full available width (grid-template-columns: repeat(N, 1fr)) — no horizontal scrollbar. Hovering or clicking a cell reveals that day's details.
+3 — PLAN VS REALITY
+Compare planned/estimated vs actual wherever the file supports it: Pcs Dist Est vs actual Pieces, Scheduled Employees vs Total TS Employees, target productivity vs actual APH. Show both values and the variance without implying good/bad.
+4 — DISTRICT PERFORMANCE SNAPSHOT
+Exactly these 5 KPIs (no RPH): APH/productivity, Quantity Accuracy, Area Control, Saved Hours, quantity variance.
+5 — THE DISTRICT AWARDS 🏆
+👹 THE FINAL BOSS, ⚡ THE SPEEDRUN (with documented minimum-size rule), 🔮 THE FORECASTING WIZARD, 🎲 THE CREATIVE FORECASTING AWARD (excluding Pcs Dist Est of 0 or 1), 👥 THE CLOWN CAR AWARD, 🦴 THE SKELETON CREW (Pieces per Employee), 🌙 THE NIGHT OWL (evening/overnight starts only, midnight-crossing handled), 🎯 BULLSEYE, 🔁 WE MEET AGAIN, 🧑‍✈️ THE MAIN CHARACTER, 🏋️ THE HEAVY LIFTER, 📅 THE BIG DAY. Display real underlying values for each.
+6 — DID YOU KNOW? 👀
+Busiest month by count and by pieces, busiest calendar day, customer with most inventories/pieces, average inventories per active week, largest/smallest substantial inventory, % of annual pieces from the biggest inventory and top 5, longest streak of consecutive active days, number of active days, most common day of week, most common start hour and % outside typical daytime hours. (Exclude most-visited store and supervisor facts — those are covered in Awards.)
+7 — COMPLETELY UNNECESSARY STATISTICS
+ONE PERSON. ONE MISSION., THE NEVER-ENDING INVENTORY, THE DISTRICT IN ONE DAY, PEAK RGIS. State any assumption used.
+8 — EXPLORE THE YEAR
+Interactive bubble/scatter chart: X = Pieces, Y = AAV ("AAV Event") displayed as a percentage on the axis and in the tooltip (e.g. an AAV of 1.60 displays as "160%"), size = Hours, color = month with legend. Include a horizontal dashed reference line at the 100% level, labeled simply "100%" (not "100% target" — no implication of good/bad).
+Every real event with a valid AAV must be included in the underlying dataset, but the plotted/visible chart should only render events with AAV between 50% and 300%, so a small number of extreme outliers don't compress the rest of the data into an unreadable cluster. Show a small, neutral note near the chart stating how many events are shown vs. how many total valid-AAV events exist (the ones outside 50–300% stay in the dataset, just excluded from the plotted view). Compute axis ranges from the filtered/plotted subset, not the full range.
+Hover/tap tooltip with full detail, showing AAV as a percentage too. Search box (Customer/Store/Supervisor) that highlights/dims without removing dots. Month filter that dims/hides without re-fetching. Real computed axis ranges, no hardcoded bounds.
+DESIGN
+RGIS Year in Review / Wrapped feel — strong visual hierarchy, large numbers, clean cards, playful awards, progressive storytelling on scroll. No methodology section anywhere.
+Scroll animations: fade-in-and-rise per section, staggered card reveal, subtle hero parallax, via CSS + IntersectionObserver. Must be progressive enhancement only — all content visible by default in CSS even if JS fails.
+"WOW" / INTERACTIVITY LAYER — on top of the base scroll animations above:
+
+Hero section: add 2-3 large soft-blurred floating "orb" halos of light drifting slowly in the background (CSS-only looping animation, subtle, on-brand colors), plus a soft radial glow that follows the user's cursor within the hero area (mousemove-driven, smoothly trailing, reset on mouse leave).
+Every card across every grid (KPI cards, Plan vs Reality cards, Performance Snapshot cards, Award cards, Did You Know cards, Unnecessary Statistics cards): on mouse hover, apply a subtle 3D tilt that follows cursor position (perspective + rotateX/rotateY, a few degrees max, smooth transition), a soft lift (translateY), and a radial "spotlight" glow centered on the cursor position within the card. Reset smoothly on mouse leave.
+Heatmap cells: scale up slightly and brighten on hover, rise above neighboring cells (no layout shift).
+Month bars in "The Year in Motion": brighten and add a soft glow on hover of their column.
+Buttons/toggles (monthly toggle, month filter buttons) and the search box: subtle lift/shadow on hover, a clear focus glow on the search box.
+The bubble chart canvas: subtle shadow lift on hover.
+All of the above must be implemented as progressive enhancement (pure CSS transitions + lightweight JS mousemove/IntersectionObserver listeners) that never hides or blocks base content if JS fails, and must not break any existing scroll-reveal, tooltip, search, or filter behavior.
+TECHNICAL REQUIREMENTS
+One self-contained HTML file. Embed the actual data as valid JSON — single source of truth for every chart, heatmap, and bubble chart. Each content section wrapped in independent error-handling. No animation that hides content until JS succeeds. Handle missing/null values gracefully. Escape/sanitize text. Never fabricate data.
+VERIFICATION (do silently, in one consolidated pass — do not report steps)
+Confirm: no placeholder text remains; embedded JSON parses and record count matches unique events; heatmap day counts match actual days per quarter; bubble-chart dot count matches events with valid AAV (and separately, the count actually rendered within the 50–300% plotted range); script tags balanced per block; zero double-backslash-apostrophe occurrences; every KPI/Plan vs Reality/Performance Snapshot value renders a real number (every getElementById matches a real ID); every card in every grid transitions to visible on scroll-reveal; heatmap fills width with no scrollbar and a cell for every day; bubble chart hover/search/filter all work including the AAV-as-percentage display, the "100%" reference line, and the 50–300% display filter with its excluded-count note; every hover/wow effect (orbs, cursor glow, card tilt/spotlight, heatmap hover, bar glow, button/search hover) renders correctly and resets cleanly on mouse leave.
