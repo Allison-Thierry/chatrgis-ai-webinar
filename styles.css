@@ -5434,18 +5434,32 @@ button:focus-visible,
 
 .closing-object {
   --closing-rotation: 0deg;
+  --closing-x: 0%;
+  --closing-y: -48%;
   position: absolute;
   top: 50%;
-  width: min(500px, 37vw, 60vh);
+  z-index: 3;
+  width: min(330px, 24vw, 41vh);
   aspect-ratio: 831 / 642;
   margin: 0;
   opacity: 0;
   filter: blur(12px);
-  transform: translateY(-43%) rotate(var(--closing-rotation)) scale(0.72);
+  transform: translate(var(--closing-x), calc(var(--closing-y) + 14px)) rotate(var(--closing-rotation)) scale(0.72);
 }
 
-.closing-object--build { left: 8%; --closing-rotation: -1.6deg; }
-.closing-object--visualise { right: 8%; --closing-rotation: 1.7deg; }
+.closing-object--build { top: 29%; left: 5%; --closing-rotation: -3.4deg; }
+.closing-object--visualise { top: 28%; right: 5%; --closing-rotation: 3.1deg; }
+.closing-object--creative {
+  --closing-x: -50%;
+  --closing-y: -50%;
+  top: 49%;
+  left: 50%;
+  z-index: 5;
+  width: min(390px, 28vw, 47vh);
+  --closing-rotation: -0.8deg;
+}
+.closing-object--device { top: 73%; left: 18%; width: min(300px, 21vw, 36vh); --closing-rotation: 2.6deg; }
+.closing-object--case { top: 72%; right: 18%; width: min(300px, 21vw, 36vh); --closing-rotation: -2.4deg; }
 
 .closing-object img {
   position: absolute;
@@ -5481,17 +5495,29 @@ button:focus-visible,
 }
 
 .beat--case-three.is-case-three-closing-entering .closing-object--build {
-  animation: closingObjectArrive 1.05s var(--ease-out) 2.2s forwards, closingObjectFloat 6.3s ease-in-out 3.25s infinite;
+  animation: closingObjectArrive 1.05s var(--ease-out) 1.45s forwards, closingObjectFloat 6.3s ease-in-out 2.5s infinite;
 }
 
 .beat--case-three.is-case-three-closing-entering .closing-object--visualise {
-  animation: closingObjectArrive 1.05s var(--ease-out) 4.65s forwards, closingObjectFloat 6.6s ease-in-out 5.7s infinite;
+  animation: closingObjectArrive 1.05s var(--ease-out) 1.95s forwards, closingObjectFloat 6.6s ease-in-out 3s infinite;
+}
+
+.beat--case-three.is-case-three-closing-entering .closing-object--creative {
+  animation: closingObjectArrive 1.05s var(--ease-out) 2.55s forwards, closingObjectFloat 6.8s ease-in-out 3.6s infinite;
+}
+
+.beat--case-three.is-case-three-closing-entering .closing-object--device {
+  animation: closingObjectArrive 1.05s var(--ease-out) 3.15s forwards, closingObjectFloat 6.1s ease-in-out 4.2s infinite;
+}
+
+.beat--case-three.is-case-three-closing-entering .closing-object--case {
+  animation: closingObjectArrive 1.05s var(--ease-out) 3.75s forwards, closingObjectFloat 6.5s ease-in-out 4.8s infinite;
 }
 
 .beat--case-three.is-settled:not(.is-case-three-closing-entering)[data-case-scene="closing"] .closing-object {
   opacity: 1;
   filter: blur(0);
-  transform: translateY(-48%) rotate(var(--closing-rotation)) scale(1);
+  transform: translate(var(--closing-x), var(--closing-y)) rotate(var(--closing-rotation)) scale(1);
   animation: closingObjectFloat 6.4s ease-in-out infinite;
 }
 
@@ -5562,14 +5588,14 @@ button:focus-visible,
 }
 
 @keyframes closingObjectArrive {
-  0% { opacity: 0; filter: blur(12px); transform: translateY(-41%) rotate(var(--closing-rotation)) scale(0.72); }
-  64% { opacity: 1; filter: blur(0); transform: translateY(-50%) rotate(var(--closing-rotation)) scale(1.035); }
-  100% { opacity: 1; filter: blur(0); transform: translateY(-48%) rotate(var(--closing-rotation)) scale(1); }
+  0% { opacity: 0; filter: blur(12px); transform: translate(var(--closing-x), calc(var(--closing-y) + 14px)) rotate(var(--closing-rotation)) scale(0.72); }
+  64% { opacity: 1; filter: blur(0); transform: translate(var(--closing-x), calc(var(--closing-y) - 5px)) rotate(var(--closing-rotation)) scale(1.035); }
+  100% { opacity: 1; filter: blur(0); transform: translate(var(--closing-x), var(--closing-y)) rotate(var(--closing-rotation)) scale(1); }
 }
 
 @keyframes closingObjectFloat {
-  0%, 100% { opacity: 1; filter: blur(0); transform: translateY(-48%) rotate(var(--closing-rotation)) scale(1); }
-  50% { opacity: 1; filter: blur(0); transform: translateY(calc(-48% - 11px)) rotate(calc(var(--closing-rotation) + 1deg)) scale(1.012); }
+  0%, 100% { opacity: 1; filter: blur(0); transform: translate(var(--closing-x), var(--closing-y)) rotate(var(--closing-rotation)) scale(1); }
+  50% { opacity: 1; filter: blur(0); transform: translate(var(--closing-x), calc(var(--closing-y) - 10px)) rotate(calc(var(--closing-rotation) + 1deg)) scale(1.012); }
 }
 
 @keyframes closingWashDrift {
@@ -5582,9 +5608,11 @@ button:focus-visible,
   .achievement-orb { left: 24%; width: min(420px, 45vw, 54vh); }
   .award-podium { right: -2%; width: min(590px, 62vw); }
   .chat-window--case-three { width: min(1120px, calc(100vw - 190px)); }
-  .closing-object { width: min(450px, 41vw, 57vh); }
-  .closing-object--build { left: 5%; }
-  .closing-object--visualise { right: 5%; }
+  .closing-object--build { left: 3%; width: min(290px, 28vw, 38vh); }
+  .closing-object--visualise { right: 3%; width: min(290px, 28vw, 38vh); }
+  .closing-object--creative { width: min(340px, 34vw, 44vh); }
+  .closing-object--device { left: 13%; width: min(255px, 25vw, 33vh); }
+  .closing-object--case { right: 13%; width: min(255px, 25vw, 33vh); }
 }
 
 @media (max-width: 620px) {
@@ -5595,9 +5623,11 @@ button:focus-visible,
   .chat-window--case-three { width: calc(100vw - 24px); }
   .case-chat-message--formats, .case-chat-message--interview, .case-chat-message--mega-mega { width: 98%; }
   .format-option em { display: none; }
-  .closing-object { width: min(370px, 72vw); }
-  .closing-object--build { top: 35%; left: 14%; }
-  .closing-object--visualise { top: 69%; right: 14%; }
+  .closing-object--build { top: 27%; left: 0; width: 40vw; }
+  .closing-object--visualise { top: 27%; right: 0; width: 40vw; }
+  .closing-object--creative { top: 49%; width: 48vw; }
+  .closing-object--device { top: 72%; left: 4%; width: 37vw; }
+  .closing-object--case { top: 72%; right: 4%; width: 37vw; }
 }
 
 /* --- Responsive adaptations ----------------------------------------------- */
