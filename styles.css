@@ -6322,6 +6322,10 @@ button:focus-visible,
   transform: translateY(0) scale(1);
 }
 
+.recap-shell:focus {
+  outline: none;
+}
+
 .recap-shell__header {
   display: grid;
   grid-template-columns: 1fr auto 1fr;

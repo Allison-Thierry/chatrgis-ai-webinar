@@ -247,6 +247,8 @@
       this.currentStep = 0;
       this.isOpen = true;
       this.render();
+      if (recapContent) recapContent.scrollTop = 0;
+      recapDialog.scrollTop = 0;
 
       root.classList.add("is-recap-open");
       recapOverlay.removeAttribute("inert");
@@ -288,6 +290,7 @@
       this.currentStep = target;
       this.render();
       if (recapContent) recapContent.scrollTop = 0;
+      if (recapDialog) recapDialog.scrollTop = 0;
       recapDialog?.focus({ preventScroll: true });
     }
 
