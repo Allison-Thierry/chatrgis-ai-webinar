@@ -16,7 +16,106 @@
   const caseThreeThread = document.getElementById("caseThreeChatThread");
   const chartLightbox = document.getElementById("chartLightbox");
   const chartLightboxImage = document.getElementById("chartLightboxImage");
+  const recapOpenButton = document.getElementById("recapOpen");
+  const recapOverlay = document.getElementById("recapOverlay");
+  const recapDialog = document.getElementById("recapDialog");
+  const recapContent = document.getElementById("recapContent");
+  const recapPrevious = document.getElementById("recapPrevious");
+  const recapNext = document.getElementById("recapNext");
+  const recapProgressCount = document.getElementById("recapProgressCount");
+  const recapProgressFill = document.getElementById("recapProgressFill");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const RECAP_SECTIONS = [
+    {
+      number: "01",
+      title: "The Bigger Picture",
+      icon: "sparkles",
+      bullets: [
+        "AI is already becoming part of everyday work. The goal is to help people use it effectively.",
+        "We're moving from **one request → one answer** to **a goal → multiple steps → a result**.",
+        "Don't just ask what AI can tell you. Ask what it could *do* for you.",
+      ],
+    },
+    {
+      number: "02",
+      title: "Getting Around ChatRGIS",
+      icon: "compass",
+      bullets: [
+        "Use conversations for everyday requests, research, files and follow-up questions.",
+        "Explore Models, dedicated RGIS Assistants, Workspace and personal settings.",
+        "Use feedback to help improve ChatRGIS, and explore the AI lessons on WeLearn to go further.",
+      ],
+    },
+    {
+      number: "03",
+      title: "Case 01: STAY AHEAD",
+      icon: "radar",
+      bullets: [
+        "Start with a simple question, then build on the conversation to discover opportunities.",
+        "Web Search helps find recent information. **Ask for sources, then verify them before acting.**",
+        "You don't need to know the feature name: describe your goal and ask ChatRGIS how to achieve it.",
+        "Use automations for recurring research, briefings and meaningful-change alerts.",
+      ],
+      quote: "“We started by asking ChatRGIS a question. We ended up giving it a job.”",
+    },
+    {
+      number: "04",
+      title: "Breather: CAN YOU SMELL THE AI?",
+      icon: "scanText",
+      bullets: [
+        "AI writing often has recognisable habits: em dashes, enthusiastic agreement, dramatic phrases…",
+        "These are **patterns, not proof** that a text was AI-generated.",
+        "AI writing styles evolve, and our own writing habits may be influenced by them too.",
+      ],
+    },
+    {
+      number: "05",
+      title: "Case 02: FIND THE STORY",
+      icon: "chart",
+      bullets: [
+        "**Talk to your files.** Upload a spreadsheet, start with one question and explore through follow-ups.",
+        "Ask ChatRGIS to explain calculations, investigate outliers and highlight unexpected findings.",
+        "Data can reveal patterns, but it doesn't automatically explain their causes. Apply your operational knowledge.",
+        "A basic request often produces a basic result. A detailed brief gives AI more direction to create something impressive.",
+      ],
+      quote: "“Don't just analyse your files. Talk to them.”",
+    },
+    {
+      number: "06",
+      title: "Breather: OUR RELATIONSHIP WITH AI",
+      icon: "heartHandshake",
+      bullets: [
+        "Ever argued with AI? Sometimes the real problem is that we haven't clearly explained what we want.",
+        "AI doesn't need politeness, but **clarity, context and precise instructions** make a difference.",
+        "ChatRGIS doesn't automatically learn company-wide facts from individual conversations. Shared RGIS knowledge must be managed deliberately.",
+      ],
+    },
+    {
+      number: "07",
+      title: "Case 03: MAKE IT REAL",
+      icon: "blocks",
+      bullets: [
+        "You don't need coding skills or technical vocabulary to start with an idea.",
+        "**Chat A: Think with me.** Ask AI to interview you, clarify your needs and write a detailed brief.",
+        "**Chat B: Build it.** Give a fresh conversation the final prompt and the relevant files.",
+        "Review the finished result, including calculations, functionality and any AI-generated text, before sharing it.",
+      ],
+      quote: "“You don't need to know how to build it. You need to explain what you're trying to achieve.”",
+    },
+    {
+      number: "08",
+      title: "Final Takeaways",
+      icon: "checkList",
+      bullets: [
+        "ChatRGIS has improved significantly. Give it another try if your first experience was disappointing.",
+        "**Keep RGIS work in approved tools**, rather than sharing company information with unapproved public AI services.",
+        "Check AI outputs before relying on them, especially sources, numbers and business conclusions.",
+        "Share feedback and ideas. Your experience can help make ChatRGIS better for everyone.",
+      ],
+      quote: "“Don't copy the examples. Copy the way we approached them.”",
+    },
+  ];
 
   if (!root || !stage) return;
 
@@ -89,6 +188,331 @@
   }
 
   mountMegaDocuments();
+
+  class RecapOverlay {
+    constructor() {
+      this.currentStep = 0;
+      this.totalSteps = RECAP_SECTIONS.length + 1;
+      this.isOpen = false;
+      this.returnFocusTo = null;
+      this.copyFeedbackTimer = null;
+      this.handleDocumentKeydown = this.handleDocumentKeydown.bind(this);
+
+      this.bindEvents();
+      this.render();
+    }
+
+    bindEvents() {
+      recapOpenButton?.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.open();
+      });
+
+      recapOverlay?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const closeControl = event.target.closest("[data-recap-close]");
+        if (closeControl) this.close();
+      });
+
+      recapPrevious?.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.previous();
+      });
+
+      recapNext?.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.next();
+      });
+
+      recapContent?.addEventListener("click", (event) => {
+        const copyButton = event.target.closest("[data-recap-copy]");
+        const startButton = event.target.closest("[data-recap-start]");
+        if (!copyButton && !startButton) return;
+
+        event.preventDefault();
+        event.stopPropagation();
+        if (copyButton) this.copyFullRecap(copyButton);
+        if (startButton) this.goTo(0);
+      });
+
+      document.addEventListener("keydown", this.handleDocumentKeydown, true);
+    }
+
+    open() {
+      if (!recapOverlay || !recapDialog || this.isOpen) return;
+      this.returnFocusTo = recapOpenButton ?? document.activeElement;
+      this.currentStep = 0;
+      this.isOpen = true;
+      this.render();
+
+      root.classList.add("is-recap-open");
+      recapOverlay.removeAttribute("inert");
+      recapOverlay.setAttribute("aria-hidden", "false");
+      requestAnimationFrame(() => {
+        recapOverlay.classList.add("is-open");
+        window.setTimeout(() => recapDialog.focus({ preventScroll: true }), reducedMotion.matches ? 0 : 40);
+      });
+    }
+
+    close() {
+      if (!recapOverlay || !this.isOpen) return;
+      this.isOpen = false;
+      window.clearTimeout(this.copyFeedbackTimer);
+      recapOverlay.classList.remove("is-open");
+      recapOverlay.setAttribute("aria-hidden", "true");
+      recapOverlay.setAttribute("inert", "");
+      root.classList.remove("is-recap-open");
+
+      const focusTarget = this.returnFocusTo instanceof HTMLElement
+        ? this.returnFocusTo
+        : recapOpenButton;
+      window.setTimeout(() => focusTarget?.focus({ preventScroll: true }), 0);
+    }
+
+    next() {
+      if (!this.isOpen || this.currentStep >= this.totalSteps - 1) return;
+      this.goTo(this.currentStep + 1);
+    }
+
+    previous() {
+      if (!this.isOpen || this.currentStep <= 0) return;
+      this.goTo(this.currentStep - 1);
+    }
+
+    goTo(index) {
+      const target = Math.max(0, Math.min(index, this.totalSteps - 1));
+      if (target === this.currentStep) return;
+      this.currentStep = target;
+      this.render();
+      if (recapContent) recapContent.scrollTop = 0;
+      recapDialog?.focus({ preventScroll: true });
+    }
+
+    render() {
+      if (!recapContent || !recapProgressCount || !recapProgressFill || !recapPrevious || !recapNext) return;
+
+      const visibleStep = this.currentStep + 1;
+      recapProgressCount.textContent = `${String(visibleStep).padStart(2, "0")} / ${String(this.totalSteps).padStart(2, "0")}`;
+      recapProgressFill.style.width = `${(visibleStep / this.totalSteps) * 100}%`;
+      recapPrevious.disabled = this.currentStep === 0;
+      recapNext.disabled = this.currentStep === this.totalSteps - 1;
+
+      const nextLabel = recapNext.querySelector("span");
+      if (nextLabel) {
+        nextLabel.textContent = this.currentStep === RECAP_SECTIONS.length - 1
+          ? "View Complete Recap"
+          : "Next";
+      }
+
+      recapContent.replaceChildren(
+        this.currentStep === RECAP_SECTIONS.length
+          ? this.renderCompleteRecap()
+          : this.renderSingleSection(RECAP_SECTIONS[this.currentStep]),
+      );
+    }
+
+    renderSingleSection(section) {
+      const step = document.createElement("div");
+      step.className = "recap-step";
+      step.innerHTML = `
+        <article class="recap-card">
+          <div class="recap-card__marker" aria-hidden="true">
+            <span class="recap-card__icon">${this.iconMarkup(section.icon)}</span>
+            <span class="recap-card__number">${section.number} / 08</span>
+          </div>
+          <div class="recap-card__body">
+            <h3>${this.escapeHTML(section.title)}</h3>
+            <ul>${section.bullets.map((bullet) => `<li>${this.formatInline(bullet)}</li>`).join("")}</ul>
+            ${section.quote ? `<blockquote class="recap-card__quote">${this.escapeHTML(section.quote)}</blockquote>` : ""}
+          </div>
+        </article>
+      `;
+      return step;
+    }
+
+    renderCompleteRecap() {
+      const step = document.createElement("div");
+      step.className = "recap-step recap-step--complete";
+      step.innerHTML = `
+        <article class="recap-complete">
+          <header class="recap-complete__intro">
+            <div>
+              <span class="recap-complete__kicker">09 / 09</span>
+              <h3>THE COMPLETE RECAP</h3>
+            </div>
+            <button class="recap-copy-button" type="button" data-recap-copy>
+              ${this.iconMarkup("copy")}
+              <span>Copy Full Recap</span>
+            </button>
+          </header>
+          <div class="recap-complete__sections">
+            ${RECAP_SECTIONS.map((section) => `
+              <section class="recap-complete__section">
+                <span class="recap-complete__number" aria-hidden="true">${section.number}</span>
+                <div>
+                  <h4>${this.escapeHTML(section.title)}</h4>
+                  <ul>${section.bullets.map((bullet) => `<li>${this.formatInline(bullet)}</li>`).join("")}</ul>
+                  ${section.quote ? `<blockquote class="recap-complete__quote">${this.escapeHTML(section.quote)}</blockquote>` : ""}
+                </div>
+              </section>
+            `).join("")}
+          </div>
+          <button class="recap-back-to-start" type="button" data-recap-start>
+            ${this.iconMarkup("rewind")}
+            <span>Back to Start</span>
+          </button>
+        </article>
+      `;
+      return step;
+    }
+
+    handleDocumentKeydown(event) {
+      if (!this.isOpen) return;
+
+      if (event.key === "Escape") {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        this.close();
+        return;
+      }
+
+      if (event.key === "Tab") {
+        this.keepFocusInside(event);
+        event.stopImmediatePropagation();
+        return;
+      }
+
+      const interactiveTarget = event.target instanceof HTMLElement &&
+        event.target.closest("button, a, input, textarea, select, [contenteditable='true']");
+
+      if (event.key === "ArrowRight" || (event.code === "Space" && !interactiveTarget)) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        this.next();
+        return;
+      }
+
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        this.previous();
+        return;
+      }
+
+      // The recap owns keyboard focus while open. Other keys may retain their
+      // native behaviour (for example scrolling), but never reach the deck.
+      event.stopImmediatePropagation();
+    }
+
+    keepFocusInside(event) {
+      if (!recapDialog) return;
+      const focusable = [...recapDialog.querySelectorAll(
+        "button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex='-1'])",
+      )].filter((element) => !element.hasAttribute("hidden") && element.offsetParent !== null);
+
+      if (!focusable.length) {
+        event.preventDefault();
+        recapDialog.focus({ preventScroll: true });
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && (document.activeElement === first || document.activeElement === recapDialog)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    async copyFullRecap(button) {
+      const text = this.buildCopyText();
+      try {
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          this.fallbackCopy(text);
+        }
+      } catch (_error) {
+        this.fallbackCopy(text);
+      }
+
+      const label = button.querySelector("span");
+      if (!label) return;
+      window.clearTimeout(this.copyFeedbackTimer);
+      label.textContent = "Copied!";
+      button.classList.add("is-copied");
+      this.copyFeedbackTimer = window.setTimeout(() => {
+        label.textContent = "Copy Full Recap";
+        button.classList.remove("is-copied");
+      }, 1600);
+    }
+
+    fallbackCopy(text) {
+      const helper = document.createElement("textarea");
+      helper.value = text;
+      helper.setAttribute("readonly", "");
+      helper.style.position = "fixed";
+      helper.style.opacity = "0";
+      document.body.append(helper);
+      helper.select();
+      document.execCommand("copy");
+      helper.remove();
+    }
+
+    buildCopyText() {
+      return RECAP_SECTIONS.map((section) => {
+        const lines = [
+          `${section.number} — ${section.title}`,
+          "",
+          ...section.bullets.map((bullet) => `- ${this.stripInlineMarkup(bullet)}`),
+        ];
+        if (section.quote) lines.push("", "Key quote:", section.quote);
+        return lines.join("\n");
+      }).join("\n\n");
+    }
+
+    stripInlineMarkup(text) {
+      return text.replace(/\*\*/g, "").replace(/\*/g, "");
+    }
+
+    formatInline(text) {
+      return this.escapeHTML(text)
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*([^*]+)\*/g, "<em>$1</em>");
+    }
+
+    escapeHTML(value) {
+      return value.replace(/[&<>"']/g, (character) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#039;",
+      })[character]);
+    }
+
+    iconMarkup(icon) {
+      const paths = {
+        sparkles: '<path d="m10 2 1.1 3.1L14 6.2l-2.9 1.1L10 10.5 8.9 7.3 6 6.2l2.9-1.1ZM15.5 11l.7 2 1.8.7-1.8.7-.7 2-.7-2-1.8-.7 1.8-.7ZM4.5 11l.7 2 1.8.7-1.8.7-.7 2-.7-2-1.8-.7 1.8-.7Z" />',
+        compass: '<circle cx="10" cy="10" r="7" /><path d="m12.8 7.2-1.6 4-4 1.6 1.6-4Z" />',
+        radar: '<circle cx="10" cy="10" r="7" /><circle cx="10" cy="10" r="3" /><path d="M10 10 15 6M10 3v2M17 10h-2" />',
+        scanText: '<path d="M6 3H4a1 1 0 0 0-1 1v2M14 3h2a1 1 0 0 1 1 1v2M17 14v2a1 1 0 0 1-1 1h-2M6 17H4a1 1 0 0 1-1-1v-2M6.5 8h7M6.5 11h7M6.5 14h4" />',
+        chart: '<path d="M4 16V9M8 16V5M12 16v-4M16 16V3M3 16.5h14" />',
+        heartHandshake: '<path d="M7.3 14.9 4.2 12a3.2 3.2 0 0 1 4.5-4.5L10 8.8l1.3-1.3a3.2 3.2 0 1 1 4.5 4.5l-3.1 2.9M7.2 10.7l2.1 2.1a1 1 0 0 0 1.4 0l1.8-1.8M5.7 12.9l1.1-1.1M8.3 15.8l1-1" />',
+        blocks: '<rect x="3" y="3" width="6" height="6" rx="1.5" /><rect x="11" y="3" width="6" height="6" rx="1.5" /><rect x="7" y="11" width="6" height="6" rx="1.5" /><path d="M6 9v1.2h4M14 9v1.2h-4" />',
+        checkList: '<path d="m4 5 1.5 1.5L8 4M10 5h6M4 10l1.5 1.5L8 9M10 10h6M4 15l1.5 1.5L8 14M10 15h6" />',
+        copy: '<rect x="7" y="7" width="9" height="9" rx="2" /><path d="M13 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />',
+        rewind: '<path d="m8 5-5 5 5 5M17 5l-5 5 5 5" />',
+      };
+      return `<svg viewBox="0 0 20 20" aria-hidden="true">${paths[icon] ?? paths.sparkles}</svg>`;
+    }
+  }
 
   class PresentationController {
     constructor(manifest) {
@@ -924,6 +1348,7 @@
     }
   }
 
+  const recap = new RecapOverlay();
   const controller = new PresentationController(window.WEBINAR_BEATS ?? []);
 
   // Small public API for later scenes and live-demo cues.
@@ -941,6 +1366,8 @@
     setCaseTwoState: (state, options) => controller.setCaseTwoState(state, options),
     setCaseThreeState: (state, options) => controller.setCaseThreeState(state, options),
     setBreatherTwoState: (state) => controller.setBreatherTwoState(state),
+    openRecap: () => recap.open(),
+    closeRecap: () => recap.close(),
     get currentBeat() {
       return controller.manifest[controller.currentIndex];
     },
