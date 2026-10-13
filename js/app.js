@@ -1180,11 +1180,13 @@
 
       const label = button.querySelector("span");
       if (!label) return;
+      const defaultLabel = button.dataset.copyLabel || label.textContent.trim();
+      button.dataset.copyLabel = defaultLabel;
       window.clearTimeout(button.copyFeedbackTimer);
       label.textContent = copied ? "Copied" : "Copy failed";
       button.classList.toggle("is-copied", copied);
       button.copyFeedbackTimer = window.setTimeout(() => {
-        label.textContent = "Copy prompt";
+        label.textContent = defaultLabel;
         button.classList.remove("is-copied");
       }, 1600);
     }
