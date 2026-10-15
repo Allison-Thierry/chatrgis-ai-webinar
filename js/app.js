@@ -741,8 +741,10 @@
       const isBreatherTwoReturn = currentBeat?.id === "breather-2-angry" && targetBeat?.id === "case-2-message-10";
       const isBreatherTwoHubReturn = currentBeat?.id === "breather-2-both" && targetBeat?.id === "case-hub-case-3";
       const isHubBreatherTwoReturn = currentBeat?.id === "case-hub-case-3" && targetBeat?.id === "breather-2-both";
-      const isCaseThreeClosingEntry = currentBeat?.id === "case-3-montage" && targetBeat?.id === "case-3-closing";
-      const isCaseThreeConversationReturn = currentBeat?.id === "case-3-closing" && targetBeat?.id === "case-3-montage";
+      const isCaseThreeCopyPasteEntry = currentBeat?.id === "case-3-montage" && targetBeat?.id === "case-3-copy-paste";
+      const isCaseThreeConversationReturn = currentBeat?.id === "case-3-copy-paste" && targetBeat?.id === "case-3-montage";
+      const isCaseThreeClosingEntry = currentBeat?.id === "case-3-copy-paste" && targetBeat?.id === "case-3-closing";
+      const isCaseThreeCopyPasteReturn = currentBeat?.id === "case-3-closing" && targetBeat?.id === "case-3-copy-paste";
       const transitionDelay = immediate || reducedMotion.matches
         ? 0
         : isCaseDive || isHubReturn
@@ -757,7 +759,7 @@
               ? 760
               : isBreatherTwoReturn
                 ? 620
-                : isCaseThreeClosingEntry || isCaseThreeConversationReturn
+                : isCaseThreeCopyPasteEntry || isCaseThreeConversationReturn || isCaseThreeClosingEntry || isCaseThreeCopyPasteReturn
                   ? 720
           : isFirstLaunch
             ? 290
@@ -766,7 +768,7 @@
         ? 20
         : isCaseDive || isHubReturn || isBreatherHubReturn || isHubBreatherReturn || isBreatherTwoHubReturn || isHubBreatherTwoReturn
           ? 1600
-          : isBreatherEntry || isBreatherReturn || isBreatherTwoEntry || isBreatherTwoReturn || isCaseThreeClosingEntry || isCaseThreeConversationReturn
+          : isBreatherEntry || isBreatherReturn || isBreatherTwoEntry || isBreatherTwoReturn || isCaseThreeCopyPasteEntry || isCaseThreeConversationReturn || isCaseThreeClosingEntry || isCaseThreeCopyPasteReturn
             ? 1700
           : 1120;
 
@@ -782,8 +784,10 @@
       root.classList.toggle("is-returning-case-two", isBreatherTwoReturn);
       root.classList.toggle("is-breather-two-to-hub", isBreatherTwoHubReturn);
       root.classList.toggle("is-hub-to-breather-two", isHubBreatherTwoReturn);
+      root.classList.toggle("is-entering-case-three-copy-paste", isCaseThreeCopyPasteEntry);
       root.classList.toggle("is-entering-case-three-closing", isCaseThreeClosingEntry);
       root.classList.toggle("is-returning-case-three-conversation", isCaseThreeConversationReturn);
+      root.classList.toggle("is-returning-case-three-copy-paste", isCaseThreeCopyPasteReturn);
 
       const activationTimer = window.setTimeout(() => {
         this.currentIndex = targetIndex;
@@ -813,8 +817,10 @@
           "is-returning-case-two",
           "is-breather-two-to-hub",
           "is-hub-to-breather-two",
+          "is-entering-case-three-copy-paste",
           "is-entering-case-three-closing",
           "is-returning-case-three-conversation",
+          "is-returning-case-three-copy-paste",
         );
         this.isTransitioning = false;
         this.updateControls();
@@ -967,6 +973,7 @@
           "is-case-three-scenario-entering",
           "is-case-three-chat-entering",
           "is-case-three-montage-entering",
+          "is-case-three-copy-paste-entering",
           "is-case-three-closing-entering",
           "is-settled",
         );
@@ -990,8 +997,10 @@
         "is-returning-case-two",
         "is-breather-two-to-hub",
         "is-hub-to-breather-two",
+        "is-entering-case-three-copy-paste",
         "is-entering-case-three-closing",
         "is-returning-case-three-conversation",
+        "is-returning-case-three-copy-paste",
       );
       this.updateControls();
     }

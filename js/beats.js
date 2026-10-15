@@ -416,6 +416,19 @@ window.WEBINAR_BEATS = [
     },
   },
   {
+    id: "case-3-copy-paste",
+    sectionId: "case-3",
+    label: "Case 03 — copy-paste disaster",
+    caseProgress: { active: 3, complete: 2 },
+    caseThreeState: { scene: "copy-paste", messageCount: 14 },
+    replayOnReturn: false,
+    timeline: {
+      className: "is-case-three-copy-paste-entering",
+      duration: 5600,
+      reducedDuration: 150,
+    },
+  },
+  {
     id: "case-3-closing",
     sectionId: "case-3",
     label: "Case 03 — ready to make it real",
